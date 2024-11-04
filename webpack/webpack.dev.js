@@ -7,7 +7,7 @@ module.exports = merge(common, {
         static: './dist',
         open: true,
         hot: true,
-        port: 3000,
+        port: 4200,
         historyApiFallback: true,
         proxy: [
             {

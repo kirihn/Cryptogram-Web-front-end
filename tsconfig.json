@@ -2,14 +2,20 @@
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
-        "jsx": "react",
+        "jsx": "react-jsx",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "./dist",
-        "baseUrl": "./src"
+        "baseUrl": "./src",
+        "paths": {
+            "@utils/*": ["utils/*"],
+            "@styles/*": ["styles/*"],
+            "@components/*": ["components/*"]
+        },
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }
+// 

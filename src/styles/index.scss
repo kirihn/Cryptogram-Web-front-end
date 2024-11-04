@@ -1,0 +1,85 @@
+@use './styleFields.scss' as *;
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+   font-family: "Inter", sans-serif;
+    background: $BgColor;
+    color: $text;
+
+    #root{
+        height: 100vh;
+        width: 100vw;
+    }
+
+}
+
+.input{
+    background: $input;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 2px solid $borderLigth;
+    border-radius: $sBorderRadius;
+    width: 100%;
+    color: $text;
+    font-size: 15px;
+}
+
+.label{
+    font-size: 13px;
+}
+
+.labelError{
+    font-size: 13px;
+
+    color: $error;
+}
+
+.button{
+    width: 100%;
+    padding: 10px 20px;
+    background: $button;
+    color: $text;
+    text-align: center;
+    font-size: 15px;
+    border: none;
+    border-radius: $sBorderRadius;
+
+&:hover{
+
+}
+
+&:active{
+
+}
+}
+
+.neonBox {
+    background-color: $neonBgColor;
+    color: $text;
+
+    border: 2.1px solid $neonBorderColor; // Бордер с неоновым цветом
+    box-shadow: 0 0 3px $neonColor, 
+                0 0 7px $neonColor,
+                0 0 25px $neonColor,
+                0 0 20px $neonColor; // Тени для создания неонового эффекта
+    transition: transform 0.2s, box-shadow 0.2s; // Плавный переход
+  
+    &:hover {
+      transform: scale(1.05); // Увеличение при наведении
+      box-shadow: 0 0 5px $neonColor, 
+                  0 0 10px $neonColor,
+                  0 0 15px $neonColor,
+                  0 0 35px $neonColor; // Увеличение теней при наведении
+    }
+  }
+
+@media screen and (min-width: 1440px) {
+   
+
+}
