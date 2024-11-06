@@ -2,7 +2,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import './authorizationPage.scss';
 import { useForm } from 'react-hook-form';
 import { authSchema } from '@utils/yup/auth.yup';
-import { authFormDto } from './types';
+import { AuthFormDto, ResponseDto } from './types';
+import { useApi } from 'hooks/useApi';
+import axios from 'axios';
 
 export function AuthorizationPage() {
     const {
@@ -13,8 +15,15 @@ export function AuthorizationPage() {
         resolver: yupResolver(authSchema),
     });
 
-    const onSubmit = (data: authFormDto) => {
+    const { data, loading, execute } = useApi<ResponseDto, AuthFormDto>(
+        async (body) => {
+            return await axios.post('api/auth/login', body);
+        },
+    );
+
+    const onSubmit = (data: AuthFormDto) => {
         console.log('Данные формы:', data);
+        execute(data);
     };
 
     return (
@@ -59,10 +68,11 @@ export function AuthorizationPage() {
                     </div>
 
                     <button className="button neonBox" type="submit">
-                        Отправить
+                        {loading ? 'Загрузка...' : 'Отправить'}
                     </button>
                 </form>
                 <a href="/registration">Нет аккаунта? Регистрация</a>
+                {data ? <p>{data.username}</p> : null}
             </div>
         </div>
     );
