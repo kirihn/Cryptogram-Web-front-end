@@ -4,11 +4,13 @@ import { json, useNavigate } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 
 interface ServerError {
+    error: boolean;
+    show: boolean;
     message: string;
 }
 
 export function useApi<T, D = undefined>(request: (data?: D) => Promise<any>) {
-    const [data, setData] = useState<T | null>(null);
+    const [resData, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -16,33 +18,45 @@ export function useApi<T, D = undefined>(request: (data?: D) => Promise<any>) {
         setLoading(true);
         try {
             const response = await request(body);
-            console.log(response)
+            console.log(response);
             setData(response.data);
         } catch (err) {
             const error = err as AxiosError<ServerError | any>;
             let errorMessage = 'Неизвестная ошибка';
+
             setData(null);
-
+        
             if (error.response) {
-                if (error.response.data.error === true) {
-                    alert(error.response.data.message);
-                    return;
+                const serverError = error.response.data;
+        
+                console.log(serverError);
+                if (serverError && serverError.show === true) {
+                    alert(serverError.message);
+                    //return;
                 }
-                errorMessage = error.response.data.message;
+        
+                errorMessage = serverError.message || 'Сервер не доступен';
                 console.error('Ошибка ответа сервера:', errorMessage);
-            } else if (error.request) {
-                errorMessage = 'Сервер не ответил';
+                navigate(`/error?message=${encodeURIComponent(errorMessage)}&statusCode=${error.response.status}&statusText=${error.response.statusText}`);
+            } else if (error.request) { // Ошибка: сервер не ответил
+                
+                errorMessage = 'Сервер не ответил. Проверьте подключение к сети.';
                 console.error('Сервер не ответил:', error.request);
-            } else {
-                errorMessage = error.message;
-                console.error('Ошибка запроса:', errorMessage);
-            }
+        
 
-            navigate(`/error?message=${encodeURIComponent(errorMessage)}`);
+                navigate(`/error?message=${encodeURIComponent(errorMessage)}`);
+            } else { // Ошибка настройки запроса или другая ошибка
+                
+                errorMessage = error.message || 'Ошибка запроса';
+                console.error('Ошибка запроса:', errorMessage);
+        
+
+                navigate(`/error?message=${encodeURIComponent(errorMessage)}`);
+            }
         } finally {
             setLoading(false);
         }
     };
 
-    return { data, loading, execute };
+    return { resData: resData, loading, execute };
 }

@@ -15,7 +15,7 @@ export function AuthorizationPage() {
         resolver: yupResolver(authSchema),
     });
 
-    const { data, loading, execute } = useApi<ResponseDto, AuthFormDto>(
+    const { resData, loading, execute } = useApi<ResponseDto, AuthFormDto>(
         async (body) => {
             return await axios.post('api/auth/login', body);
         },
@@ -24,6 +24,7 @@ export function AuthorizationPage() {
     const onSubmit = (data: AuthFormDto) => {
         console.log('Данные формы:', data);
         execute(data);
+        //alert(resData?.username)
     };
 
     return (
@@ -72,7 +73,7 @@ export function AuthorizationPage() {
                     </button>
                 </form>
                 <a href="/registration">Нет аккаунта? Регистрация</a>
-                {data ? <p>{data.username}</p> : null}
+                {resData ? <p>{resData.username}</p> : null}
             </div>
         </div>
     );

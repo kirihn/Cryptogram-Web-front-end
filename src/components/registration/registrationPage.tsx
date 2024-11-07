@@ -1,8 +1,10 @@
 import { useForm } from 'react-hook-form';
-import { regFormDto } from './types';
+import { RegFormDto, ResponseDto } from './types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registrationSchema } from '@utils/yup/register.yup';
 import './registrationPage.scss';
+import { useApi } from 'hooks/useApi';
+import axios from 'axios';
 
 export function RegistrationPage() {
     const {
@@ -13,8 +15,16 @@ export function RegistrationPage() {
         resolver: yupResolver(registrationSchema),
     });
 
-    const onSubmit = (data: regFormDto) => {
+    const { resData, loading, execute } = useApi<ResponseDto, RegFormDto>(
+        async (data) => {
+            return await axios.post('/api/auth/register', data);
+        },
+    );
+
+    const onSubmit = async (data: RegFormDto) => {
         console.log('Данные формы:', data);
+        await execute(data);
+        //alert('полученный ответ' + JSON.stringify(resData, null, 4));
     };
 
     return (
@@ -103,7 +113,7 @@ export function RegistrationPage() {
                     </div>
 
                     <button className="button neonBox" type="submit">
-                        Отправить
+                        {loading ? 'Загрузка...' : 'Отправить'}
                     </button>
                 </form>
                 <a href="/authorization">Уже есть аккаунт? Вход</a>

@@ -4,7 +4,11 @@ export const registrationSchema = Yup.object().shape({
     name: Yup.string().required('This field is required'),
     email: Yup.string()
         .required('This field is required')
-        .email('Invalid email format'),
+        .email('Invalid email format')
+        .matches(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            'Invalid email format',
+        ),
     username: Yup.string()
         .required('This field is required')
         .matches(
