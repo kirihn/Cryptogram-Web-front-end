@@ -26,16 +26,16 @@ export function useApi<T, D = undefined>(request: (data?: D) => Promise<any>) {
 
             setData(null);
         
-            if (error.response) {
+            if (error.response) { // Ошибка: ошибка на сервере
                 const serverError = error.response.data;
         
                 console.log(serverError);
                 if (serverError && serverError.show === true) {
                     alert(serverError.message);
-                    //return;
+                    return;
                 }
         
-                errorMessage = serverError.message || 'Сервер не доступен';
+                errorMessage = serverError.message || 'Отсутствует сообщение об ошибке';
                 console.error('Ошибка ответа сервера:', errorMessage);
                 navigate(`/error?message=${encodeURIComponent(errorMessage)}&statusCode=${error.response.status}&statusText=${error.response.statusText}`);
             } else if (error.request) { // Ошибка: сервер не ответил
