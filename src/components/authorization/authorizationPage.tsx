@@ -5,6 +5,7 @@ import { authSchema } from '@utils/yup/auth.yup';
 import { AuthFormDto, ResponseDto } from './types';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export function AuthorizationPage() {
     const {
@@ -72,7 +73,8 @@ export function AuthorizationPage() {
                         {loading ? 'Загрузка...' : 'Отправить'}
                     </button>
                 </form>
-                <a href="/registration">Нет аккаунта? Регистрация</a>
+
+                <Link to="/registration">Нет аккаунта? Регистрация</Link>
                 {resData ? <p>{resData.username}</p> : null}
             </div>
         </div>

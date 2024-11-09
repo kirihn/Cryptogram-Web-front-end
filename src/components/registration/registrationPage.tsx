@@ -5,6 +5,7 @@ import { registrationSchema } from '@utils/yup/register.yup';
 import './registrationPage.scss';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export function RegistrationPage() {
     const {
@@ -116,7 +117,7 @@ export function RegistrationPage() {
                         {loading ? 'Загрузка...' : 'Отправить'}
                     </button>
                 </form>
-                <a href="/authorization">Уже есть аккаунт? Вход</a>
+                <Link to="/authorization">Уже есть аккаунт? Вход</Link>
             </div>
         </div>
     );
