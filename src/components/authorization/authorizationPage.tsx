@@ -6,6 +6,7 @@ import { AuthFormDto, ResponseDto } from './types';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export function AuthorizationPage() {
     const {
@@ -16,6 +17,8 @@ export function AuthorizationPage() {
         resolver: yupResolver(authSchema),
     });
 
+    const [shake, setShake] = useState(false);
+
     const { resData, loading, execute } = useApi<ResponseDto, AuthFormDto>(
         async (body) => {
             return await axios.post('api/auth/login', body);
@@ -25,9 +28,17 @@ export function AuthorizationPage() {
     const onSubmit = (data: AuthFormDto) => {
         console.log('Данные формы:', data);
         execute(data);
-        //alert(resData?.username)
+        alert(resData?.username)
     };
 
+    useEffect(()=>{
+        console.log(errors)
+        if (errors.email || errors.password) {
+            setShake(true);
+            const timer = setTimeout(() => setShake(false), 800); // Время сброса равно длительности анимации
+            return () => clearTimeout(timer);
+        }
+    }, [errors])
     return (
         <div className="authPageContainer">
             <div className="authBlock">
@@ -69,13 +80,12 @@ export function AuthorizationPage() {
                         <a href="#">Забыли пароль?</a>
                     </div>
 
-                    <button className="button neonBox" type="submit">
+                    <button className={`button neonBox ${shake  ? 'shake-horizontal' : ''}`} type="submit">
                         {loading ? 'Загрузка...' : 'Отправить'}
                     </button>
                 </form>
 
                 <Link to="/registration">Нет аккаунта? Регистрация</Link>
-                {resData ? <p>{resData.username}</p> : null}
             </div>
         </div>
     );

@@ -1,0 +1,15 @@
+.layoutContainer{
+    display: flex;
+    margin: auto;
+    height: 100vh;
+    width: 100vw;
+    max-width: 1600px;
+    .headerContainer{
+        width: 20%;
+        height: 100%;
+    }
+    .mainContainer{
+        width: 80%;
+        height: 100%;
+    }
+}

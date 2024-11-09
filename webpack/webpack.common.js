@@ -8,9 +8,10 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, '../dist'),
+        assetModuleFilename: 'images/[hash][ext][query]',
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js', '.scss', '.jpg', '.png'],
+        extensions: ['.tsx', '.ts', '.js', '.scss', '.jpg', '.png', '.svg', '.gif'],
         plugins: [
             new TsconfigPathsPlugin({
                 configFile: path.resolve(__dirname, '../tsconfig.json'),
@@ -32,6 +33,10 @@ module.exports = {
                     'sass-loader',
                 ],
                 exclude: /node_modules/,
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                type: 'asset/resource',
             },
         ],
     },

@@ -25,7 +25,6 @@ export function RegistrationPage() {
     const onSubmit = async (data: RegFormDto) => {
         console.log('Данные формы:', data);
         await execute(data);
-        //alert('полученный ответ' + JSON.stringify(resData, null, 4));
     };
 
     return (
@@ -122,32 +121,3 @@ export function RegistrationPage() {
         </div>
     );
 }
-// export class RegisterDto {
-//     @IsString()
-//     @IsNotEmpty({ message: 'The name must not be empty' })
-//     name: string;
-
-//     @IsEmail()
-//     email: string;
-
-//     @IsNotEmpty({ message: 'The username must not be empty' })
-//     @Matches(/^[a-zA-Z0-9_]+$/, {
-//         message:
-//             'The user name can contain only English letters, numbers, and underscores',
-//     })
-//     username: string;
-
-//     @IsString()
-//     @MinLength(1, {
-//         // 8
-//         message: 'password must be 8 least characters long',
-//     })
-//     password: string;
-
-//     @IsString()
-//     @MinLength(1, {
-//         // 8
-//         message: 'password must be 8 least characters long',
-//     })
-//     repeatPassword: string;
-// }

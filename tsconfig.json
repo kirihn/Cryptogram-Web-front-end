@@ -13,7 +13,10 @@
             "@utils/*": ["utils/*"],
             "@styles/*": ["styles/*"],
             "@components/*": ["components/*"],
-            "@jotai/*": ["jotai/*"]
+            "@jotai/*": ["jotai/*"],
+            "@assets/*": ["assets/*"],
+            "@icons/*": ["assets/icons/*"]
+
 
         },
     },

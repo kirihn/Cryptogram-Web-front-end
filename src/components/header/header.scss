@@ -1,0 +1,55 @@
+@use '../../styles/styleFields.scss' as *;
+
+.headerContainer{
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    
+    .logoContainer{
+        
+        .logoImg{
+            width: 100%;
+        }
+    }
+    
+    .navContainer{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: auto;
+        margin-top: auto;
+
+        a{
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            transition: border-bottom 0.3s ease, margin-left 0.3s ease; 
+
+            &:hover{
+
+                //border-bottom: 4px solid $text;
+                margin-left: 10px;
+            }
+            &:active{
+
+                transition: margin-left 0.01s ease; 
+
+                margin-left: 15px;
+            }
+            img{
+                width: 50px;
+                height: 50px;
+            }
+            span{
+                margin-left: 5px;
+            }
+        }
+    }
+
+    .BottomContainer{
+        padding: 10px;
+        .logoImg{
+            width: 100%;
+        }
+    }
+}
