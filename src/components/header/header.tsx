@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
-import chatsIcon from '@icons/chats.png';
+import chatsIcon from '@icons/messages.svg';
 import Logo from '@icons/Logo.svg';
+
+
+
 import './header.scss';
 export function Header() {
     return (

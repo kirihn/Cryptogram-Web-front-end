@@ -13,8 +13,8 @@ export function ErrorPage() {
     <div style={{ padding: '20px', textAlign: 'center' }}>
       <h1>Ошибка</h1>
       <p>{message}</p>
-      <p>{statusCode}</p>
-      <p>{statusText}</p>
+      <h2>{statusCode}</h2>
+      <h3>{statusText}</h3>
 
     </div>
   );

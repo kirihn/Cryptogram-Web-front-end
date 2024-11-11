@@ -6,8 +6,10 @@ import './registrationPage.scss';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export function RegistrationPage() {
+    const [shake, setShake] = useState(false);
     const {
         register,
         handleSubmit,
@@ -26,6 +28,14 @@ export function RegistrationPage() {
         console.log('Данные формы:', data);
         await execute(data);
     };
+
+    useEffect(() => {
+        if (errors.email || errors.password) {
+            setShake(true);
+            const timer = setTimeout(() => setShake(false), 800);
+            return () => clearTimeout(timer);
+        }
+    }, [errors]);
 
     return (
         <div className="registerPageContainer">
@@ -112,7 +122,12 @@ export function RegistrationPage() {
                         />
                     </div>
 
-                    <button className="button neonBox" type="submit">
+                    <button
+                        className={`button neonBox ${
+                            shake ? 'shake-horizontal' : ''
+                        }`}
+                        type="submit"
+                    >
                         {loading ? 'Загрузка...' : 'Отправить'}
                     </button>
                 </form>

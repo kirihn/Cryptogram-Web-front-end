@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 export function AuthorizationPage() {
+    const [shake, setShake] = useState(false);
     const {
         register,
         handleSubmit,
@@ -17,7 +18,6 @@ export function AuthorizationPage() {
         resolver: yupResolver(authSchema),
     });
 
-    const [shake, setShake] = useState(false);
 
     const { resData, loading, execute } = useApi<ResponseDto, AuthFormDto>(
         async (body) => {
@@ -25,20 +25,18 @@ export function AuthorizationPage() {
         },
     );
 
-    const onSubmit = (data: AuthFormDto) => {
-        console.log('Данные формы:', data);
-        execute(data);
-        alert(resData?.username)
+    const onSubmit = async (data: AuthFormDto) => {
+        await execute(data);
     };
 
-    useEffect(()=>{
-        console.log(errors)
+    useEffect(() => {
         if (errors.email || errors.password) {
             setShake(true);
-            const timer = setTimeout(() => setShake(false), 800); // Время сброса равно длительности анимации
+            const timer = setTimeout(() => setShake(false), 800); 
             return () => clearTimeout(timer);
         }
-    }, [errors])
+    }, [errors]);
+
     return (
         <div className="authPageContainer">
             <div className="authBlock">
@@ -80,7 +78,12 @@ export function AuthorizationPage() {
                         <a href="#">Забыли пароль?</a>
                     </div>
 
-                    <button className={`button neonBox ${shake  ? 'shake-horizontal' : ''}`} type="submit">
+                    <button
+                        className={`button neonBox ${
+                            shake ? 'shake-horizontal' : ''
+                        }`}
+                        type="submit"
+                    >
                         {loading ? 'Загрузка...' : 'Отправить'}
                     </button>
                 </form>

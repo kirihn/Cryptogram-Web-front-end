@@ -1,0 +1,12 @@
+@use '../../styles/styleFields.scss' as *;
+
+.chatListContainer{
+    background: $blockColor;
+    padding: $sPadding;
+    margin: $sMargin;
+    border-radius: $sBorderRadius;
+
+    flex: 1 2 300px;
+    max-width: 300px;
+    min-width: 250PX;
+}

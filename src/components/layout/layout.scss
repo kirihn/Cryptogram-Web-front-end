@@ -1,3 +1,5 @@
+@use '../../styles/styleFields.scss' as *;
+
 .layoutContainer{
     display: flex;
     margin: auto;
@@ -5,11 +7,15 @@
     width: 100vw;
     max-width: 1600px;
     .headerContainer{
-        width: 20%;
+        width: 250px;
+        //background: rgb(196, 70, 70);
         height: 100%;
+        padding: $mPadding;
     }
     .mainContainer{
-        width: 80%;
+        width: 100%;
         height: 100%;
+        padding: $mPadding;
+
     }
 }

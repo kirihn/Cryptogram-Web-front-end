@@ -3,7 +3,6 @@
 .headerContainer{
     display: flex;
     flex-direction: column;
-
     height: 100%;
     
     .logoContainer{
@@ -20,7 +19,7 @@
         margin-top: auto;
 
         a{
-            margin-top: 5px;
+            margin: 10px 0 10px 0;
             display: flex;
             align-items: center;
             transition: border-bottom 0.3s ease, margin-left 0.3s ease; 
@@ -37,17 +36,19 @@
                 margin-left: 15px;
             }
             img{
-                width: 50px;
-                height: 50px;
+                width: 30px;
+                height: 30px;
+                filter: drop-shadow(0 0 4px $neonColor) ;
             }
             span{
-                margin-left: 5px;
+                margin-left: 10px;
+                font-size: 15px;
             }
         }
     }
 
     .BottomContainer{
-        padding: 10px;
+        //padding: 10px;
         .logoImg{
             width: 100%;
         }

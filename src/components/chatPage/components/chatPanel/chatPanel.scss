@@ -1,0 +1,12 @@
+@use '../../styles/styleFields.scss' as *;
+
+.chatPanelContainer{
+    background: $blockColor;
+    padding: $sPadding;
+    margin: $sMargin;
+    border-radius: $sBorderRadius;
+
+    flex: 3 1 700px;
+
+    max-width: 700px;
+}
