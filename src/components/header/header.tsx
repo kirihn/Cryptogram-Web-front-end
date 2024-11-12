@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
 import chatsIcon from '@icons/messages.svg';
 import Logo from '@icons/Logo.svg';
-
-
-
 import './header.scss';
+
 export function Header() {
     return (
         <header className="headerContainer">
@@ -35,6 +33,11 @@ export function Header() {
                 <Link to={'/chats'}>
                     <img src={chatsIcon} alt="чаты" />
                     <span>Настройки</span>
+                </Link>
+
+                <Link to={'/people'}>
+                    <img src={chatsIcon} alt="чаты" />
+                    <span>Людишки</span>
                 </Link>
             </nav>
             <div className="BottomContainer">

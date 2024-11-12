@@ -10,7 +10,7 @@ export function ChatPage() {
         <div className="chatPageContainer">
             <ChatList />
             <ChatPanel />
-            {openStickerPanelValue ? <StickerPanel /> : ""}
+            {openStickerPanelValue ? <StickerPanel /> : null}
         </div>
     );
 }

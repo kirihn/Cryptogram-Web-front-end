@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 $BgColor: #121212;
 $blockColor: #1E1E1E;
 $input: #2C2C2C;
@@ -24,3 +26,7 @@ $sPadding: 10px;
 
 $mMargin: 20px;
 $sMargin: 5px;
+
+@function random-color() {
+    @return rgb(math.random(230), math.random(230), math.random(230));
+}
