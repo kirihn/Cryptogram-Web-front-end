@@ -41,6 +41,7 @@ export function Header() {
                 </Link>
             </nav>
             <div className="BottomContainer">
+                <button className='logoutButton'>Logout</button>
                 <img className="logoImg" src={Logo} alt="Logo" />
             </div>
         </header>

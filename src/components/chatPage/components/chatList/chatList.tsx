@@ -46,7 +46,7 @@ export function ChatList() {
                         </div>
                         <div className="lastMessageContainer">
                             <p className="lastMessage">
-                                алексей бабагей бабагей джага джага
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, dolore.
                             </p>
                         </div>
                     </div>
@@ -65,7 +65,7 @@ export function ChatList() {
                         </div>
                         <div className="lastMessageContainer">
                             <p className="lastMessage">
-                            джага джага джага джага джага джага
+                                труляля оп ля ля
                             </p>
                         </div>
                     </div>
@@ -84,7 +84,7 @@ export function ChatList() {
                         </div>
                         <div className="lastMessageContainer">
                             <p className="lastMessage">
-                                оп ля труляля
+                                систр
                             </p>
                         </div>
                     </div>
@@ -103,7 +103,7 @@ export function ChatList() {
                         </div>
                         <div className="lastMessageContainer">
                             <p className="lastMessage">
-                                димус жирный пинус
+                                не хотите ли
                             </p>
                         </div>
                     </div>
@@ -122,7 +122,7 @@ export function ChatList() {
                         </div>
                         <div className="lastMessageContainer">
                             <p className="lastMessage">
-                                алексей бабагей бабагей джага джага
+                                наисовать мне 
                             </p>
                         </div>
                     </div>
@@ -141,7 +141,7 @@ export function ChatList() {
                         </div>
                         <div className="lastMessageContainer">
                             <p className="lastMessage">
-                                алексей бабагей бабагей джага джага
+                                дизайн профиля?
                             </p>
                         </div>
                     </div>
@@ -160,7 +160,7 @@ export function ChatList() {
                         </div>
                         <div className="lastMessageContainer">
                             <p className="lastMessage">
-                                алексей бабагей бабагей джага джага
+                                джага джага
                             </p>
                         </div>
                     </div>
@@ -179,7 +179,7 @@ export function ChatList() {
                         </div>
                         <div className="lastMessageContainer">
                             <p className="lastMessage">
-                                алексей бабагей бабагей джага джага
+                                джумба джумба тимон и пумба
                             </p>
                         </div>
                     </div>
@@ -198,7 +198,7 @@ export function ChatList() {
                         </div>
                         <div className="lastMessageContainer">
                             <p className="lastMessage">
-                                алексей бабагей бабагей джага джага
+                            Lorem ipsum dolor sit amet consectetu
                             </p>
                         </div>
                     </div>
@@ -217,26 +217,7 @@ export function ChatList() {
                         </div>
                         <div className="lastMessageContainer">
                             <p className="lastMessage">
-                                алексей бабагей бабагей джага джага
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="chatCard">
-                    <div className="chatAvatarContainer">C</div>
-                    <div className="infoContainer">
-                        <div className="nameContainer">
-                            <p className="chatName">chat name</p>
-                            <img
-                                src={fixIconOn}
-                                alt="fixChat"
-                                onClick={changeFixChat}
-                            />
-                        </div>
-                        <div className="lastMessageContainer">
-                            <p className="lastMessage">
-                                алексей бабагей бабагей джага джага
+                            Lorem ipsum dolor sit amet consectetu
                             </p>
                         </div>
                     </div>

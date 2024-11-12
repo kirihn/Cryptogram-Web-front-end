@@ -63,7 +63,7 @@ a{
     border: 2.1px solid $neonBorderColor; 
     box-shadow: 0 0 3px $neonColor, 
                 0 0 7px $neonColor,
-                0 0 25px $neonColor,
+                0 0 15px $neonColor,
                 0 0 20px $neonColor; 
     transition: transform 0.2s, box-shadow 0.2s; 
   
@@ -72,7 +72,7 @@ a{
       box-shadow: 0 0 5px $neonColor, 
                   0 0 10px $neonColor,
                   0 0 15px $neonColor,
-                  0 0 35px $neonColor;
+                  0 0 25px $neonColor;
     }
   }
 

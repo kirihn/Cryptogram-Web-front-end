@@ -8,6 +8,7 @@ import { Header } from '@components/header/header';
 import { Layout } from '@components/layout/layout';
 import { ChatPage } from '@components/chatPage/chatPage';
 import { ChatList } from '@components/chatPage/components/chatList/chatList';
+import { CreateChat } from '@components/addChat/createChat';
 
 export const coutAtom = atom('ligth');
 export function App() {
@@ -25,7 +26,7 @@ export function App() {
                     <Route path="/chats" element={<ChatPage />}></Route>
                     <Route
                         path="/createChat"
-                        element={<p>hello world</p>}
+                        element={<CreateChat/>}
                     ></Route>
                     <Route path="/createChanel" element={<p>hello</p>}></Route>
                     <Route path="/people" element={<p>люди</p>}></Route>
