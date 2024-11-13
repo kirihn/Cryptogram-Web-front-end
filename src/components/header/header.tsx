@@ -1,9 +1,26 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import chatsIcon from '@icons/messages.svg';
 import Logo from '@icons/Logo.svg';
 import './header.scss';
+import { useApi } from 'hooks/useApi';
+import axios from 'axios';
+import { ResponseDto } from './types';
 
 export function Header() {
+
+    const navigate = useNavigate();
+
+    const {resData, loading, execute} = useApi<ResponseDto>(async ()=>{
+        return await axios.post('/api/auth/logout');
+    })
+
+    const handleLogout = async () => {
+        await execute();
+        alert(resData)
+        if(resData?.message === "Logout successfully")
+            navigate(`/authorization`);
+    }
+
     return (
         <header className="headerContainer">
             <div className="logoContainer">
@@ -41,7 +58,7 @@ export function Header() {
                 </Link>
             </nav>
             <div className="BottomContainer">
-                <button className='logoutButton'>Logout</button>
+                <button className='logoutButton' onClick={handleLogout}>Logout</button>
                 <img className="logoImg" src={Logo} alt="Logo" />
             </div>
         </header>

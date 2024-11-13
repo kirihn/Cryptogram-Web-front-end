@@ -2,11 +2,154 @@
 
 .chatPanelContainer{
     background: $blockColor;
-    padding: $sPadding;
     margin: $sMargin;
     border-radius: $sBorderRadius;
 
     flex: 3 1 700px;
 
     max-width: 700px;
+
+    display: flex;
+    flex-direction: column;
+    .chatPanelHeader{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 2px solid $borderDark;
+        padding: $sPadding;
+        align-items: center;
+        .chatNameHeader{
+            display: flex;
+            align-items: center;
+            height: 60px;
+            .chatAvatarHeader{
+                width: 60px;
+                height: 60px;
+                border-radius: 30px;
+            }
+            p{
+                margin-left: 10px;
+                font-size: 20px;
+                //text-wrap: nowrap;
+            }
+        }
+        .chatSettingsButton{
+            display: flex;
+            flex-direction: column;
+            align-items:flex-end;
+            background: none;
+            border: none;
+            padding: 10px;
+            .settingPunkt{
+                background: $borderDark;
+                height: 5px;
+                width: 5px;
+                margin-top: 2px;
+                border-radius: 2px;
+
+                transition: width 0.3s ease;
+            }
+
+            &:hover{
+                .punkt1{
+                    width: 15px;
+                }
+                .punkt2{
+                    width: 20px;
+                }
+                .punkt3{
+                    width: 13px;
+                }
+            }
+        }
+    }
+
+    .messagesBlock{
+        
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+        
+        padding: $sPadding;
+        margin: 8px;
+        //background: $neonBgColor;
+        flex-grow: 1;
+
+        &::-webkit-scrollbar {
+            width: 4px;
+            height: 20px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background-color: $borderDark;
+            border-radius: 10px;
+        }
+        
+        &::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+    }
+
+    .inputMessageBlockContainer{
+        background: $input;
+        padding: $sPadding;
+        //margin: $sPadding;
+
+        border-bottom-left-radius: $sBorderRadius ;
+        border-bottom-right-radius: $sBorderRadius ;
+
+    .inputMessageBlock{
+        display: flex;
+        
+        //padding: $sPadding;
+        border: 3px solid $borderDark;
+        border-radius: 25px;
+        .StickerButton{
+            font-size: 13px;
+            padding:  3px 10px;
+            margin: 10px;
+            border-radius: 15px;
+
+            background-color: $neonBgColor;
+                color: $text;
+
+                border: 2px solid $neonBorderColor; 
+                box-shadow: 0 0 3px $neonColor, 
+                0 0 7px $neonColor,
+                0 0 15px $neonColor; 
+                transition: transform 0.2s, box-shadow 0.2s; 
+
+                &:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 0 5px $neonColor, 
+                    0 0 10px $neonColor,
+                    0 0 18px $neonColor;
+                }
+              }
+          
+        }
+        .inputMessage{
+            flex-grow: 1;
+            background: none;
+            border: none;
+            font-size: 15px;
+            color: $lowText;
+
+            &:focus{
+                outline: none;
+            }
+        }
+        .sendButton{
+            background: none;
+            border: none;
+            padding: 10px;
+            height: 45px;
+            width: 45px;
+            img{
+                height: 25px;
+                width: 25px;
+            }
+
+        }
+    }
 }
