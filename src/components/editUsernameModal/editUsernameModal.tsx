@@ -2,19 +2,16 @@ import { useState } from "react";
 import { Props } from "./types";
 import closeIcon from '@icons/clearIcon.svg'
 
-export function UpdateModal(props: Props){
-    const [switchModal, setSwitchModal] = useState<string|null>(null)
+export function EditNameModal(props: Props){
 
-    const handleSwitchModal = (modal: string|null) => {
-        setSwitchModal(modal);
-    }
     return (
         <div className="modalContainer">
             <div className="modalWindow">
                 <button className="closeModal">
-                    <img src={closeIcon} alt="" />
+                    <img src={closeIcon} alt="Close" />sadasdas
                 </button>
             </div>
         </div>
+        
     )
 }
