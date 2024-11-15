@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Props } from './types';
+import { EditNameForm, Props, ResponseDto } from './types';
 import closeIcon from '@icons/clearIcon.svg';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { editNameSchema } from '@utils/yup/editname.yup';
-
+import './editNameModal.scss';
+import { useApi } from 'hooks/useApi';
+import axios from 'axios';
 export function EditNameModal(props: Props) {
     const [shake, setShake] = useState(false);
     const {
@@ -14,6 +16,17 @@ export function EditNameModal(props: Props) {
     } = useForm({
         resolver: yupResolver(editNameSchema),
     });
+
+    const { resData, loading, execute } = useApi<ResponseDto, EditNameForm>(
+        async (body) => {
+            return axios.put('/api/profile/updateName', body);
+        },
+    );
+
+    const onSubmit = async (data: EditNameForm) => {
+        execute(data);
+    };
+
     return (
         <div className="modalContainer">
             <div className="modalWindow">
@@ -23,6 +36,29 @@ export function EditNameModal(props: Props) {
                 >
                     <img src={closeIcon} alt="Close" />
                 </button>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                {errors.name ? (
+                    <label className="labelError">
+                        * {errors.name.message}
+                    </label>
+                ) : (
+                    <label className="label">Пароль</label>
+                )}
+                <input
+                    type="text"
+                    {...register('name')}
+                    placeholder="Name"
+                    className="input"
+                />
+                                    <button
+                        className={`button neonBox ${
+                            shake ? 'shake-horizontal' : ''
+                        }`}
+                        type="submit"
+                    >
+                        {loading ? 'Загрузка...' : 'сохранить'}
+                    </button>
+                </form>
             </div>
         </div>
     );
