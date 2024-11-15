@@ -47,11 +47,6 @@ export function Header() {
                     <span>Создать канал</span>
                 </Link>
 
-                <Link to={'/chats'}>
-                    <img src={chatsIcon} alt="чаты" />
-                    <span>Настройки</span>
-                </Link>
-
                 <Link to={'/people'}>
                     <img src={chatsIcon} alt="чаты" />
                     <span>Людишки</span>

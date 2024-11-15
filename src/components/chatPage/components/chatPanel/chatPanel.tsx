@@ -9,6 +9,12 @@ export function ChatPanel() {
         setOpenStickerPanel(!OpenStickerPanel);
     };
 
+    const handleInput = (event :React.ChangeEvent<HTMLTextAreaElement>) => {
+        const textarea = event.target;
+        textarea.style.height = "45px"; 
+        textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`; // Установить новую высоту
+      };
+
     return (
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
@@ -74,8 +80,13 @@ export function ChatPanel() {
                     <button className="StickerButton" onClick={ShowStickers}>
                         Stickers
                     </button>
-                    <input className='inputMessage' type="text" placeholder='Input message' />
-                    <button className='sendButton' onSubmit={alert}>
+                    <textarea
+                        className="inputMessage"
+                        placeholder="Input message"
+                        onInput={handleInput}
+
+                    ></textarea>{' '}
+                    <button className="sendButton" onSubmit={alert}>
                         <img src={sendIcon} alt="send message" />
                     </button>
                 </div>

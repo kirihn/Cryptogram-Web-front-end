@@ -1,0 +1,92 @@
+@use '../../styles/styleFields.scss' as *;
+.profilePageContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 60px;
+    .profileContainer{
+        width: 100%;
+        max-width: 550px;
+        min-width: 350px;
+        background: $blockColor;
+        border: 2px solid $borderDark;
+        padding-bottom: 30px;
+        border-radius: $mBorderRadius;
+
+        .avatarBorder{
+            padding: $sPadding;
+            border-radius: 60px;
+            width: 160px;
+            height: 160px;            
+            margin:  -80px auto 20px auto;
+            //margin: auto;
+            border: 2px solid $neonBorderColor;
+            border-radius: 50%;
+            box-shadow: 0 0 3px $neonColor, 
+            0 0 7px $neonColor,
+            0 0 15px $neonColor,
+            0 0 20px $neonColor,
+            inset 0 0 3px $neonColor, 
+            inset 0 0 7px $neonColor,
+            inset 0 0 15px $neonColor,
+            inset 0 0 20px $neonColor;  
+            transition:  box-shadow 0.2s ease;
+
+            .userAvatar{
+                border-radius: 50%;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .profileTopic{
+            width: 100%;
+            padding: 10px 30px;
+            margin: 5px 0;
+            background: $input;
+
+            .topic{
+                //font-size: 17px;
+            }
+            .description{
+                font-size: 14px;
+                color: $lowText;
+            }
+        }
+
+        .profileOption{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 10px 30px;
+            border-radius: $sBorderRadius;
+            //background: $input;
+            .optionName{
+
+            }
+
+            .optionblock{
+                display: flex;
+                //width: 100%;
+                //max-width: 50%;
+                .optionValue{
+                    
+                }
+                .changeParamButton{
+                    padding: 0  0 0 5px;
+                    width: 30px;
+                    height: 15px;
+                    background: none;
+                    border: none;
+                    margin-right: -0px;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
