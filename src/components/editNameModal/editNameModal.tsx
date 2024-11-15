@@ -3,12 +3,13 @@ import { Props } from './types';
 import closeIcon from '@icons/clearIcon.svg';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { editNameSchema } from '@utils/yup/editname.yup';
 
 export function EditNameModal(props: Props) {
     const [shake, setShake] = useState(false);
     const {
         register,
-        handlesubmit,
+        handleSubmit,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(editNameSchema),

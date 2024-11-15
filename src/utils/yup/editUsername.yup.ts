@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-export const editNameSchema = Yup.object().shape({
+export const editUsernameSchema = Yup.object().shape({
     username: Yup.string()
         .required('This field is required')
         .matches(
