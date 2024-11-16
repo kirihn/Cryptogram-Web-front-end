@@ -3,8 +3,9 @@ import editIcon2 from '@icons/pencil2.svg';
 
 import './profile.scss';
 import { useState } from 'react';
-import { EditNameModal } from '@components/editNameModal/editNameModal';
-import { EditUserameModal } from '@components/editUsernameModal/editUsernameModal';
+import { EditNameModal } from '@components/modals/editNameModal/editNameModal';
+import { EditUserameModal } from '@components/modals/editUsernameModal/editUsernameModal';
+import { EditPasswordModal } from '@components/modals/editPasswordModal/editPasswordModal';
 
 export function Profile() {
     const [switchModal, setSwitchModal] = useState<string | null>(null);
@@ -63,7 +64,15 @@ export function Profile() {
                         ваши персональные настройки которые видны только вам
                     </p>
                 </div>
-
+                <div className="profileOption">
+                    <p className="optionName">Password</p>
+                    <div className="optionblock">
+                        <p className="optionValue">********</p>
+                        <button className="changeParamButton" onClick={() => handleSwitchModal('editPasswordModal')}>
+                            <img src={editIcon2} alt="Edit" />
+                        </button>
+                    </div>
+                </div>
                 <div className="profileOption">
                     <p className="optionName">Language</p>
                     <div className="optionblock">
@@ -83,6 +92,9 @@ export function Profile() {
             )}
             {switchModal === 'editUsernameModal' && (
                 <EditUserameModal handleSwitchModal={handleSwitchModal} />
+            )}
+            {switchModal === 'editPasswordModal' && (
+                <EditPasswordModal handleSwitchModal={handleSwitchModal} />
             )}
         </div>
     );

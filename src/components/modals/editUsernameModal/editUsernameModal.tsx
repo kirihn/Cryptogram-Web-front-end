@@ -21,7 +21,7 @@ export function EditUserameModal(props: Props) {
 
     const { resData, loading, execute } = useApi<ResponseDto, EditUserameForm>(
         async (body) => {
-            return axios.put('/api/profile/updateUserame', body);
+            return axios.put('/api/profile/updateUsername', body);
         },
     );
 
