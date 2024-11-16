@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EditNameForm, Props, ResponseDto } from './types';
 import closeIcon from '@icons/clearIcon.svg';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { editNameSchema } from '@utils/yup/editname.yup';
+import { editNameSchema } from '@utils/yup/editName.yup';
 import './editNameModal.scss';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
@@ -27,30 +27,41 @@ export function EditNameModal(props: Props) {
         execute(data);
     };
 
+    useEffect(() => {
+        if (errors.name) {
+            setShake(true);
+            const timer = setTimeout(() => setShake(false), 800);
+            return () => clearTimeout(timer);
+        }
+    }, [errors]);
+
     return (
         <div className="modalContainer">
             <div className="modalWindow">
-                <button
-                    className="closeModal"
-                    onClick={() => props.handleSwitchModal(null)}
-                >
-                    <img src={closeIcon} alt="Close" />
-                </button>
+                <div className="modalheader">
+                    <h3>Edit name</h3>
+                    <button
+                        className="closeModal"
+                        onClick={() => props.handleSwitchModal(null)}
+                    >
+                        <img src={closeIcon} alt="Close" />
+                    </button>
+                </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                {errors.name ? (
-                    <label className="labelError">
-                        * {errors.name.message}
-                    </label>
-                ) : (
-                    <label className="label">Пароль</label>
-                )}
-                <input
-                    type="text"
-                    {...register('name')}
-                    placeholder="Name"
-                    className="input"
-                />
-                                    <button
+                    {errors.name ? (
+                        <label className="labelError">
+                            * {errors.name.message}
+                        </label>
+                    ) : (
+                        <label className="label">Name</label>
+                    )}
+                    <input
+                        type="text"
+                        {...register('name')}
+                        placeholder="Name"
+                        className="input"
+                    />
+                    <button
                         className={`button neonBox ${
                             shake ? 'shake-horizontal' : ''
                         }`}

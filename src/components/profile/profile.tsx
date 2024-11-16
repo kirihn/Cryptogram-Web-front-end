@@ -1,10 +1,10 @@
 import userAvatar from '@assets/images/default/defaultChatAvatar.jpg';
-import editIcon from '@icons/pencil.svg';
 import editIcon2 from '@icons/pencil2.svg';
 
 import './profile.scss';
 import { useState } from 'react';
 import { EditNameModal } from '@components/editNameModal/editNameModal';
+import { EditUserameModal } from '@components/editUsernameModal/editUsernameModal';
 
 export function Profile() {
     const [switchModal, setSwitchModal] = useState<string | null>(null);
@@ -82,7 +82,7 @@ export function Profile() {
                 <EditNameModal handleSwitchModal={handleSwitchModal} />
             )}
             {switchModal === 'editUsernameModal' && (
-                <EditNameModal handleSwitchModal={handleSwitchModal} />
+                <EditUserameModal handleSwitchModal={handleSwitchModal} />
             )}
         </div>
     );
