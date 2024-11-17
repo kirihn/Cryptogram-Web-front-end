@@ -8,7 +8,9 @@ import './editNameModal.scss';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 export function EditNameModal(props: Props) {
+
     const [shake, setShake] = useState(false);
+    
     const {
         register,
         handleSubmit,

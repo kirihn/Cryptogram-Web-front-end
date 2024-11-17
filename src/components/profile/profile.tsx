@@ -1,11 +1,12 @@
 import userAvatar from '@assets/images/default/defaultChatAvatar.jpg';
-import editIcon2 from '@icons/pencil2.svg';
+import editIcon from '@icons/pencil.svg';
 
 import './profile.scss';
 import { useState } from 'react';
 import { EditNameModal } from '@components/modals/editNameModal/editNameModal';
 import { EditUserameModal } from '@components/modals/editUsernameModal/editUsernameModal';
 import { EditPasswordModal } from '@components/modals/editPasswordModal/editPasswordModal';
+import { EditAvatarModal } from '@components/modals/editAvatarModal/editAvatarModal';
 
 export function Profile() {
     const [switchModal, setSwitchModal] = useState<string | null>(null);
@@ -33,8 +34,11 @@ export function Profile() {
                     <p className="optionName">Name</p>
                     <div className="optionblock">
                         <p className="optionValue">Кирюша</p>
-                        <button className="changeParamButton" onClick={() => handleSwitchModal('editNameModal')}>
-                            <img src={editIcon2} alt="Edit" />
+                        <button
+                            className="changeParamButton"
+                            onClick={() => handleSwitchModal('editNameModal')}
+                        >
+                            <img src={editIcon} alt="Edit" />
                         </button>
                     </div>
                 </div>
@@ -42,8 +46,25 @@ export function Profile() {
                     <p className="optionName">@ Username</p>
                     <div className="optionblock">
                         <p className="optionValue">@ymato</p>
-                        <button className="changeParamButton" onClick={() => handleSwitchModal('editUsernameModal')}>
-                            <img src={editIcon2} alt="Edit" />
+                        <button
+                            className="changeParamButton"
+                            onClick={() =>
+                                handleSwitchModal('editUsernameModal')
+                            }
+                        >
+                            <img src={editIcon} alt="Edit" />
+                        </button>
+                    </div>
+                </div>
+                <div className="profileOption">
+                    <p className="optionName">Avatar</p>
+                    <div className="optionblock">
+                        <p className="optionValue">avatar/path</p>
+                        <button
+                            className="changeParamButton"
+                            onClick={() => handleSwitchModal('editAvatarModal')}
+                        >
+                            <img src={editIcon} alt="Edit" />
                         </button>
                     </div>
                 </div>
@@ -51,9 +72,6 @@ export function Profile() {
                     <p className="optionName">Email</p>
                     <div className="optionblock">
                         <p className="optionValue">ymasto@mail.ru</p>
-                        {/* <button className="changeParamButton">
-                            <img src={editIcon2} alt="Edit" />
-                        </button> */}
                         <div className="changeParamButton"></div>
                     </div>
                 </div>
@@ -68,8 +86,13 @@ export function Profile() {
                     <p className="optionName">Password</p>
                     <div className="optionblock">
                         <p className="optionValue">********</p>
-                        <button className="changeParamButton" onClick={() => handleSwitchModal('editPasswordModal')}>
-                            <img src={editIcon2} alt="Edit" />
+                        <button
+                            className="changeParamButton"
+                            onClick={() =>
+                                handleSwitchModal('editPasswordModal')
+                            }
+                        >
+                            <img src={editIcon} alt="Edit" />
                         </button>
                     </div>
                 </div>
@@ -95,6 +118,9 @@ export function Profile() {
             )}
             {switchModal === 'editPasswordModal' && (
                 <EditPasswordModal handleSwitchModal={handleSwitchModal} />
+            )}
+            {switchModal === 'editAvatarModal' && (
+                <EditAvatarModal handleSwitchModal={handleSwitchModal} avatarType='profile'/>
             )}
         </div>
     );

@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { EditPasswordForm, Props, ResponseDto } from './types';
 import closeIcon from '@icons/clearIcon.svg';
-import { useForm } from 'react-hook-form';
+import { useForm, useFormState } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { editUsernameSchema } from '@utils/yup/editUsername.yup';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
-import './editPasswordModal.scss';
 import { editPasswordSchema } from '@utils/yup/editPassword.yup';
+import './editPasswordModal.scss';
 
 export function EditPasswordModal(props: Props) {
     const [shake, setShake] = useState(false);
-
+    
     const {
         register,
         handleSubmit,

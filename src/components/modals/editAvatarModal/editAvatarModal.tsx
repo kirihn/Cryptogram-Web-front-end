@@ -1,0 +1,97 @@
+import { useEffect, useState } from 'react';
+import { EditAvatarForm, Props, ResponseDto } from './types';
+import closeIcon from '@icons/clearIcon.svg';
+import uploadFileIcon from '@icons/uplodaFile.svg';
+import { useApi } from 'hooks/useApi';
+import axios from 'axios';
+import './editAvatarModal.scss';
+import { editAvatarSchema } from '@utils/yup/editAvatar.yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+
+export function EditAvatarModal(props: Props) {
+    const [shake, setShake] = useState(false);
+    const [file, setFile] = useState<File | null>(null);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<EditAvatarForm>({
+        resolver: yupResolver(editAvatarSchema),
+    });
+
+    const { resData, loading, execute } = useApi<ResponseDto, FormData>(
+        async (body) => {
+            return axios.post(`api/${props.avatarType}/uploadAvatar`, body, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+        },
+    );
+
+    const onSubmit = async (data: EditAvatarForm) => {
+        const formData = new FormData();
+        formData.append('file', data.file[0]); // Добавляем файл в FormData
+        await execute(formData);
+        if (resData) {
+            alert(`Фото загружено! URL: ${resData.newAvatarPath}`);
+            props.handleSwitchModal(null); // Закрываем модалку
+        }
+    };
+
+    useEffect(() => {
+        if (errors.file) {
+            setShake(true);
+            const timer = setTimeout(() => setShake(false), 800);
+            return () => clearTimeout(timer);
+        }
+    }, [errors]);
+
+    return (
+        <div className="modalContainer">
+            <div className="modalWindow">
+                <div className="modalheader">
+                    <h3>Edit {props.avatarType} avatar</h3>
+                    <button
+                        className="closeModal"
+                        onClick={() => props.handleSwitchModal(null)}
+                    >
+                        <img src={closeIcon} alt="Close" />
+                    </button>
+                </div>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <label htmlFor="file" className='label'>
+                        <div className="input">
+                            <img src={uploadFileIcon} alt="upload avatar" className='uploadAvatar' />
+                            {errors.file ? (
+                                <label htmlFor="file" className="labelError">
+                                    * {errors.file.message}
+                                </label>
+                            ) : (
+                                <label className="label" htmlFor="file">
+                                    Choise avatar
+                                </label>
+                            )}
+                        </div>
+                    </label>
+                    <input
+                        type="file"
+                        id="file"
+                        {...register('file')}
+                        accept="image/*"
+                        className="inputFile"
+                    />
+                    <button
+                        className={`button neonBox ${
+                            shake ? 'shake-horizontal' : ''
+                        }`}
+                        type="submit"
+                        disabled={loading}
+                    >
+                        {loading ? 'Загрузка...' : 'Загрузить'}
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
+}
