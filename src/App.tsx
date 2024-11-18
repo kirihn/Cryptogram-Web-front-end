@@ -40,6 +40,14 @@ export function App() {
                         </div>
                     }
                 />
+                <Route
+                    path="testProfile"
+                    element={
+                        <div className="heigth">
+                            <Profile />
+                        </div>
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );

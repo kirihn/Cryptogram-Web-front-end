@@ -11,7 +11,6 @@ import { useForm } from 'react-hook-form';
 
 export function EditAvatarModal(props: Props) {
     const [shake, setShake] = useState(false);
-    const [file, setFile] = useState<File | null>(null);
 
     const {
         register,
@@ -23,6 +22,7 @@ export function EditAvatarModal(props: Props) {
 
     const { resData, loading, execute } = useApi<ResponseDto, FormData>(
         async (body) => {
+            console.log('useApi')
             return axios.post(`api/${props.avatarType}/uploadAvatar`, body, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
@@ -31,7 +31,7 @@ export function EditAvatarModal(props: Props) {
 
     const onSubmit = async (data: EditAvatarForm) => {
         const formData = new FormData();
-        formData.append('file', data.file[0]); // Добавляем файл в FormData
+        formData.append('avatar', data.avatar[0]); // Добавляем файл в FormData
         await execute(formData);
         if (resData) {
             alert(`Фото загружено! URL: ${resData.newAvatarPath}`);
@@ -40,7 +40,7 @@ export function EditAvatarModal(props: Props) {
     };
 
     useEffect(() => {
-        if (errors.file) {
+        if (errors.avatar) {
             setShake(true);
             const timer = setTimeout(() => setShake(false), 800);
             return () => clearTimeout(timer);
@@ -63,13 +63,13 @@ export function EditAvatarModal(props: Props) {
                     <label htmlFor="file" className='label'>
                         <div className="input">
                             <img src={uploadFileIcon} alt="upload avatar" className='uploadAvatar' />
-                            {errors.file ? (
+                            {errors.avatar ? (
                                 <label htmlFor="file" className="labelError">
-                                    * {errors.file.message}
+                                    * {errors.avatar.message}
                                 </label>
                             ) : (
                                 <label className="label" htmlFor="file">
-                                    Choise avatar
+                                    Upload avatar
                                 </label>
                             )}
                         </div>
@@ -77,7 +77,7 @@ export function EditAvatarModal(props: Props) {
                     <input
                         type="file"
                         id="file"
-                        {...register('file')}
+                        {...register('avatar')}
                         accept="image/*"
                         className="inputFile"
                     />

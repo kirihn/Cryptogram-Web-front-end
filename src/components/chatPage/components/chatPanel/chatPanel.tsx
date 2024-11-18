@@ -1,7 +1,6 @@
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { openStickerPanel } from '@jotai/atoms';
 import './chatPanel.scss';
-import defaulChatAvatar from '@assets/images/default/defaultChatAvatar.jpg';
 import sendIcon from '@icons/send.svg';
 export function ChatPanel() {
     const [OpenStickerPanel, setOpenStickerPanel] = useAtom(openStickerPanel);
@@ -9,18 +8,18 @@ export function ChatPanel() {
         setOpenStickerPanel(!OpenStickerPanel);
     };
 
-    const handleInput = (event :React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const textarea = event.target;
-        textarea.style.height = "45px"; 
+        textarea.style.height = '45px';
         textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`; // Установить новую высоту
-      };
+    };
 
     return (
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
                 <div className="chatNameHeader">
                     <img
-                        src={defaulChatAvatar}
+                        src="/defaults/userAvatars/defaultUserAvatar.jpg"
                         alt="chatAvatar"
                         className="chatAvatarHeader"
                     />
@@ -84,7 +83,6 @@ export function ChatPanel() {
                         className="inputMessage"
                         placeholder="Input message"
                         onInput={handleInput}
-
                     ></textarea>{' '}
                     <button className="sendButton" onSubmit={alert}>
                         <img src={sendIcon} alt="send message" />

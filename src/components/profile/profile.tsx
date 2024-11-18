@@ -19,7 +19,7 @@ export function Profile() {
         <div className="profilePageContainer">
             <div className="profileContainer">
                 <div className="avatarBorder">
-                    <img src={userAvatar} alt="" className="userAvatar" />
+                    <img src="/uploads/UserAvatars/User-cm1ywsb8n0000j7ar7wbo6axv.gif" alt="" className="userAvatar" />
                 </div>
 
                 <div className="profileTopic">

@@ -15,6 +15,8 @@ export function useApi<T, D = undefined>(request: (data?: D) => Promise<any>) {
     const navigate = useNavigate();
 
     const execute = async (body?: D) => {
+        console.log('execute')
+
         setLoading(true);
         try {
             const response = await request(body);

@@ -4,7 +4,7 @@ export interface Props {
 }
 
 export interface EditAvatarForm {
-    file: FileList;
+    avatar: FileList;
 }
 
 export interface ResponseDto {
