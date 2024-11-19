@@ -6,10 +6,13 @@ import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import { ResponseDto } from './types';
 import { useEffect } from 'react';
+import { currentChatAtom, myUserIdAtom } from '@jotai/atoms';
+import { useAtom } from 'jotai';
 
 export function Header() {
     const navigate = useNavigate();
-
+    const [myUserId, setMyUserId] = useAtom(myUserIdAtom);
+    const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
     const { resData, loading, execute } = useApi<ResponseDto>(async () => {
         return await axios.post('/api/auth/logout');
     });
@@ -19,8 +22,11 @@ export function Header() {
     };
 
     useEffect(() => {
-        if (resData?.message === 'Logout successfully')
+        if (resData?.message === 'Logout successfully') {
+            setMyUserId('');
+            setCurrentChatId(-1);
             navigate(`/authorization`);
+        }
     }, [resData]);
 
     return (

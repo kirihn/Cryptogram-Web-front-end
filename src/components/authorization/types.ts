@@ -7,4 +7,5 @@ export interface AuthFormDto {
 
 export interface ResponseDto {
     message: string;
+    myUserId: string;
 }

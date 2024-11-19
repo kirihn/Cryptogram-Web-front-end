@@ -2,17 +2,26 @@ import { useAtom } from 'jotai';
 import { currentChatAtom, openStickerPanelAtom } from '@jotai/atoms';
 import './chatPanel.scss';
 import sendIcon from '@icons/send.svg';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
+import { MessageCard, RequestDto, ResponseDto } from './types';
 export function ChatPanel() {
+    const [messageCardList, setMessageCardList] = useState<MessageCard[]>([]);
+    const [sortedMessageCardList, setSortedessageCardList] = useState<
+        MessageCard[]
+    >([]);
+
     const [OpenStickerPanel, setOpenStickerPanel] =
         useAtom(openStickerPanelAtom);
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
-    
-    const {resData, loading, execute} = useApi(async ()=>{
-        return axios.get('/api/chat/getChatInfo')
-    })
+
+    const { resData, loading, execute } = useApi<ResponseDto, RequestDto>(
+        async (data) => {
+            return axios.post('/api/chat/getChatInfo', data);
+        },
+    );
+
     const ShowStickers = async () => {
         setOpenStickerPanel(!OpenStickerPanel);
     };
@@ -23,9 +32,14 @@ export function ChatPanel() {
         textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`; // Установить новую высоту
     };
 
-    useEffect(()=>{
+    useEffect(() => {
+        if(currentChatId == -1) return;
+        execute({ chatId: currentChatId });
+    }, [currentChatId]);
 
-    }, [currentChatId])
+    useEffect(() => {
+        alert(JSON.stringify(resData));
+    }, [resData]);
     return (
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">

@@ -7,10 +7,13 @@ import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useAtom } from 'jotai';
+import { myUserIdAtom } from '@jotai/atoms';
 
 export function AuthorizationPage() {
     const navigate = useNavigate();
     const [shake, setShake] = useState(false);
+    const [myUserId, setMyUserId] = useAtom(myUserIdAtom);
     const {
         register,
         handleSubmit,
@@ -42,7 +45,8 @@ export function AuthorizationPage() {
     }, [errors]);
 
     useEffect(() => {
-        if (resData?.message === 'successful') {
+        if (resData?.message === 'successful' && resData.myUserId != '') {
+            setMyUserId(resData.myUserId);
             navigate('/chats');
         }
     }, [resData]);
