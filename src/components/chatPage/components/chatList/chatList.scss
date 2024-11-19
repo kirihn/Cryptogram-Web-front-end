@@ -3,6 +3,8 @@
 .chatListContainer{
     background: $blockColor;
     padding: $sPadding;
+    padding-left: 0;
+    padding-bottom: 0;
     margin: $sMargin;
     border-radius: $sBorderRadius;
 
@@ -12,6 +14,8 @@
 
     max-height: 100%;
     .searchContainer{
+        padding-left: $sPadding;
+
         display: flex;
 
         .searchInput{
@@ -58,8 +62,9 @@
     }
 
     .h2{
-        padding-top: 15px;
-        padding-bottom: 15px;
+
+        padding: $sPadding 15px;
+
         border-bottom: 1px solid $borderDark;
     }
 
@@ -86,7 +91,13 @@
 
         .chatCard{
             display: flex;
-            margin-top: 10px;
+            padding: 5px;
+
+            padding-left: 10px;
+            &:hover{
+                background: $input;
+                transition: background 0.3s ease;
+            }
             .chatAvatarContainer{
                 display: flex;
                 background: random-color();

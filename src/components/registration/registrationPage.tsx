@@ -5,10 +5,11 @@ import { registrationSchema } from '@utils/yup/register.yup';
 import './registrationPage.scss';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 export function RegistrationPage() {
+    const navigate = useNavigate();
     const [shake, setShake] = useState(false);
     const {
         register,
@@ -36,6 +37,12 @@ export function RegistrationPage() {
             return () => clearTimeout(timer);
         }
     }, [errors]);
+
+    useEffect(() => {
+        if (resData?.message === 'successful') {
+            navigate('/chats');
+        }
+    }, [resData]);
 
     return (
         <div className="registerPageContainer">

@@ -5,10 +5,11 @@ import { authSchema } from '@utils/yup/auth.yup';
 import { AuthFormDto, ResponseDto } from './types';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 export function AuthorizationPage() {
+    const navigate = useNavigate();
     const [shake, setShake] = useState(false);
     const {
         register,
@@ -18,7 +19,6 @@ export function AuthorizationPage() {
         resolver: yupResolver(authSchema),
     });
 
-
     const { resData, loading, execute } = useApi<ResponseDto, AuthFormDto>(
         async (body) => {
             return await axios.post('api/auth/login', body);
@@ -27,15 +27,25 @@ export function AuthorizationPage() {
 
     const onSubmit = async (data: AuthFormDto) => {
         await execute(data);
+
+        if (resData?.message === 'successful') {
+            navigate('/chats');
+        }
     };
 
     useEffect(() => {
         if (errors.email || errors.password) {
             setShake(true);
-            const timer = setTimeout(() => setShake(false), 800); 
+            const timer = setTimeout(() => setShake(false), 800);
             return () => clearTimeout(timer);
         }
     }, [errors]);
+
+    useEffect(() => {
+        if (resData?.message === 'successful') {
+            navigate('/chats');
+        }
+    }, [resData]);
 
     return (
         <div className="authPageContainer">

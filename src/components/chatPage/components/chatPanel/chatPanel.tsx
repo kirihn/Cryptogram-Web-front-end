@@ -1,9 +1,18 @@
 import { useAtom } from 'jotai';
-import { openStickerPanel } from '@jotai/atoms';
+import { currentChatAtom, openStickerPanelAtom } from '@jotai/atoms';
 import './chatPanel.scss';
 import sendIcon from '@icons/send.svg';
+import { useEffect } from 'react';
+import { useApi } from 'hooks/useApi';
+import axios from 'axios';
 export function ChatPanel() {
-    const [OpenStickerPanel, setOpenStickerPanel] = useAtom(openStickerPanel);
+    const [OpenStickerPanel, setOpenStickerPanel] =
+        useAtom(openStickerPanelAtom);
+    const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
+    
+    const {resData, loading, execute} = useApi(async ()=>{
+        return axios.get('/api/chat/getChatInfo')
+    })
     const ShowStickers = async () => {
         setOpenStickerPanel(!OpenStickerPanel);
     };
@@ -14,16 +23,19 @@ export function ChatPanel() {
         textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`; // Установить новую высоту
     };
 
+    useEffect(()=>{
+
+    }, [currentChatId])
     return (
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
                 <div className="chatNameHeader">
                     <img
-                        src="/defaults/userAvatars/defaultUserAvatar.jpg"
+                        src="/static/defaults/userAvatars/defaultUserAvatar.jpg"
                         alt="chatAvatar"
                         className="chatAvatarHeader"
                     />
-                    <p>Chat name</p>
+                    <p>Chat name + {currentChatId}</p>
                 </div>
                 <button className="chatSettingsButton">
                     <div className="settingPunkt punkt1"></div>

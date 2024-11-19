@@ -7,7 +7,5 @@ export interface RegFormDto {
 }
 
 export interface ResponseDto {
-    userId: string;
-    email: string;
-    username: string;
+    message: string;
 }

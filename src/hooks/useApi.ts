@@ -1,7 +1,7 @@
 // src/hooks/useApi.ts
 import { useState } from 'react';
-import { json, useNavigate } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 interface ServerError {
     error: boolean;
@@ -60,5 +60,5 @@ export function useApi<T, D = undefined>(request: (data?: D) => Promise<any>) {
         }
     };
 
-    return { resData: resData, loading, execute };
+    return { resData: resData, setResData: setData, loading, execute };
 }

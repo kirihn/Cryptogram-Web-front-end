@@ -5,21 +5,23 @@ import './header.scss';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import { ResponseDto } from './types';
+import { useEffect } from 'react';
 
 export function Header() {
-
     const navigate = useNavigate();
 
-    const {resData, loading, execute} = useApi<ResponseDto>(async ()=>{
+    const { resData, loading, execute } = useApi<ResponseDto>(async () => {
         return await axios.post('/api/auth/logout');
-    })
+    });
 
     const handleLogout = async () => {
         await execute();
-        alert(resData)
-        if(resData?.message === "Logout successfully")
+    };
+
+    useEffect(() => {
+        if (resData?.message === 'Logout successfully')
             navigate(`/authorization`);
-    }
+    }, [resData]);
 
     return (
         <header className="headerContainer">
@@ -53,8 +55,10 @@ export function Header() {
                 </Link>
             </nav>
             <div className="BottomContainer">
-                <button className='logoutButton' onClick={handleLogout}>Logout</button>
-                <img className="logoImg" src={Logo} alt="Logo" />
+                <button className="logoutButton" onClick={handleLogout}>
+                    Logout
+                </button>
+                {/* <img className="logoImg" src={Logo} alt="Logo" /> */}
             </div>
         </header>
     );
