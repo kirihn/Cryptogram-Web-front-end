@@ -46,5 +46,5 @@ export interface MessageCard {
     CreatedAt: string; // ISO Date string
     SenderId: string;
     SenderAvatarPath: string;
-    Sendername: string;
+    SenderName: string;
 }

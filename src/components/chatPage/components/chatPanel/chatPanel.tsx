@@ -2,13 +2,14 @@ import { useAtom } from 'jotai';
 import { currentChatAtom, openStickerPanelAtom } from '@jotai/atoms';
 import './chatPanel.scss';
 import sendIcon from '@icons/send.svg';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import { MessageCard, RequestDto, ResponseDto } from './types';
+import { GetMessageList } from './GetMessageList';
 export function ChatPanel() {
-    const [messageCardList, setMessageCardList] = useState<MessageCard[]>([]);
-    const [sortedMessageCardList, setSortedessageCardList] = useState<
+    const [messageCardList1, setMessageCardList1] = useState<MessageCard[]>([]);
+    const [sortedMessageCardList1, setSortedessageCardList1] = useState<
         MessageCard[]
     >([]);
 
@@ -32,12 +33,18 @@ export function ChatPanel() {
         textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`; // Установить новую высоту
     };
 
+    const sortedMessageList = useMemo(() => {
+        if (resData == null) return;
+        return GetMessageList(resData);
+    }, [resData]);
+
     useEffect(() => {
-        if(currentChatId == -1) return;
+        if (currentChatId == -1) return;
         execute({ chatId: currentChatId });
     }, [currentChatId]);
 
     useEffect(() => {
+        if (resData == null) return;
         alert(JSON.stringify(resData));
     }, [resData]);
     return (
@@ -58,47 +65,9 @@ export function ChatPanel() {
                 </button>
             </div>
             <div className="messagesBlock">
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p>
-                <p>sdada</p> <p> fgdfh fgdh fdgh gfd h</p>
-                <p>sdada</p>
-                <p>sdada</p>
+                {sortedMessageList?.map((messageCard) => (
+                    <p>{messageCard.Content}</p>
+                ))}
             </div>
             <div className="inputMessageBlockContainer">
                 <div className="inputMessageBlock">
