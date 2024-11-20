@@ -1,21 +1,16 @@
 import { useAtom } from 'jotai';
 import { currentChatAtom, openStickerPanelAtom } from '@jotai/atoms';
-import './chatPanel.scss';
 import sendIcon from '@icons/send.svg';
 import { useEffect, useMemo, useState } from 'react';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
-import { MessageCardDto, RequestDto, ResponseDto } from './types';
+import { RequestDto, ResponseDto } from './types';
 import { GetMessageList } from './GetMessageList';
-import { MessageCard } from '../messageCard/messageCard';
-export function ChatPanel() {
-    const [messageCardList1, setMessageCardList1] = useState<MessageCardDto[]>(
-        [],
-    );
-    const [sortedMessageCardList1, setSortedessageCardList1] = useState<
-        MessageCardDto[]
-    >([]);
+import { MyMessageCard } from '../myMessageCard/myMessageCard';
+import { UserMessageCard } from '../userMessageCard/userMessageCard';
+import './chatPanel.scss';
 
+export function ChatPanel() {
     const [OpenStickerPanel, setOpenStickerPanel] =
         useAtom(openStickerPanelAtom);
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
@@ -41,6 +36,23 @@ export function ChatPanel() {
         return GetMessageList(resData);
     }, [resData]);
 
+    const getMembersCountText = (count: number): string => {
+        if (count === 0) return 'Участников нет';
+
+        const lastDigit = count % 10;
+        const lastTwoDigits = count % 100;
+
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+            return `${count} участников`;
+        } else if (lastDigit === 1) {
+            return `${count} участник`;
+        } else if (lastDigit >= 2 && lastDigit <= 4) {
+            return `${count} участника`;
+        } else {
+            return `${count} участников`;
+        }
+    };
+
     useEffect(() => {
         if (currentChatId == -1) return;
         execute({ chatId: currentChatId });
@@ -54,11 +66,19 @@ export function ChatPanel() {
             <div className="chatPanelHeader">
                 <div className="chatNameHeader">
                     <img
-                        src="/static/defaults/userAvatars/defaultUserAvatar.jpg"
+                        src="/static/defaults/chatAvatars/defaultChatAvatar.jpg"
                         alt="chatAvatar"
                         className="chatAvatarHeader"
                     />
-                    <p>Chat name + {currentChatId}</p>
+                    <div>
+                        <p className="chatName">
+                            {resData && resData.ChatName}
+                        </p>
+                        <p className="membersCount">
+                            {resData &&
+                                getMembersCountText(resData.ChatMembers.length)}
+                        </p>
+                    </div>
                 </div>
                 <button className="chatSettingsButton">
                     <div className="settingPunkt punkt1"></div>
@@ -67,11 +87,13 @@ export function ChatPanel() {
                 </button>
             </div>
             <div className="messagesBlock">
-                {sortedMessageList?.map((messageCard) => (
-                    <>
-                        <MessageCard cardData={messageCard} />
-                    </>
-                ))}
+                {sortedMessageList?.map((messageCard) => {
+                    return messageCard.isItMyMessage ? (
+                        <MyMessageCard cardData={messageCard} />
+                    ) : (
+                        <UserMessageCard cardData={messageCard} />
+                    );
+                })}
             </div>
             <div className="inputMessageBlockContainer">
                 <div className="inputMessageBlock">

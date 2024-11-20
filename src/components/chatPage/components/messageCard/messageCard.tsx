@@ -3,10 +3,18 @@ import './messageCard.scss';
 import dayjs from 'dayjs';
 export function MessageCard(props: Props) {
     const { cardData } = props;
+
+    const handleRightMyMsgClick = () => alert(1);
     return (
         <>
             {cardData.isItMyMessage ? ( // my message
-                <div className="messageContainer rigth">
+                <div
+                    className="messageContainer rigth"
+                    onContextMenu={(event) => {
+                        event.preventDefault(); // Отключение стандартного меню
+                        handleRightMyMsgClick(); // Вызов вашего обработчика
+                    }}
+                >
                     <div
                         className={`ContentContainer 
                             ${
@@ -55,6 +63,7 @@ export function MessageCard(props: Props) {
                                     : ''
                             }`}
                     >
+                        <p className="senderName">{cardData.SenderName}</p>
                         <p className="Content">{cardData.Content}</p>
                         <p className="sendTime">
                             {dayjs(cardData.CreatedAt).format('HH:mm')}

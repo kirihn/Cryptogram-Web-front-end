@@ -19,7 +19,7 @@
         margin-top: auto;
 
         a{
-            margin: 10px 0 10px 0;
+            margin: 10px 0 10px 7px;
             display: flex;
             align-items: center;
             transition: border-bottom 0.3s ease, margin-left 0.3s ease; 
@@ -27,13 +27,13 @@
             &:hover{
 
                 //border-bottom: 4px solid $text;
-                margin-left: 10px;
+                margin-left: 17px;
             }
             &:active{
 
                 transition: margin-left 0.01s ease; 
 
-                margin-left: 15px;
+                margin-left: 22px;
             }
             img{
                 width: 25px;

@@ -28,9 +28,18 @@
                 border-radius: 30px;
             }
 
-            p{
+            div{
+                margin-bottom: -17px;
+            }
+            .chatName{
                 margin-left: 10px;
                 font-size: 20px;
+            }
+
+            .membersCount{
+                margin-left: 10px;
+                font-size: 14px;
+                color: $lowText;
             }
         }
 
