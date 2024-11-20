@@ -1,4 +1,4 @@
-export interface RequestDto{
+export interface RequestDto {
     chatId: number;
 }
 export interface ResponseDto {
@@ -37,7 +37,7 @@ interface ChatMessage {
     SenderId: string;
 }
 
-export interface MessageCard {
+export interface MessageCardDto {
     MessageId: number;
     Content: string;
     MessageType: string; // You can use a union type like "msg" | "file" if needed
@@ -47,4 +47,8 @@ export interface MessageCard {
     SenderId: string;
     SenderAvatarPath: string;
     SenderName: string;
+    isItMyMessage: boolean;
+    isItFirstMessage: boolean;
+    isItLastMessage: boolean;
+
 }

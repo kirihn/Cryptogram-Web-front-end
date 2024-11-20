@@ -4,13 +4,11 @@
     background: $blockColor;
     margin: $sMargin;
     border-radius: $sBorderRadius;
-
-    flex: 3 1 700px;
-
-    max-width: 700px;
-
+    flex: 3 1 800px;
+    max-width: 800px;
     display: flex;
     flex-direction: column;
+
     .chatPanelHeader{
         width: 100%;
         display: flex;
@@ -18,21 +16,24 @@
         border-bottom: 2px solid $borderDark;
         padding: $sPadding;
         align-items: center;
+
         .chatNameHeader{
             display: flex;
             align-items: center;
             height: 60px;
+
             .chatAvatarHeader{
                 width: 60px;
                 height: 60px;
                 border-radius: 30px;
             }
+
             p{
                 margin-left: 10px;
                 font-size: 20px;
-                //text-wrap: nowrap;
             }
         }
+
         .chatSettingsButton{
             display: flex;
             flex-direction: column;
@@ -40,13 +41,13 @@
             background: none;
             border: none;
             padding: 10px;
+
             .settingPunkt{
                 background: $borderDark;
                 height: 5px;
                 width: 5px;
                 margin-top: 2px;
                 border-radius: 2px;
-
                 transition: width 0.3s ease;
             }
 
@@ -69,10 +70,9 @@
         display: flex;
         flex-direction: column;
         overflow-y: scroll;
-        
-        padding: $sPadding;
-        margin: 8px;
-        //background: $neonBgColor;
+        text-wrap: wrap;
+        //padding: $sPadding;
+        margin:  0 5px;
         flex-grow: 1;
 
         &::-webkit-scrollbar {
@@ -93,7 +93,6 @@
     .inputMessageBlockContainer{
         background: $input;
         padding: $sPadding;
-        //margin: $sPadding;
 
         border-bottom-left-radius: $sBorderRadius ;
         border-bottom-right-radius: $sBorderRadius ;
@@ -101,9 +100,9 @@
     .inputMessageBlock{
         display: flex;
         align-items: end;
-        //padding: $sPadding;
         border: 3px solid $borderDark;
         border-radius: 25px;
+
         .StickerButton{
             font-size: 13px;
             padding:  3px 10px;
@@ -111,23 +110,21 @@
             border-radius: 15px;
             height: 25px;
             background-color: $neonBgColor;
-                color: $text;
-
-                border: 2px solid $neonBorderColor; 
-                box-shadow: 0 0 3px $neonColor, 
-                0 0 7px $neonColor,
-                0 0 15px $neonColor; 
-                transition: transform 0.2s, box-shadow 0.2s; 
-
-                &:hover {
-                    transform: scale(1.05);
-                    box-shadow: 0 0 5px $neonColor, 
-                    0 0 10px $neonColor,
-                    0 0 18px $neonColor;
-                }
-              }
-          
+            color: $text;
+            border: 2px solid $neonBorderColor; 
+            box-shadow: 0 0 3px $neonColor, 
+            0 0 7px $neonColor,
+            0 0 15px $neonColor; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            &:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 5px $neonColor, 
+                0 0 10px $neonColor,
+                0 0 18px $neonColor;
+            }
         }
+    }
+
         .inputMessage{
 
             flex-grow: 1;

@@ -10,6 +10,7 @@ import { ChatPage } from '@components/chatPage/chatPage';
 import { ChatList } from '@components/chatPage/components/chatList/chatList';
 import { CreateChat } from '@components/addChat/createChat';
 import { Profile } from '@components/profile/profile';
+import { ChatPanel } from '@components/chatPage/components/chatPanel/chatPanel';
 
 export const coutAtom = atom('ligth');
 export function App() {
@@ -45,6 +46,14 @@ export function App() {
                     element={
                         <div className="heigth">
                             <Profile />
+                        </div>
+                    }
+                />
+                <Route
+                    path="testChatpanel"
+                    element={
+                        <div className="heigth">
+                            <ChatPanel />
                         </div>
                     }
                 />

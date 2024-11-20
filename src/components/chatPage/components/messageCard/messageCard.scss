@@ -1,0 +1,66 @@
+@use '../../../../styles/styleFields.scss' as *;
+
+.messageContainer{
+    display: flex;
+    max-width: 80%;
+    width: fit-content;
+    margin: 2px 5px;
+    align-items: end;
+    &.left{
+        margin-right: auto;
+    }
+    &.rigth{
+        margin-left: auto;
+
+    }
+    .chatAvatarHeader{
+        min-height: 40px;
+        min-width: 40px;
+        max-height: 40px;
+        max-width: 40px;
+        border-radius: 20px;
+        margin-right: 10px;
+    }
+
+    .ContentContainer{
+        padding: $sPadding;
+        border-radius: 5px;
+        background: $input;
+        word-wrap: break-word;
+        word-break: break-all;
+        .Content{
+            text-wrap: wrap;
+        }
+        .senderName{
+
+        }
+        .sendTimeMe{
+            font-size: 12px;
+            text-align: right;
+        }
+        .sendTime{
+            font-size: 12px;
+            text-align: left;
+        }
+        .emptyEngle{
+
+        }
+        .engle{
+
+        }
+    }
+    .isItFirstMessage{
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        margin-top: 5px;
+    }
+    .isItLastMessage{
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        margin-bottom: 5px;
+    }
+    .isItMyMessage{
+        background: $neonMsgColor;
+
+    }
+}

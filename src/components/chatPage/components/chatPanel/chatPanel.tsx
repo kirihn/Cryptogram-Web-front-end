@@ -5,12 +5,15 @@ import sendIcon from '@icons/send.svg';
 import { useEffect, useMemo, useState } from 'react';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
-import { MessageCard, RequestDto, ResponseDto } from './types';
+import { MessageCardDto, RequestDto, ResponseDto } from './types';
 import { GetMessageList } from './GetMessageList';
+import { MessageCard } from '../messageCard/messageCard';
 export function ChatPanel() {
-    const [messageCardList1, setMessageCardList1] = useState<MessageCard[]>([]);
+    const [messageCardList1, setMessageCardList1] = useState<MessageCardDto[]>(
+        [],
+    );
     const [sortedMessageCardList1, setSortedessageCardList1] = useState<
-        MessageCard[]
+        MessageCardDto[]
     >([]);
 
     const [OpenStickerPanel, setOpenStickerPanel] =
@@ -45,7 +48,6 @@ export function ChatPanel() {
 
     useEffect(() => {
         if (resData == null) return;
-        alert(JSON.stringify(resData));
     }, [resData]);
     return (
         <div className="chatPanelContainer">
@@ -66,7 +68,9 @@ export function ChatPanel() {
             </div>
             <div className="messagesBlock">
                 {sortedMessageList?.map((messageCard) => (
-                    <p>{messageCard.Content}</p>
+                    <>
+                        <MessageCard cardData={messageCard} />
+                    </>
                 ))}
             </div>
             <div className="inputMessageBlockContainer">
