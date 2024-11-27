@@ -17,6 +17,7 @@ import { currentChatAtom } from '@jotai/atoms';
 export function ChatList() {
     const [search, setSeatch] = useState('');
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
+    
     const {
         resData: chatsListData,
         setResData: setChatsListData,

@@ -1,7 +1,7 @@
-export interface RequestDto {
+export interface GetChatInfoRequestDto {
     chatId: number;
 }
-export interface ResponseDto {
+export interface GetChatInfoResponseDto {
     ChatId: number;
     ChatName: string;
     IsGroup: boolean;
@@ -27,7 +27,7 @@ interface Member {
     UserName: string;
 }
 
-interface ChatMessage {
+export interface ChatMessage {
     MessageId: number;
     Content: string;
     MessageType: string; // You can use a union type like "msg" | "file" if needed
@@ -35,6 +35,11 @@ interface ChatMessage {
     IsRead: boolean;
     CreatedAt: string; // ISO Date string
     SenderId: string;
+}
+
+export interface ResponseFromWSNewMessage {
+    message: ChatMessage;
+    chatId: number;
 }
 
 export interface MessageCardDto {
@@ -50,5 +55,10 @@ export interface MessageCardDto {
     isItMyMessage: boolean;
     isItFirstMessage: boolean;
     isItLastMessage: boolean;
+}
 
+export interface SendMessageRequesDto {
+    content: string;
+    messageType: string;
+    chatId: number;
 }

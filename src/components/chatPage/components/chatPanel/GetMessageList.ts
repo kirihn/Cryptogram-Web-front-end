@@ -1,8 +1,10 @@
 import { useAtom } from 'jotai';
-import { MessageCardDto, ResponseDto } from './types';
+import { MessageCardDto, GetChatInfoResponseDto } from './types';
 import dayjs from 'dayjs';
 
-export function GetMessageList(resData: ResponseDto): MessageCardDto[] {
+export function GetMessageList(
+    resData: GetChatInfoResponseDto,
+): MessageCardDto[] {
     let myUserId = localStorage.getItem('myUserid');
     if (myUserId != null) myUserId = myUserId?.slice(1, myUserId.length - 1);
 

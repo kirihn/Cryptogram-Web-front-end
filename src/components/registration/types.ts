@@ -9,4 +9,5 @@ export interface RegFormDto {
 export interface ResponseDto {
     message: string;
     myUserId: string;
+    wsToken: string
 }

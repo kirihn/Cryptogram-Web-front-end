@@ -1,34 +1,77 @@
-import { useAtom } from 'jotai';
-import { currentChatAtom, openStickerPanelAtom } from '@jotai/atoms';
+import { useAtom, useAtomValue } from 'jotai';
+import {
+    currentChatAtom,
+    openStickerPanelAtom,
+    socketAtom,
+} from '@jotai/atoms';
 import sendIcon from '@icons/send.svg';
 import { useEffect, useMemo, useState } from 'react';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
-import { RequestDto, ResponseDto } from './types';
+import {
+    ChatMessage,
+    GetChatInfoRequestDto,
+    GetChatInfoResponseDto,
+    ResponseFromWSNewMessage,
+    SendMessageRequesDto,
+} from './types';
 import { GetMessageList } from './GetMessageList';
 import { MyMessageCard } from '../myMessageCard/myMessageCard';
 import { UserMessageCard } from '../userMessageCard/userMessageCard';
 import './chatPanel.scss';
 
 export function ChatPanel() {
+    const [contentText, setContentText] = useState('');
     const [OpenStickerPanel, setOpenStickerPanel] =
         useAtom(openStickerPanelAtom);
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
+    const socket = useAtomValue(socketAtom);
 
-    const { resData, loading, execute } = useApi<ResponseDto, RequestDto>(
-        async (data) => {
-            return axios.post('/api/chat/getChatInfo', data);
-        },
-    );
+    const { resData, setResData, loading, execute } = useApi<
+        GetChatInfoResponseDto,
+        GetChatInfoRequestDto
+    >(async (data) => {
+        return axios.post('/api/chat/getChatInfo', data);
+    });
+
+    const {
+        resData: sendMessageData,
+        loading: sendmessageLoading,
+        execute: sendMessageExecute,
+    } = useApi<any, SendMessageRequesDto>(async (data) => {
+        return axios.post('/api/chat/sendMessage', data);
+    });
 
     const ShowStickers = async () => {
         setOpenStickerPanel(!OpenStickerPanel);
     };
 
-    const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleInput = async (
+        event: React.ChangeEvent<HTMLTextAreaElement>,
+    ) => {
         const textarea = event.target;
+        await setContentText(textarea.value);
         textarea.style.height = '45px';
-        textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`; // Установить новую высоту
+        textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`;
+    };
+
+    const handleSendMessage = () => {
+        if (contentText.trim() == '') return;
+        sendMessageExecute({
+            content: contentText,
+            messageType: 'msg',
+            chatId: currentChatId,
+        });
+        setContentText('');
+    };
+
+    const handleKeyDown = async (
+        event: React.KeyboardEvent<HTMLTextAreaElement>,
+    ) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            handleSendMessage();
+        }
     };
 
     const sortedMessageList = useMemo(() => {
@@ -56,11 +99,35 @@ export function ChatPanel() {
     useEffect(() => {
         if (currentChatId == -1) return;
         execute({ chatId: currentChatId });
+        console.log(currentChatId);
     }, [currentChatId]);
 
     useEffect(() => {
-        if (resData == null) return;
-    }, [resData]);
+        if (!socket) return;
+
+        const handleMessage = (message: ResponseFromWSNewMessage) => {
+
+            if (currentChatId != message.chatId) return;
+            setResData((prevResData) => {
+                if (!prevResData) return null;
+
+                return {
+                    ...prevResData,
+                    ChatMessages: [
+                        ...prevResData.ChatMessages,
+                        message.message,
+                    ],
+                };
+            });
+        };
+
+        socket.on('NewMessage', handleMessage);
+
+        return () => {
+            socket.off('NewMessage');
+        };
+    }, [socket, currentChatId]);
+
     return (
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
@@ -89,7 +156,10 @@ export function ChatPanel() {
             <div className="messagesBlock">
                 {sortedMessageList?.map((messageCard) => {
                     return messageCard.isItMyMessage ? (
-                        <MyMessageCard cardData={messageCard} />
+                        <MyMessageCard
+                            cardData={messageCard}
+                            key={messageCard.MessageId}
+                        />
                     ) : (
                         <UserMessageCard cardData={messageCard} />
                     );
@@ -104,8 +174,10 @@ export function ChatPanel() {
                         className="inputMessage"
                         placeholder="Input message"
                         onInput={handleInput}
+                        onKeyDown={handleKeyDown}
+                        value={contentText}
                     ></textarea>{' '}
-                    <button className="sendButton" onSubmit={alert}>
+                    <button className="sendButton" onClick={handleSendMessage}>
                         <img src={sendIcon} alt="send message" />
                     </button>
                 </div>

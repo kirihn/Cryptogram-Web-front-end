@@ -26,12 +26,12 @@ export function useApi<T, D = undefined>(request: (data?: D) => Promise<any>) {
             const error = err as AxiosError<ServerError | any>;
             let errorMessage = 'Неизвестная ошибка';
 
+            console.error("Обнуляем resData")
             setData(null);
         
-            if (error.response) { // Ошибка: ошибка на сервере
+            if (error.response) { 
                 const serverError = error.response.data;
         
-                console.log(serverError);
                 if (serverError && serverError.show === true) {
                     alert(serverError.message);
                     return;
@@ -40,14 +40,14 @@ export function useApi<T, D = undefined>(request: (data?: D) => Promise<any>) {
                 errorMessage = serverError.message || 'Отсутствует сообщение об ошибке';
                 console.error('Ошибка ответа сервера:', errorMessage);
                 navigate(`/error?message=${encodeURIComponent(errorMessage)}&statusCode=${error.response.status}&statusText=${error.response.statusText}`);
-            } else if (error.request) { // Ошибка: сервер не ответил
+            } else if (error.request) {
                 
                 errorMessage = 'Сервер не ответил. Проверьте подключение к сети.';
                 console.error('Сервер не ответил:', error.request);
         
 
                 navigate(`/error?message=${encodeURIComponent(errorMessage)}`);
-            } else { // Ошибка настройки запроса или другая ошибка
+            } else { 
                 
                 errorMessage = error.message || 'Ошибка запроса';
                 console.error('Ошибка запроса:', errorMessage);

@@ -3,7 +3,7 @@ import { RegistrationPage } from '@components/registration/registrationPage';
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 import './styles/index.scss';
 import { ErrorPage } from '@components/errorPage/errorPage';
-import { atom } from 'jotai';
+import { atom, useSetAtom } from 'jotai';
 import { Header } from '@components/header/header';
 import { Layout } from '@components/layout/layout';
 import { ChatPage } from '@components/chatPage/chatPage';
@@ -11,9 +11,17 @@ import { ChatList } from '@components/chatPage/components/chatList/chatList';
 import { CreateChat } from '@components/addChat/createChat';
 import { Profile } from '@components/profile/profile';
 import { ChatPanel } from '@components/chatPage/components/chatPanel/chatPanel';
+import { useEffect } from 'react';
+import { createSocketAtom } from '@jotai/atoms';
 
 export const coutAtom = atom('ligth');
 export function App() {
+    const initializeSocket = useSetAtom(createSocketAtom);
+
+    useEffect(() => {
+        initializeSocket();
+    }, [initializeSocket]);
+
     return (
         <BrowserRouter>
             <Routes>
