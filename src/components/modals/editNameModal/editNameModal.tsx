@@ -8,9 +8,8 @@ import './editNameModal.scss';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 export function EditNameModal(props: Props) {
-
     const [shake, setShake] = useState(false);
-    
+
     const {
         register,
         handleSubmit,
@@ -28,6 +27,13 @@ export function EditNameModal(props: Props) {
     const onSubmit = async (data: EditNameForm) => {
         execute(data);
     };
+
+    useEffect(() => {
+        if (resData) {
+            props.handleSwitchModal(null);
+            window.location.reload();
+        }
+    }, [resData]);
 
     useEffect(() => {
         if (errors.name) {

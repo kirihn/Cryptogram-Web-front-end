@@ -33,3 +33,4 @@ $sMargin: 5px;
 @function random-color() {
     @return rgb(math.random(230), math.random(230), math.random(230));
 }
+

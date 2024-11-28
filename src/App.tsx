@@ -16,11 +16,6 @@ import { createSocketAtom } from '@jotai/atoms';
 
 export const coutAtom = atom('ligth');
 export function App() {
-    const initializeSocket = useSetAtom(createSocketAtom);
-
-    useEffect(() => {
-        initializeSocket();
-    }, [initializeSocket]);
 
     return (
         <BrowserRouter>

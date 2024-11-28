@@ -11,7 +11,7 @@ import './editPasswordModal.scss';
 
 export function EditPasswordModal(props: Props) {
     const [shake, setShake] = useState(false);
-    
+
     const {
         register,
         handleSubmit,
@@ -37,6 +37,13 @@ export function EditPasswordModal(props: Props) {
             return () => clearTimeout(timer);
         }
     }, [errors]);
+
+    useEffect(() => {
+        if (resData) {
+            props.handleSwitchModal(null);
+            window.location.reload();
+        }
+    }, [resData]);
 
     return (
         <div className="modalContainer">

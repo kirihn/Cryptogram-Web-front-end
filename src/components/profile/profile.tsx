@@ -2,11 +2,14 @@ import userAvatar from '@assets/images/default/defaultChatAvatar.jpg';
 import editIcon from '@icons/pencil.svg';
 
 import './profile.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EditNameModal } from '@components/modals/editNameModal/editNameModal';
 import { EditUserameModal } from '@components/modals/editUsernameModal/editUsernameModal';
 import { EditPasswordModal } from '@components/modals/editPasswordModal/editPasswordModal';
 import { EditAvatarModal } from '@components/modals/editAvatarModal/editAvatarModal';
+import { useApi } from 'hooks/useApi';
+import { ResponseDto } from './types';
+import axios from 'axios';
 
 export function Profile() {
     const [switchModal, setSwitchModal] = useState<string | null>(null);
@@ -15,11 +18,24 @@ export function Profile() {
         setSwitchModal(modal);
     };
 
+    const { resData, loading, execute } = useApi<ResponseDto>(async () => {
+        return axios.get('api/profile/getMyProfile');
+    });
+
+    useEffect(() => {
+        execute();
+    }, []);
+
     return (
         <div className="profilePageContainer">
             <div className="profileContainer">
                 <div className="avatarBorder">
-                    <img src="static/uploads/UserAvatars/User-cm1ywsb8n0000j7ar7wbo6axv.gif" alt="" className="userAvatar" />
+                    <img
+                        src={resData?.AvatarPath}
+                        alt="userAwatar"
+                        onClick={() => handleSwitchModal('editAvatarModal')}
+                        className="userAvatar"
+                    />
                 </div>
 
                 <div className="profileTopic">
@@ -33,7 +49,7 @@ export function Profile() {
                 <div className="profileOption">
                     <p className="optionName">Name</p>
                     <div className="optionblock">
-                        <p className="optionValue">Кирюша</p>
+                        <p className="optionValue">{resData?.Name}</p>
                         <button
                             className="changeParamButton"
                             onClick={() => handleSwitchModal('editNameModal')}
@@ -45,7 +61,7 @@ export function Profile() {
                 <div className="profileOption">
                     <p className="optionName">@ Username</p>
                     <div className="optionblock">
-                        <p className="optionValue">@ymato</p>
+                        <p className="optionValue">@{resData?.UserName}</p>
                         <button
                             className="changeParamButton"
                             onClick={() =>
@@ -71,7 +87,7 @@ export function Profile() {
                 <div className="profileOption">
                     <p className="optionName">Email</p>
                     <div className="optionblock">
-                        <p className="optionValue">ymasto@mail.ru</p>
+                        <p className="optionValue">{resData?.Email}</p>
                         <div className="changeParamButton"></div>
                     </div>
                 </div>
@@ -99,7 +115,7 @@ export function Profile() {
                 <div className="profileOption">
                     <p className="optionName">Language</p>
                     <div className="optionblock">
-                        <p className="optionValue">Russian</p>
+                        <p className="optionValue">{resData?.Language}</p>
                     </div>
                 </div>
                 <div className="profileOption">
@@ -120,7 +136,10 @@ export function Profile() {
                 <EditPasswordModal handleSwitchModal={handleSwitchModal} />
             )}
             {switchModal === 'editAvatarModal' && (
-                <EditAvatarModal handleSwitchModal={handleSwitchModal} avatarType='profile'/>
+                <EditAvatarModal
+                    handleSwitchModal={handleSwitchModal}
+                    avatarType="profile"
+                />
             )}
         </div>
     );

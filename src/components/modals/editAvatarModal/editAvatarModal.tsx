@@ -22,7 +22,7 @@ export function EditAvatarModal(props: Props) {
 
     const { resData, loading, execute } = useApi<ResponseDto, FormData>(
         async (body) => {
-            console.log('useApi')
+            console.log('useApi');
             return axios.post(`api/${props.avatarType}/uploadAvatar`, body, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
@@ -31,12 +31,8 @@ export function EditAvatarModal(props: Props) {
 
     const onSubmit = async (data: EditAvatarForm) => {
         const formData = new FormData();
-        formData.append('avatar', data.avatar[0]); // Добавляем файл в FormData
-        await execute(formData);
-        if (resData) {
-            alert(`Фото загружено! URL: ${resData.newAvatarPath}`);
-            props.handleSwitchModal(null); // Закрываем модалку
-        }
+        formData.append('avatar', data.avatar[0]);
+        execute(formData);
     };
 
     useEffect(() => {
@@ -46,6 +42,13 @@ export function EditAvatarModal(props: Props) {
             return () => clearTimeout(timer);
         }
     }, [errors]);
+
+    useEffect(() => {
+        if (resData) {
+            props.handleSwitchModal(null);
+            window.location.reload();
+        }
+    }, [resData]);
 
     return (
         <div className="modalContainer">
@@ -60,9 +63,13 @@ export function EditAvatarModal(props: Props) {
                     </button>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <label htmlFor="file" className='label'>
+                    <label htmlFor="file" className="label">
                         <div className="input">
-                            <img src={uploadFileIcon} alt="upload avatar" className='uploadAvatar' />
+                            <img
+                                src={uploadFileIcon}
+                                alt="upload avatar"
+                                className="uploadAvatar"
+                            />
                             {errors.avatar ? (
                                 <label htmlFor="file" className="labelError">
                                     * {errors.avatar.message}

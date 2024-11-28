@@ -8,7 +8,6 @@ import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import './editUsernameModal.scss';
 export function EditUserameModal(props: Props) {
-
     const [shake, setShake] = useState(false);
 
     const {
@@ -36,6 +35,13 @@ export function EditUserameModal(props: Props) {
             return () => clearTimeout(timer);
         }
     }, [errors]);
+
+    useEffect(() => {
+        if (resData) {
+            props.handleSwitchModal(null);
+            window.location.reload();
+        }
+    }, [resData]);
 
     return (
         <div className="modalContainer">

@@ -106,7 +106,8 @@ export function ChatPanel() {
         if (!socket) return;
 
         const handleMessage = (message: ResponseFromWSNewMessage) => {
-
+            alert(window.location.origin);
+            //alert("curChatId" + currentChatId+ "wsChatId - " + message.chatId)
             if (currentChatId != message.chatId) return;
             setResData((prevResData) => {
                 if (!prevResData) return null;
