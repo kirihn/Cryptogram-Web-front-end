@@ -19,8 +19,14 @@ import { GetMessageList } from './GetMessageList';
 import { MyMessageCard } from '../myMessageCard/myMessageCard';
 import { UserMessageCard } from '../userMessageCard/userMessageCard';
 import './chatPanel.scss';
+import { ChatParamModal } from '@components/modals/chatParamsModal/chatParamsModal';
+import { getMembersCountText } from '@utils/func/getMembersCountText';
 
 export function ChatPanel() {
+    const [switchModal, setSwitchModal] = useState<string | null>(
+        'ChatParamModal',
+    );
+
     const [contentText, setContentText] = useState('');
     const [OpenStickerPanel, setOpenStickerPanel] =
         useAtom(openStickerPanelAtom);
@@ -41,6 +47,10 @@ export function ChatPanel() {
     } = useApi<any, SendMessageRequesDto>(async (data) => {
         return axios.post('/api/chat/sendMessage', data);
     });
+
+    const handleSwitchModal = (modal: string | null) => {
+        setSwitchModal(modal);
+    };
 
     const ShowStickers = async () => {
         setOpenStickerPanel(!OpenStickerPanel);
@@ -76,25 +86,9 @@ export function ChatPanel() {
 
     const sortedMessageList = useMemo(() => {
         if (resData == null) return;
+        console.log(resData);
         return GetMessageList(resData);
     }, [resData]);
-
-    const getMembersCountText = (count: number): string => {
-        if (count === 0) return 'Участников нет';
-
-        const lastDigit = count % 10;
-        const lastTwoDigits = count % 100;
-
-        if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
-            return `${count} участников`;
-        } else if (lastDigit === 1) {
-            return `${count} участник`;
-        } else if (lastDigit >= 2 && lastDigit <= 4) {
-            return `${count} участника`;
-        } else {
-            return `${count} участников`;
-        }
-    };
 
     useEffect(() => {
         if (currentChatId == -1) return;
@@ -134,7 +128,11 @@ export function ChatPanel() {
             <div className="chatPanelHeader">
                 <div className="chatNameHeader">
                     <img
-                        src="/static/defaults/chatAvatars/defaultChatAvatar.jpg"
+                        src={
+                            resData
+                                ? resData.AvatarPath
+                                : '/static/defaults/chatAvatars/errorChatAvatar.png'
+                        }
                         alt="chatAvatar"
                         className="chatAvatarHeader"
                     />
@@ -148,7 +146,12 @@ export function ChatPanel() {
                         </p>
                     </div>
                 </div>
-                <button className="chatSettingsButton">
+                <button
+                    className="chatSettingsButton"
+                    onClick={() => {
+                        handleSwitchModal('ChatParamModal');
+                    }}
+                >
                     <div className="settingPunkt punkt1"></div>
                     <div className="settingPunkt punkt2"></div>
                     <div className="settingPunkt punkt3"></div>
@@ -183,6 +186,13 @@ export function ChatPanel() {
                     </button>
                 </div>
             </div>
+            {switchModal === 'ChatParamModal' && resData && (
+                <ChatParamModal
+                    handleSwitchModal={handleSwitchModal}
+                    avatarType="chat"
+                    ChatInfo={resData}
+                />
+            )}
         </div>
     );
 }

@@ -44,8 +44,18 @@ export function EditNameModal(props: Props) {
     }, [errors]);
 
     return (
-        <div className="modalContainer">
-            <div className="modalWindow">
+        <div
+            className="modalContainer"
+            onClick={() => {
+                props.handleSwitchModal(null);
+            }}
+        >
+            <div
+                className="modalWindow"
+                onClick={(e) => {
+                    e.stopPropagation();
+                }}
+            >
                 <div className="modalheader">
                     <h3>Edit name</h3>
                     <button

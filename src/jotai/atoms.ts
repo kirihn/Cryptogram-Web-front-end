@@ -19,8 +19,8 @@ export const socketAtom = atom<Socket | null>(null);
 export const createSocketAtom = atom(
     (get) => get(socketAtom),
     (_, set) => {
-        const URI = window.location.origin;
-        //const URI = 'http://localhost:3000';
+        //const URI = window.location.origin;
+        const URI = 'http://localhost:3000';
         const token = localStorage.getItem('tokenAtom');
         const socket = io(URI, {
             query: {

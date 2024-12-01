@@ -25,6 +25,7 @@ export function EditAvatarModal(props: Props) {
             console.log('useApi');
             return axios.post(`api/${props.avatarType}/uploadAvatar`, body, {
                 headers: { 'Content-Type': 'multipart/form-data' },
+                params: { chatId: props.chatId },
             });
         },
     );
@@ -51,8 +52,18 @@ export function EditAvatarModal(props: Props) {
     }, [resData]);
 
     return (
-        <div className="modalContainer">
-            <div className="modalWindow">
+        <div
+            className="modalContainer"
+            onClick={() => {
+                props.handleSwitchModal(null);
+            }}
+        >
+            <div
+                className="modalWindow"
+                onClick={(e) => {
+                    e.stopPropagation();
+                }}
+            >
                 <div className="modalheader">
                     <h3>Edit {props.avatarType} avatar</h3>
                     <button

@@ -59,7 +59,7 @@ export function Profile() {
                     </div>
                 </div>
                 <div className="profileOption">
-                    <p className="optionName">@ Username</p>
+                    <p className="optionName">@Username</p>
                     <div className="optionblock">
                         <p className="optionValue">@{resData?.UserName}</p>
                         <button

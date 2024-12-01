@@ -13,6 +13,7 @@ import { Profile } from '@components/profile/profile';
 import { ChatPanel } from '@components/chatPage/components/chatPanel/chatPanel';
 import { useEffect } from 'react';
 import { createSocketAtom } from '@jotai/atoms';
+import { ChatParamModal } from '@components/modals/chatParamsModal/chatParamsModal';
 
 export const coutAtom = atom('ligth');
 export function App() {

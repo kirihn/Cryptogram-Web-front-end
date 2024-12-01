@@ -6,6 +6,7 @@ export interface GetChatInfoResponseDto {
     ChatName: string;
     IsGroup: boolean;
     KeyHash: string;
+    AvatarPath: string;
     CreatedAt: string; // ISO Date string
     UpdatedAt: string; // ISO Date string
     ChatMembers: ChatMember[];

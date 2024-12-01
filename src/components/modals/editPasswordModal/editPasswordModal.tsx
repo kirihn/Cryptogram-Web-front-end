@@ -46,8 +46,18 @@ export function EditPasswordModal(props: Props) {
     }, [resData]);
 
     return (
-        <div className="modalContainer">
-            <div className="modalWindow">
+        <div
+            className="modalContainer"
+            onClick={() => {
+                props.handleSwitchModal(null);
+            }}
+        >
+            <div
+                className="modalWindow"
+                onClick={(e) => {
+                    e.stopPropagation();
+                }}
+            >
                 <div className="modalheader">
                     <h3>Edit username</h3>
                     <button

@@ -1,6 +1,7 @@
 export interface Props {
     handleSwitchModal: (modal: null) => void;
     avatarType: string;
+    chatId?: number
 }
 
 export interface EditAvatarForm {
