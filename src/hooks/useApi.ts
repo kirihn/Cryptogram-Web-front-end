@@ -15,10 +15,10 @@ export function useApi<T, D = undefined>(request: (data?: D) => Promise<any>) {
     const navigate = useNavigate();
 
     const execute = async (body?: D) => {
-        console.log('execute')
 
         setLoading(true);
         try {
+            console.log(body)
             const response = await request(body);
             console.log(response);
             setData(response.data);

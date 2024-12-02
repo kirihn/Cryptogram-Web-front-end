@@ -61,7 +61,7 @@ export function UserMessageCard(props: Props) {
         <div className="userMessageContainer" onContextMenu={handleContextMenu}>
             {cardData.isItLastMessage ? (
                 <img
-                    src="/static/defaults/userAvatars/defaultUserAvatar.jpg"
+                    src={cardData.SenderAvatarPath}
                     alt="chatAvatar"
                     className="chatAvatarHeader"
                 />

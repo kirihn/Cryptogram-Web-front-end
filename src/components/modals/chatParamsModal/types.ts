@@ -2,6 +2,7 @@ export interface Props {
     handleSwitchModal: (modal: null) => void;
     ChatInfo: ChatInfo;
     avatarType: string;
+    myRole: number
 }
 
 export interface ChatInfo {
@@ -28,4 +29,11 @@ interface Member {
     Name: string;
     AvatarPath: string;
     UserName: string;
+}
+
+export interface RequestDto {
+    chatId: number;
+}
+export interface ResponseDto{
+    message: string;
 }

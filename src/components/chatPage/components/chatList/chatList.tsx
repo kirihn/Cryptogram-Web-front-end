@@ -17,7 +17,7 @@ import { currentChatAtom } from '@jotai/atoms';
 export function ChatList() {
     const [search, setSeatch] = useState('');
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
-    
+
     const {
         resData: chatsListData,
         setResData: setChatsListData,
@@ -54,8 +54,10 @@ export function ChatList() {
     }, []);
 
     const sortedChatsList = useMemo(() => {
-        if(search){
-            return chatsListData?.filter(el => el.ChatName.toLowerCase().includes(search.toLowerCase()))
+        if (search) {
+            return chatsListData?.filter((el) =>
+                el.ChatName.toLowerCase().includes(search.toLowerCase()),
+            );
         }
         if (!chatsListData) return [];
         return [...chatsListData].sort(
@@ -65,15 +67,14 @@ export function ChatList() {
 
     useEffect(() => {
         if (changeFixChatData?.message === '!Fix chat') {
-            
-            setChatsListData((prevChatsList) =>
-                prevChatsList?.map((el) =>
-                    el.ChatMemberId === changeFixChatData.chatMemberId
-                        ? { ...el, IsFixed: changeFixChatData.status }
-                        : el
-                ) ?? [] 
+            setChatsListData(
+                (prevChatsList) =>
+                    prevChatsList?.map((el) =>
+                        el.ChatMemberId === changeFixChatData.chatMemberId
+                            ? { ...el, IsFixed: changeFixChatData.status }
+                            : el,
+                    ) ?? [],
             );
-
         }
     }, [changeFixChatData]);
 
@@ -95,10 +96,26 @@ export function ChatList() {
 
             <div className="chatsScrolPanel">
                 {sortedChatsList?.map((chatCard) => (
-                    <div className="chatCard" onClick={() => setCurrentChatId(chatCard.ChatId)}>
-                        <div className="chatAvatarContainer">
-                            {chatCard.ChatName[0].toUpperCase()}
-                        </div>
+                    <div
+                        key={chatCard.ChatId}
+                        className="chatCard"
+                        onClick={() => setCurrentChatId(chatCard.ChatId)}
+                    >
+                        {chatCard.AvatarPath ==
+                        '/static/defaults/chatAvatars/defaultChatAvatar.png' ? (
+                            <div className="chatAvatarContainer">
+                                {chatCard.ChatName[0].toUpperCase()}
+                            </div>
+                        ) : (
+                            <div className="chatAvatarContainer">
+                                <img
+                                    className="chatAvatar"
+                                    src={chatCard.AvatarPath}
+                                    alt="Chat avatar"
+                                />
+                            </div>
+                        )}
+
                         <div className="infoContainer">
                             <div className="nameContainer">
                                 <p className="chatName">{chatCard.ChatName}</p>
@@ -122,8 +139,6 @@ export function ChatList() {
                         </div>
                     </div>
                 ))}
-
-                
             </div>
         </div>
     );

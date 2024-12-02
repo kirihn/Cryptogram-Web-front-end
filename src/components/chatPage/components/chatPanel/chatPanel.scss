@@ -26,7 +26,13 @@
                 width: 60px;
                 height: 60px;
                 border-radius: 30px;
-                object-fit: cover;
+                object-fit: cover; 
+
+                background: random-color();
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 22px;
             }
 
             div{

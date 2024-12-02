@@ -6,6 +6,7 @@ export interface ResponseDto {
     ChatName: string;
     IsGroup: boolean;
     KeyHash: string;
+    AvatarPath: string;
 }
 
 export interface ResponseChangeFixChatDto {

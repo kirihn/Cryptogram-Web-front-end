@@ -1,6 +1,7 @@
 import { useAtom, useAtomValue } from 'jotai';
 import {
     currentChatAtom,
+    myUserIdAtom,
     openStickerPanelAtom,
     socketAtom,
 } from '@jotai/atoms';
@@ -23,15 +24,15 @@ import { ChatParamModal } from '@components/modals/chatParamsModal/chatParamsMod
 import { getMembersCountText } from '@utils/func/getMembersCountText';
 
 export function ChatPanel() {
-    const [switchModal, setSwitchModal] = useState<string | null>(
-        'ChatParamModal',
-    );
-
+    const [switchModal, setSwitchModal] = useState<string | null>(null);
+    const [myRole, setMyRole] = useState<number>(5);
     const [contentText, setContentText] = useState('');
+ 
     const [OpenStickerPanel, setOpenStickerPanel] =
         useAtom(openStickerPanelAtom);
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
     const socket = useAtomValue(socketAtom);
+    const currentUserId = useAtomValue(myUserIdAtom);
 
     const { resData, setResData, loading, execute } = useApi<
         GetChatInfoResponseDto,
@@ -86,23 +87,30 @@ export function ChatPanel() {
 
     const sortedMessageList = useMemo(() => {
         if (resData == null) return;
-        console.log(resData);
+
+        resData?.ChatMembers.forEach((member) => {
+            if (member.Member.UserId == currentUserId) {
+                setMyRole(member.Role);
+                return;
+            }
+        });
+
         return GetMessageList(resData);
     }, [resData]);
+
+
 
     useEffect(() => {
         if (currentChatId == -1) return;
         execute({ chatId: currentChatId });
-        console.log(currentChatId);
     }, [currentChatId]);
 
     useEffect(() => {
         if (!socket) return;
 
         const handleMessage = (message: ResponseFromWSNewMessage) => {
-            alert(window.location.origin);
-            //alert("curChatId" + currentChatId+ "wsChatId - " + message.chatId)
             if (currentChatId != message.chatId) return;
+
             setResData((prevResData) => {
                 if (!prevResData) return null;
 
@@ -127,15 +135,22 @@ export function ChatPanel() {
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
                 <div className="chatNameHeader">
-                    <img
-                        src={
-                            resData
-                                ? resData.AvatarPath
-                                : '/static/defaults/chatAvatars/errorChatAvatar.png'
-                        }
-                        alt="chatAvatar"
-                        className="chatAvatarHeader"
-                    />
+                    {resData?.AvatarPath ==
+                    '/static/defaults/chatAvatars/defaultChatAvatar.png' ? (
+                        <div className="chatAvatarHeader">
+                            {resData.ChatName[0].toUpperCase()}
+                        </div>
+                    ) : (
+                        <img
+                            src={
+                                resData
+                                    ? resData.AvatarPath
+                                    : '/static/defaults/chatAvatars/errorChatAvatar.png'
+                            }
+                            alt="chatAvatar"
+                            className="chatAvatarHeader"
+                        />
+                    )}
                     <div>
                         <p className="chatName">
                             {resData && resData.ChatName}
@@ -169,28 +184,38 @@ export function ChatPanel() {
                     );
                 })}
             </div>
-            <div className="inputMessageBlockContainer">
-                <div className="inputMessageBlock">
-                    <button className="StickerButton" onClick={ShowStickers}>
-                        Stickers
-                    </button>
-                    <textarea
-                        className="inputMessage"
-                        placeholder="Input message"
-                        onInput={handleInput}
-                        onKeyDown={handleKeyDown}
-                        value={contentText}
-                    ></textarea>{' '}
-                    <button className="sendButton" onClick={handleSendMessage}>
-                        <img src={sendIcon} alt="send message" />
-                    </button>
+            {myRole != 5 && (
+                <div className="inputMessageBlockContainer">
+                    <div className="inputMessageBlock">
+                        <button
+                            className="StickerButton"
+                            onClick={ShowStickers}
+                        >
+                            Stickers
+                        </button>
+                        <textarea
+                            className="inputMessage"
+                            placeholder="Input message"
+                            onInput={handleInput}
+                            onKeyDown={handleKeyDown}
+                            value={contentText}
+                        ></textarea>{' '}
+                        <button
+                            className="sendButton"
+                            onClick={handleSendMessage}
+                            disabled={currentChatId == -1 ? true : false}
+                        >
+                            <img src={sendIcon} alt="send message" />
+                        </button>
+                    </div>
                 </div>
-            </div>
+            )}
             {switchModal === 'ChatParamModal' && resData && (
                 <ChatParamModal
                     handleSwitchModal={handleSwitchModal}
                     avatarType="chat"
                     ChatInfo={resData}
+                    myRole={myRole}
                 />
             )}
         </div>

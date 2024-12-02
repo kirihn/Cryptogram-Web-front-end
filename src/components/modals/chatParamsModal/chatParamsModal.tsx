@@ -1,4 +1,4 @@
-import { Props } from './types';
+import { Props, RequestDto, ResponseDto } from './types';
 import AddMemberIcon from '@icons/addMember.svg';
 import DeleteMemberIcon from '@icons/deleteMember.svg';
 import EditIcon from '@icons/pencil.svg';
@@ -10,24 +10,30 @@ import { RoleTranslator } from '@utils/func/roleTranslator';
 import { useAtomValue } from 'jotai';
 import { currentChatAtom, myUserIdAtom } from '@jotai/atoms';
 import { EditUserameModal } from '../editUsernameModal/editUsernameModal';
-import { EditPasswordModal } from '../editPasswordModal/editPasswordModal';
 import { EditAvatarModal } from '../editAvatarModal/editAvatarModal';
+import { AddMemberModal } from '../addMemberModal/addMemberModal';
+import { useApi } from 'hooks/useApi';
+import axios from 'axios';
 export function ChatParamModal(props: Props) {
-    const [myRole, setMyRole] = useState<number>(5);
 
     const [switchModal, setSwitchModal] = useState<string | null>(null);
+
+    const currentChatId = useAtomValue(currentChatAtom);
+
+    const { resData, loading, execute } = useApi<ResponseDto, RequestDto>(
+        async (data) => {
+            return axios.post('api/chat/leaveFromChat', data);
+        },
+    );
+
+    const handleLeaveFromChat = async () => {
+        execute({ chatId: currentChatId });
+    };
 
     const handleSwitchModal = (modal: string | null) => {
         setSwitchModal(modal);
     };
 
-    const currentUserId = useAtomValue(myUserIdAtom);
-    const currentChatId = useAtomValue(currentChatAtom);
-    useEffect(() => {
-        props.ChatInfo.ChatMembers.forEach((member) => {
-            if (member.Member.UserId == currentUserId) setMyRole(member.Role);
-        });
-    }, []);
     return (
         <div
             className="ChatParamsContainer"
@@ -48,26 +54,34 @@ export function ChatParamModal(props: Props) {
                 <div className="chatNameContainer">
                     <h2 className="chatName">{props.ChatInfo.ChatName}</h2>
                     <div>
-                        <button
-                            className="changeChatName"
-                            onClick={() => handleSwitchModal('EditChatName')}
-                        >
-                            <img
-                                src={EditIcon}
-                                alt="Change chat name"
-                                className="chengeChatNameIcon"
-                            />
-                        </button>
-                        <button
-                            className="changeChatName"
-                            onClick={() => handleSwitchModal('editAvatarModal')}
-                        >
-                            <img
-                                src={EditAvatar}
-                                alt="Change chat name"
-                                className="chengeChatNameIcon"
-                            />
-                        </button>
+                        {props.myRole <= 3 && (
+                            <button
+                                className="changeChatName"
+                                onClick={() =>
+                                    handleSwitchModal('EditChatName')
+                                }
+                            >
+                                <img
+                                    src={EditIcon}
+                                    alt="Change chat name"
+                                    className="chengeChatNameIcon"
+                                />
+                            </button>
+                        )}
+                        {props.myRole <= 3 && (
+                            <button
+                                className="changeChatName"
+                                onClick={() =>
+                                    handleSwitchModal('editAvatarModal')
+                                }
+                            >
+                                <img
+                                    src={EditAvatar}
+                                    alt="Change chat name"
+                                    className="chengeChatNameIcon"
+                                />
+                            </button>
+                        )}
                     </div>
                 </div>
 
@@ -75,17 +89,19 @@ export function ChatParamModal(props: Props) {
                     <h2>
                         {getMembersCountText(props.ChatInfo.ChatMembers.length)}
                     </h2>
-                    <button
-                        className="changeParamButton"
-                        onClick={() => handleSwitchModal('addmember')}
-                    >
-                        <img src={AddMemberIcon} alt="add member" />
-                    </button>
+                    {props.myRole <= 3 && (
+                        <button
+                            className="changeParamButton"
+                            onClick={() => handleSwitchModal('addMemberModal')}
+                        >
+                            <img src={AddMemberIcon} alt="add member" />
+                        </button>
+                    )}
                 </div>
 
                 <div className="members">
                     {props.ChatInfo.ChatMembers.map((member) => (
-                        <div className="member">
+                        <div className="member" key={member.Member.UserId}>
                             <img
                                 src={member.Member.AvatarPath}
                                 alt="memberAvatar"
@@ -94,7 +110,7 @@ export function ChatParamModal(props: Props) {
                             <div className="info">
                                 <div className="nameAndRole">
                                     <p className="memberName">
-                                        {member.Member.Name}asdsd
+                                        {member.Member.Name}
                                     </p>
                                     <p className="memberRole">
                                         {RoleTranslator(member.Role)}
@@ -103,11 +119,11 @@ export function ChatParamModal(props: Props) {
                                 <div className="usernameAndButtons">
                                     <p className="memberUsername">
                                         {' '}
-                                        @asdasdsad{member.Member.UserName}
+                                        @{member.Member.UserName}
                                     </p>
                                     <div className="buttons">
-                                        {myRole <= 2 &&
-                                            myRole < member.Role && (
+                                        {props.myRole <= 2 &&
+                                            props.myRole < member.Role && (
                                                 <button>
                                                     <img
                                                         className="memberButtonImg"
@@ -126,7 +142,7 @@ export function ChatParamModal(props: Props) {
                 <div className="topicContainer">
                     <button
                         className="leaveFromChat"
-                        onClick={() => handleSwitchModal('')}
+                        onClick={handleLeaveFromChat}
                     >
                         Leave from chat
                     </button>
@@ -143,9 +159,11 @@ export function ChatParamModal(props: Props) {
                             handleSwitchModal={handleSwitchModal}
                         />
                     )}
-                    {switchModal === 'editPasswordModal' && (
-                        <EditPasswordModal
+                    {switchModal === 'addMemberModal' && (
+                        <AddMemberModal
                             handleSwitchModal={handleSwitchModal}
+                            myRole={props.myRole}
+                            chatId={currentChatId}
                         />
                     )}
                     {switchModal === 'editAvatarModal' && (
