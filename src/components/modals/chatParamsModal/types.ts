@@ -34,6 +34,13 @@ interface Member {
 export interface RequestDto {
     chatId: number;
 }
+
+export interface RequestDeleteMemberDto {
+    chatId: number;
+    userId: string;
+} 
+
 export interface ResponseDto{
     message: string;
 }
+

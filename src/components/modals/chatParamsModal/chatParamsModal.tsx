@@ -1,4 +1,9 @@
-import { Props, RequestDto, ResponseDto } from './types';
+import {
+    Props,
+    RequestDeleteMemberDto,
+    RequestDto,
+    ResponseDto,
+} from './types';
 import AddMemberIcon from '@icons/addMember.svg';
 import DeleteMemberIcon from '@icons/deleteMember.svg';
 import EditIcon from '@icons/pencil.svg';
@@ -7,7 +12,7 @@ import './chatParamsModal.scss';
 import { getMembersCountText } from '@utils/func/getMembersCountText';
 import { useEffect, useState } from 'react';
 import { RoleTranslator } from '@utils/func/roleTranslator';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { currentChatAtom, myUserIdAtom } from '@jotai/atoms';
 import { EditUserameModal } from '../editUsernameModal/editUsernameModal';
 import { EditAvatarModal } from '../editAvatarModal/editAvatarModal';
@@ -15,25 +20,50 @@ import { AddMemberModal } from '../addMemberModal/addMemberModal';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 export function ChatParamModal(props: Props) {
-
     const [switchModal, setSwitchModal] = useState<string | null>(null);
 
-    const currentChatId = useAtomValue(currentChatAtom);
+    const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
 
-    const { resData, loading, execute } = useApi<ResponseDto, RequestDto>(
-        async (data) => {
-            return axios.post('api/chat/leaveFromChat', data);
-        },
-    );
+    const {
+        resData: leaveFromChatData,
+        loading: LeaveFromChatExecuteLoading,
+        execute: LeaveFromChatExecute,
+    } = useApi<ResponseDto, RequestDto>(async (data) => {
+        return axios.post('api/chat/leaveFromChat', data);
+    });
+
+    const {
+        resData: ExcludeFromChatData,
+        loading: ExcludeFromChatExecuteLoading,
+        execute: ExcludeFromChatExecute,
+    } = useApi<ResponseDto, RequestDeleteMemberDto>(async (data) => {
+        return axios.put('api/chat/deleteMember', data);
+    });
+
+    const handleDeleteMember = async (userId: string) => {
+        ExcludeFromChatExecute({ userId: userId, chatId: currentChatId });
+    };
 
     const handleLeaveFromChat = async () => {
-        execute({ chatId: currentChatId });
+        LeaveFromChatExecute({ chatId: currentChatId });
     };
 
     const handleSwitchModal = (modal: string | null) => {
         setSwitchModal(modal);
     };
 
+    useEffect(() => {
+        if (!ExcludeFromChatData) return;
+        window.location.reload();
+        
+    }, [ExcludeFromChatData]);
+
+    useEffect(() => {
+        if (!leaveFromChatData) return;
+        setCurrentChatId(-1);
+        window.location.reload();
+
+    }, [leaveFromChatData]);
     return (
         <div
             className="ChatParamsContainer"
@@ -129,6 +159,12 @@ export function ChatParamModal(props: Props) {
                                                         className="memberButtonImg"
                                                         src={DeleteMemberIcon}
                                                         alt="deleteMember"
+                                                        onClick={() =>
+                                                            handleDeleteMember(
+                                                                member.Member
+                                                                    .UserId,
+                                                            )
+                                                        }
                                                     />
                                                 </button>
                                             )}
