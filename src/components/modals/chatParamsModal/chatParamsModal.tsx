@@ -14,11 +14,11 @@ import { useEffect, useState } from 'react';
 import { RoleTranslator } from '@utils/func/roleTranslator';
 import { useAtom, useAtomValue } from 'jotai';
 import { currentChatAtom, myUserIdAtom } from '@jotai/atoms';
-import { EditUserameModal } from '../editUsernameModal/editUsernameModal';
 import { EditAvatarModal } from '../editAvatarModal/editAvatarModal';
 import { AddMemberModal } from '../addMemberModal/addMemberModal';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
+import { EditChatNameModal } from '../editChatName/editChatName';
 export function ChatParamModal(props: Props) {
     const [switchModal, setSwitchModal] = useState<string | null>(null);
 
@@ -88,7 +88,7 @@ export function ChatParamModal(props: Props) {
                             <button
                                 className="changeChatName"
                                 onClick={() =>
-                                    handleSwitchModal('EditChatName')
+                                    handleSwitchModal('editChatNameModal')
                                 }
                             >
                                 <img
@@ -190,8 +190,8 @@ export function ChatParamModal(props: Props) {
                         e.stopPropagation();
                     }}
                 >
-                    {switchModal === 'editUsernameModal' && (
-                        <EditUserameModal
+                    {switchModal === 'editChatNameModal' && (
+                        <EditChatNameModal
                             handleSwitchModal={handleSwitchModal}
                         />
                     )}

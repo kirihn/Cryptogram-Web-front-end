@@ -13,8 +13,9 @@ import {
     ChatMessage,
     GetChatInfoRequestDto,
     GetChatInfoResponseDto,
-    ResponseFromWSNewMessage,
+    WSNewMessage,
     SendMessageRequesDto,
+    WSDeleteMessage,
 } from './types';
 import { GetMessageList } from './GetMessageList';
 import { MyMessageCard } from '../myMessageCard/myMessageCard';
@@ -27,7 +28,7 @@ export function ChatPanel() {
     const [switchModal, setSwitchModal] = useState<string | null>(null);
     const [myRole, setMyRole] = useState<number>(5);
     const [contentText, setContentText] = useState('');
- 
+
     const [OpenStickerPanel, setOpenStickerPanel] =
         useAtom(openStickerPanelAtom);
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
@@ -98,8 +99,6 @@ export function ChatPanel() {
         return GetMessageList(resData);
     }, [resData]);
 
-
-
     useEffect(() => {
         if (currentChatId == -1) return;
         execute({ chatId: currentChatId });
@@ -108,7 +107,7 @@ export function ChatPanel() {
     useEffect(() => {
         if (!socket) return;
 
-        const handleMessage = (message: ResponseFromWSNewMessage) => {
+        const handleMessage = (message: WSNewMessage) => {
             if (currentChatId != message.chatId) return;
 
             setResData((prevResData) => {
@@ -124,7 +123,26 @@ export function ChatPanel() {
             });
         };
 
+        const handleDeleteMessage = (deletedMessage: WSDeleteMessage) => {
+            if (currentChatId != deletedMessage.chatId) return;
+
+            setResData((prevResData) => {
+                if (!prevResData) return null;
+
+                return {
+                    ...prevResData,
+                    ChatMessages: prevResData.ChatMessages.filter(
+                        (message) =>
+                            message.MessageId !=
+                            deletedMessage.deletedMessageId,
+                    ),
+                };
+            });
+        };
+
         socket.on('NewMessage', handleMessage);
+
+        socket.on('DeleteMessage', handleDeleteMessage);
 
         return () => {
             socket.off('NewMessage');
@@ -151,7 +169,7 @@ export function ChatPanel() {
                             className="chatAvatarHeader"
                         />
                     )}
-                    <div>
+                    <div className="ChatNameContainer">
                         <p className="chatName">
                             {resData && resData.ChatName}
                         </p>
@@ -173,6 +191,7 @@ export function ChatPanel() {
                 </button>
             </div>
             <div className="messagesBlock">
+                {currentChatId == -1 && <p className="noChatId">Choise chat</p>}
                 {sortedMessageList?.map((messageCard) => {
                     return messageCard.isItMyMessage ? (
                         <MyMessageCard
@@ -184,7 +203,7 @@ export function ChatPanel() {
                     );
                 })}
             </div>
-            {myRole != 5 && (
+            {myRole != 5 && currentChatId != -1 && (
                 <div className="inputMessageBlockContainer">
                     <div className="inputMessageBlock">
                         <button

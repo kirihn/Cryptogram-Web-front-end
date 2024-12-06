@@ -1,14 +1,24 @@
-import { Props } from './types';
+import { Props, RequestDeleteMsg, ResponteDeleteMsg } from './types';
 import './myMessageCard.scss';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { GetContextPosition } from '@utils/func/getContextPosition';
+import axios from 'axios';
+import { useApi } from 'hooks/useApi';
 
 export function MyMessageCard(props: Props) {
     const { cardData } = props;
 
     const [visibleContext, setVisibleContext] = useState(false);
     const [contextPosition, setContextPosition] = useState({ x: 0, y: 0 });
+
+    const {
+        resData: DeleteMsgResData,
+        loading: DeleteMsgLoading,
+        execute: DeleteMsgExecute,
+    } = useApi<ResponteDeleteMsg, RequestDeleteMsg>(async (data) => {
+        return axios.delete('/api/chat/DeleteMessage', { data });
+    });
 
     const handleContextMenu = async (
         event: React.MouseEvent<HTMLDivElement>,
@@ -25,6 +35,11 @@ export function MyMessageCard(props: Props) {
 
     const handleCopy = async () => {
         navigator.clipboard.writeText(cardData.Content);
+        setVisibleContext(false);
+    };
+
+    const handleDelete = async () => {
+        DeleteMsgExecute({ MessageId: cardData.MessageId });
         setVisibleContext(false);
     };
 
@@ -71,7 +86,7 @@ export function MyMessageCard(props: Props) {
                     </button>
                     <button onClick={handleCopy}>копировать</button>
                     <button onClick={alert}>Редактировать</button>
-                    <button onClick={alert}>Удалить везде</button>
+                    <button onClick={handleDelete}>Удалить везде</button>
                 </div>
             )}
 

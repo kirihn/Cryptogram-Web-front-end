@@ -38,8 +38,13 @@ export interface ChatMessage {
     SenderId: string;
 }
 
-export interface ResponseFromWSNewMessage {
+export interface WSNewMessage {
     message: ChatMessage;
+    chatId: number;
+}
+
+export interface WSDeleteMessage {
+    deletedMessageId: number;
     chatId: number;
 }
 

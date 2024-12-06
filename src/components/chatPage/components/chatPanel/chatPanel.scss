@@ -33,9 +33,11 @@
                 justify-content: center;
                 align-items: center;
                 font-size: 22px;
+
+
             }
 
-            div{
+            .ChatNameContainer{
                 margin-bottom: -17px;
             }
             .chatName{
@@ -87,9 +89,14 @@
         flex-direction: column;
         overflow-y: scroll;
         text-wrap: wrap;
-        //padding: $sPadding;
         margin:  0 5px;
         flex-grow: 1;
+
+        .noChatId{
+            text-align: center;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
 
         &::-webkit-scrollbar {
             width: 4px;
