@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 
 export const darkModeAtom = atomWithStorage<boolean>('darkMode', true);
 export const ruModeAtom = atomWithStorage<string>('langMode', 'ru');
-export const wsTokenAtom = atomWithStorage<string>('TokenAtom', '');
+export const wsTokenAtom = atomWithStorage<string>('tokenAtom', '');
 
 export const openStickerPanelAtom = atomWithStorage<boolean>(
     'sticketPanel',
