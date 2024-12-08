@@ -10,6 +10,7 @@ import {
     ResponseChangeFixChatDto,
     ResponseDto,
     WSAddMember,
+    WSDeleteMember,
 } from './types';
 import axios from 'axios';
 import { useAtom, useAtomValue } from 'jotai';
@@ -88,10 +89,22 @@ export function ChatList() {
             if ((message.message = 'updateChatPanel')) executeChatsList();
         };
 
+        const handleDeletemember = (message: WSDeleteMember) => {
+            if (currentChatId == message.deletedChatId) {
+                alert('Вас исколючили из данного чата');
+                setCurrentChatId(-1);
+            }
+            if ((message.message = 'updateChatPanel')) executeChatsList();
+        };
+
         socket.on('addUserToChat', handleAddMember);
 
+        socket.on('deleteUserFromChat', handleDeletemember);
         return () => {
             socket.off('addUserToChat');
+            socket.off('deleteUserFromChat');
+
+
         };
     }, [socket, currentChatId]);
 

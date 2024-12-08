@@ -101,8 +101,12 @@ export function ChatPanel() {
     }, [resData]);
 
     useEffect(() => {
-        if (currentChatId == -1) return;
+        if (currentChatId == -1){
+            setResData(null);
+            return;
+        }
         execute({ chatId: currentChatId });
+        setSwitchModal(null);
     }, [currentChatId]);
 
     useEffect(() => {

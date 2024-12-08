@@ -22,3 +22,8 @@ export interface RequestChangeFixChatDto {
 export interface WSAddMember {
     message: string;
 }
+
+export interface WSDeleteMember {
+    message: string;
+    deletedChatId: number;
+}
