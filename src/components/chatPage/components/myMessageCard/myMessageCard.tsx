@@ -1,4 +1,10 @@
-import { Props, RequestDeleteMsg, ResponteDeleteMsg } from './types';
+import {
+    Props,
+    RequestDeleteMsg,
+    RequestUpdateMsg,
+    ResponteDeleteMsg,
+    ResponteUpdateMsg,
+} from './types';
 import './myMessageCard.scss';
 import dayjs from 'dayjs';
 import { useState } from 'react';
@@ -18,6 +24,14 @@ export function MyMessageCard(props: Props) {
         execute: DeleteMsgExecute,
     } = useApi<ResponteDeleteMsg, RequestDeleteMsg>(async (data) => {
         return axios.delete('/api/chat/DeleteMessage', { data });
+    });
+
+    const {
+        resData: UpdateMsgResData,
+        loading: UpdateMsgLoading,
+        execute: UpdateMsgExecute,
+    } = useApi<ResponteUpdateMsg, RequestUpdateMsg>(async (data) => {
+        return axios.put('/api/chat/UpdateMessage', data);
     });
 
     const handleContextMenu = async (
@@ -43,6 +57,24 @@ export function MyMessageCard(props: Props) {
         setVisibleContext(false);
     };
 
+    const handleEditMessage = async () => {
+        const newMessage = await prompt('Update message', cardData.Content);
+
+        if (cardData.Content === newMessage) return;
+
+        if (newMessage == null || newMessage == '') {
+            DeleteMsgExecute({ MessageId: cardData.MessageId });
+        } else {
+            UpdateMsgExecute({
+                MessageId: cardData.MessageId,
+                newContent: newMessage,
+            });
+        }
+
+        setVisibleContext(false);
+        return;
+    };
+
     return (
         <div
             className="myMessageContainer rigth"
@@ -62,8 +94,13 @@ export function MyMessageCard(props: Props) {
                             }`}
             >
                 <p className="Content">{cardData.Content}</p>
-                <p className="sendTime">
-                    {dayjs(cardData.CreatedAt).format('HH:mm')}
+                <p className="messageInfo">
+                    {cardData.IsUpdate && (
+                        <span className="isUpdate">Ред. </span>
+                    )}
+                    <span className="sendTime">
+                        {dayjs(cardData.CreatedAt).format('HH:mm')}
+                    </span>
                 </p>
             </div>
 
@@ -85,7 +122,7 @@ export function MyMessageCard(props: Props) {
                         назад
                     </button>
                     <button onClick={handleCopy}>копировать</button>
-                    <button onClick={alert}>Редактировать</button>
+                    <button onClick={handleEditMessage}>Редактировать</button>
                     <button onClick={handleDelete}>Удалить везде</button>
                 </div>
             )}

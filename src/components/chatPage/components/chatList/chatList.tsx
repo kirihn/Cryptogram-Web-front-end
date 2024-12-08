@@ -49,10 +49,6 @@ export function ChatList() {
         executeFixChat({ chatMemberId });
     };
 
-    useEffect(() => {
-        executeChatsList();
-    }, []);
-
     const sortedChatsList = useMemo(() => {
         if (search) {
             return chatsListData?.filter((el) =>
@@ -64,6 +60,10 @@ export function ChatList() {
             (a, b) => Number(b.IsFixed) - Number(a.IsFixed),
         );
     }, [chatsListData, search]);
+    
+    useEffect(() => {
+        executeChatsList();
+    }, []);
 
     useEffect(() => {
         if (changeFixChatData?.message === '!Fix chat') {

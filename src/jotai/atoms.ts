@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 
 export const darkModeAtom = atomWithStorage<boolean>('darkMode', true);
 export const ruModeAtom = atomWithStorage<string>('langMode', 'ru');
-export const wsTokenAtom = atomWithStorage<string>('tokenAtom', '');
+export const wsTokenAtom = atomWithStorage<string>('wsTokenAtom', '');
 
 export const openStickerPanelAtom = atomWithStorage<boolean>(
     'sticketPanel',
@@ -21,7 +21,7 @@ export const createSocketAtom = atom(
     (_, set) => {
         //const URI = window.location.origin;
         const URI = 'http://localhost:3000';
-        const token = localStorage.getItem('tokenAtom');
+        const token = localStorage.getItem('wsTokenAtom');
         const socket = io(URI, {
             query: {
                 token: token?.slice(1, token.length - 1),

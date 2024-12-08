@@ -6,13 +6,15 @@ import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import { ResponseDto } from './types';
 import { useEffect } from 'react';
-import { currentChatAtom, myUserIdAtom } from '@jotai/atoms';
-import { useAtom } from 'jotai';
+import { currentChatAtom, myUserIdAtom, wsTokenAtom } from '@jotai/atoms';
+import { useSetAtom } from 'jotai';
 
 export function Header() {
     const navigate = useNavigate();
-    const [myUserId, setMyUserId] = useAtom(myUserIdAtom);
-    const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
+    const setMyUserId = useSetAtom(myUserIdAtom);
+    const setCurrentChatId = useSetAtom(currentChatAtom);
+    const setWsTokenAtom = useSetAtom(wsTokenAtom);
+
     const { resData, loading, execute } = useApi<ResponseDto>(async () => {
         return await axios.post('/api/auth/logout');
     });
@@ -25,6 +27,7 @@ export function Header() {
         if (resData?.message === 'Logout successfully') {
             setMyUserId('');
             setCurrentChatId(-1);
+
             navigate(`/authorization`);
         }
     }, [resData]);

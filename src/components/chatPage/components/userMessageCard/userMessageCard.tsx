@@ -94,8 +94,13 @@ export function UserMessageCard(props: Props) {
                         </p>
                     </div>
                 )}
-                <p className="sendTime">
-                    {dayjs(cardData.CreatedAt).format('HH:mm')}
+                <p className="messageInfo">
+                    <span className="sendTime">
+                        {dayjs(cardData.CreatedAt).format('HH:mm')}
+                    </span>
+                    {cardData.IsUpdate && (
+                        <span className="isUpdate"> ред.</span>
+                    )}
                 </p>
             </div>
 

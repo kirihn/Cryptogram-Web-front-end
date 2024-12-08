@@ -48,6 +48,12 @@ export interface WSDeleteMessage {
     chatId: number;
 }
 
+export interface WSUpdateMessage {
+    updatedMessageId: number;
+    chatId: number;
+    newContent: string;
+}
+
 export interface MessageCardDto {
     MessageId: number;
     Content: string;

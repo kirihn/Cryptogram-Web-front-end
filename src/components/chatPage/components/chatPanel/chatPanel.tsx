@@ -16,6 +16,7 @@ import {
     WSNewMessage,
     SendMessageRequesDto,
     WSDeleteMessage,
+    WSUpdateMessage,
 } from './types';
 import { GetMessageList } from './GetMessageList';
 import { MyMessageCard } from '../myMessageCard/myMessageCard';
@@ -140,9 +141,35 @@ export function ChatPanel() {
             });
         };
 
-        socket.on('NewMessage', handleMessage);
+        const handleUpdateMessage = (updatedMessage: WSUpdateMessage) => {
+            if (currentChatId != updatedMessage.chatId) return;
 
+            setResData((prevResData) => {
+                if (!prevResData) return null;
+
+                return {
+                    ...prevResData,
+                    ChatMessages: prevResData.ChatMessages.map((message) => {
+                        if (
+                            message.MessageId ===
+                            updatedMessage.updatedMessageId
+                        ) {
+                            return {
+                                ...message,
+                                Content: updatedMessage.newContent,
+                                IsUpdate: true,
+                            };
+                        }
+
+                        return message;
+                    }),
+                };
+            });
+        };
+
+        socket.on('NewMessage', handleMessage);
         socket.on('DeleteMessage', handleDeleteMessage);
+        socket.on('UpdateMessage', handleUpdateMessage);
 
         return () => {
             socket.off('NewMessage');
