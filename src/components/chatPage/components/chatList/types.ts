@@ -11,10 +11,14 @@ export interface ResponseDto {
 
 export interface ResponseChangeFixChatDto {
     message: string;
-    chatMemberId: number,
-    status: boolean,
+    chatMemberId: number;
+    status: boolean;
 }
 
 export interface RequestChangeFixChatDto {
     chatMemberId: number;
+}
+
+export interface WSAddMember {
+    message: string;
 }

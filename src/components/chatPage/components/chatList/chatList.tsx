@@ -9,14 +9,17 @@ import {
     RequestChangeFixChatDto,
     ResponseChangeFixChatDto,
     ResponseDto,
+    WSAddMember,
 } from './types';
 import axios from 'axios';
-import { useAtom } from 'jotai';
-import { currentChatAtom } from '@jotai/atoms';
+import { useAtom, useAtomValue } from 'jotai';
+import { currentChatAtom, socketAtom } from '@jotai/atoms';
 
 export function ChatList() {
     const [search, setSeatch] = useState('');
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
+
+    const socket = useAtomValue(socketAtom);
 
     const {
         resData: chatsListData,
@@ -60,7 +63,7 @@ export function ChatList() {
             (a, b) => Number(b.IsFixed) - Number(a.IsFixed),
         );
     }, [chatsListData, search]);
-    
+
     useEffect(() => {
         executeChatsList();
     }, []);
@@ -77,6 +80,20 @@ export function ChatList() {
             );
         }
     }, [changeFixChatData]);
+
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleAddMember = (message: WSAddMember) => {
+            if ((message.message = 'updateChatPanel')) executeChatsList();
+        };
+
+        socket.on('addUserToChat', handleAddMember);
+
+        return () => {
+            socket.off('addUserToChat');
+        };
+    }, [socket, currentChatId]);
 
     return (
         <div className="chatListContainer">

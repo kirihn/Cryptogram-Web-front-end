@@ -173,6 +173,8 @@ export function ChatPanel() {
 
         return () => {
             socket.off('NewMessage');
+            socket.off('DeleteMessage');
+            socket.off('UpdateMessage');
         };
     }, [socket, currentChatId]);
 
