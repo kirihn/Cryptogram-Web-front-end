@@ -62,7 +62,9 @@ export function MyMessageCard(props: Props) {
 
         if (cardData.Content === newMessage) return;
 
-        if (newMessage == null || newMessage == '') {
+        if (newMessage == null) {
+            return;
+        } else if (newMessage == '') {
             DeleteMsgExecute({ MessageId: cardData.MessageId });
         } else {
             UpdateMsgExecute({
