@@ -24,6 +24,7 @@ import { UserMessageCard } from '../userMessageCard/userMessageCard';
 import './chatPanel.scss';
 import { ChatParamModal } from '@components/modals/chatParamsModal/chatParamsModal';
 import { getMembersCountText } from '@utils/func/getMembersCountText';
+import { Encrypt } from '@utils/func/encrypt';
 
 export function ChatPanel() {
     const [switchModal, setSwitchModal] = useState<string | null>(null);
@@ -68,14 +69,15 @@ export function ChatPanel() {
         textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`;
     };
 
-    const handleSendMessage = () => {
-        if (contentText.trim() == '') return;
-        sendMessageExecute({
-            content: contentText,
-            messageType: 'msg',
-            chatId: currentChatId,
-        });
-        setContentText('');
+    const handleSendMessage = () => {////////
+        Encrypt(contentText, 5795362847568494)
+        // if (contentText.trim() == '') return;
+        // sendMessageExecute({
+        //     content: contentText,
+        //     messageType: 'msg',
+        //     chatId: currentChatId,
+        // });
+        // setContentText('');
     };
 
     const handleKeyDown = async (
