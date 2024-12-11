@@ -101,7 +101,7 @@ export function ChatPanel() {
     }, [resData]);
 
     useEffect(() => {
-        if (currentChatId == -1){
+        if (currentChatId == -1) {
             setResData(null);
             return;
         }
@@ -232,7 +232,10 @@ export function ChatPanel() {
                             key={messageCard.MessageId}
                         />
                     ) : (
-                        <UserMessageCard cardData={messageCard} />
+                        <UserMessageCard
+                            cardData={messageCard}
+                            key={messageCard.MessageId}
+                        />
                     );
                 })}
             </div>
