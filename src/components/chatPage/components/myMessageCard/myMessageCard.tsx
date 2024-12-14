@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { GetContextPosition } from '@utils/func/getContextPosition';
 import axios from 'axios';
 import { useApi } from 'hooks/useApi';
+import { Decrypt } from '@utils/func/decrypt';
 
 export function MyMessageCard(props: Props) {
     const { cardData } = props;
@@ -95,7 +96,9 @@ export function MyMessageCard(props: Props) {
                                     : ''
                             }`}
             >
-                <p className="Content">{cardData.Content}</p>
+                <p className="Content">
+                    {Decrypt(cardData.Content, 5795362847568494)}
+                </p>
                 <p className="messageInfo">
                     {cardData.IsUpdate && (
                         <span className="isUpdate">Ред. </span>

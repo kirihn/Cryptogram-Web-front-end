@@ -60,7 +60,9 @@ export function Header() {
 
                 <Link to={'/people'}>
                     <img src={chatsIcon} alt="чаты" />
-                    <span>Людишки</span>
+                    <button className="logoutButton" onClick={handleLogout}>
+                        Logout
+                    </button>
                 </Link>
             </nav>
             <div className="BottomContainer">

@@ -61,7 +61,7 @@ export function EditChatNameModal(props: Props) {
                 }}
             >
                 <div className="modalheader">
-                    <h3>Edit name</h3>
+                    <h3>Edit chat name</h3>
                     <button
                         className="closeModal"
                         onClick={() => props.handleSwitchModal(null)}
@@ -75,7 +75,7 @@ export function EditChatNameModal(props: Props) {
                             * {errors.chatName.message}
                         </label>
                     ) : (
-                        <label className="label">Chat ame</label>
+                        <label className="label">Chat name</label>
                     )}
                     <input
                         type="text"

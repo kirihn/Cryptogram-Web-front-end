@@ -69,15 +69,16 @@ export function ChatPanel() {
         textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`;
     };
 
-    const handleSendMessage = () => {////////
-        Encrypt(contentText, 5795362847568494)
-        // if (contentText.trim() == '') return;
-        // sendMessageExecute({
-        //     content: contentText,
-        //     messageType: 'msg',
-        //     chatId: currentChatId,
-        // });
-        // setContentText('');
+    const handleSendMessage = () => {
+        ////////
+        const encryptContent = Encrypt(contentText, 5795362847568494);
+        if (contentText.trim() == '') return;
+        sendMessageExecute({
+            content: encryptContent,
+            messageType: 'msg',
+            chatId: currentChatId,
+        });
+        setContentText('');
     };
 
     const handleKeyDown = async (

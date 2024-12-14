@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useApi } from 'hooks/useApi';
 import Loader from '@components/loader/loader';
+import { Decrypt } from '@utils/func/decrypt';
 export function UserMessageCard(props: Props) {
     const { cardData } = props;
 
@@ -83,7 +84,9 @@ export function UserMessageCard(props: Props) {
                             }`}
             >
                 <p className="senderName">{cardData.SenderName}</p>
-                <p className="Content">{cardData.Content}</p>
+                <p className="Content">
+                    {Decrypt(cardData.Content, 5795362847568494)}
+                </p>
 
                 {translating && <Loader />}
                 {translateObject && (
