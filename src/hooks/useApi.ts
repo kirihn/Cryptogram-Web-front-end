@@ -21,7 +21,6 @@ export function useApi<T, D = undefined>(request: (data?: D) => Promise<any>) {
 
             setData(response.data);
         } catch (err) {
-            console.log('request error!');
             const error = err as AxiosError<ServerError | any>;
             let errorMessage = 'Неизвестная ошибка';
 

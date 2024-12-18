@@ -26,12 +26,6 @@ export function ChatParamModal(props: Props) {
 
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
 
-    console.log(props.myRole)
-    console.log(props.myRole)
-    console.log(props.myRole)
-    console.log(props.myRole)
-
-
     const {
         resData: leaveFromChatData,
         loading: LeaveFromChatExecuteLoading,
@@ -160,7 +154,7 @@ export function ChatParamModal(props: Props) {
                                         {member.Member.Name}
                                     </p>
                                     <p className="memberRole">
-                                        {RoleTranslator(member.Role) + member.Role}
+                                        {RoleTranslator(member.Role)}
                                     </p>
                                 </div>
                                 <div className="usernameAndButtons">

@@ -9,13 +9,6 @@ export function Encrypt(msg: string, key: number) {
     const codeKeylength = codeKey.length;
 
     for (let i = 0; i < msg.length; i++) {
-        console.log(msg.charCodeAt(i).toString(2));
-    }
-    for (let i = 0; i < msg.length; i++) {
-        console.log(Buffer.from(msg.charAt(i), 'utf8').toString())
-    }
-
-    for (let i = 0; i < msg.length; i++) {
         codeMsg.push(msg.charCodeAt(i).toString(2).padStart(14, '0'));
     }
 
@@ -37,8 +30,6 @@ export function Encrypt(msg: string, key: number) {
         encryptMsg += String.fromCharCode(parseInt(encryptCodeMsg[i], 2));
     }
 
-    console.log('encrypt - ' + Buffer.from(encryptMsg).toString('base64'));
-    //return Buffer.from(encryptMsg).toString('base64');
     return encryptMsg;
 }
 

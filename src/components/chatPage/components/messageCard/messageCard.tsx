@@ -1,9 +1,7 @@
 import { Props } from './types';
 import './messageCard.scss';
 import dayjs from 'dayjs';
-import { Decrypt } from '@utils/func/decrypt';
-import { useAtomValue } from 'jotai';
-import { currentChatAtom, keyValueActionsAtom } from '@jotai/atoms';
+
 export function MessageCard(props: Props) {
     const { cardData } = props;
     const handleRightMyMsgClick = () => alert(1);

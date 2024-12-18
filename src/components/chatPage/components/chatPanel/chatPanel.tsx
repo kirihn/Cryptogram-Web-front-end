@@ -104,13 +104,9 @@ export function ChatPanel() {
 
     const sortedMessageList = useMemo(() => {
         if (resData == null) return;
-        console.log(JSON.stringify(resData))
-        console.log(JSON.stringify(resData))
-        console.log(JSON.stringify(resData))
 
         resData.ChatMembers.forEach((member) => {
             if (member.Member.UserId == currentUserId) {
-                console.log("useMemo + myRole + " + member.Role)
                 setMyRole(member.Role);
                 return;
             }
@@ -207,6 +203,7 @@ export function ChatPanel() {
         if (switchModal != null) return;
 
         const key = getCryptoKey('KeyForChat' + currentChatId);
+        
         if (!key) {
             handleSwitchModal('SetChatKey');
 
@@ -217,12 +214,8 @@ export function ChatPanel() {
         );
 
         if (keyHash !== resData.KeyHash) handleSwitchModal('SetChatKey');
-        console.log('\n');
-        console.log('chatname - ' + resData.ChatName);
-        console.log('krypto key from ls - ' + key);
-        console.log('CurrentChatId Hash - ' + keyHash);
-        console.log('resData Hash - ' + resData.KeyHash);
-    }, [resData, currentChatId, switchModal]);
+
+    }, [resData, switchModal]);
 
     return (
         <div className="chatPanelContainer">

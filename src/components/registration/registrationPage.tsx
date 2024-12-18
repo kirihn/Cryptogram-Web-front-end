@@ -31,7 +31,6 @@ export function RegistrationPage() {
     );
 
     const onSubmit = async (data: RegFormDto) => {
-        console.log('Данные формы:', data);
         await execute(data);
     };
 

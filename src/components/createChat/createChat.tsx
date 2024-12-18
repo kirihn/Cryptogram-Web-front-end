@@ -45,9 +45,6 @@ export function CreateChat() {
 
     useEffect(() => {
         if (resData) {
-            console.log('KeyForChat ' + resData.ChatId);
-            console.log('key ' + key);
-
             setCryptoKey({
                 type: 'add',
                 key: 'KeyForChat' + resData.ChatId,

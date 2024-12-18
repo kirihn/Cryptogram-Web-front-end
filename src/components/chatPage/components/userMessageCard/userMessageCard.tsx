@@ -56,15 +56,6 @@ export function UserMessageCard(props: Props) {
         setVisibleContext(false);
     };
 
-    const GetMessage = () => {
-        const key = getCryptoKey('KeyForChat' + currentChatId);
-
-        if (!key)
-            return 'Cannot decrypt this message (try to add cryptoKey)!!!';
-
-        return Decrypt(cardData.Content, key);
-    };
-
     useEffect(() => {
         return () => {
             setResData(null);
@@ -97,7 +88,7 @@ export function UserMessageCard(props: Props) {
                             }`}
             >
                 <p className="senderName">{cardData.SenderName}</p>
-                <p className="Content">{GetMessage()}</p>
+                <p className="Content">GetMessage</p>
 
                 {translating && <Loader />}
                 {translateObject && (

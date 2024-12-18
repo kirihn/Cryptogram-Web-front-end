@@ -7,19 +7,22 @@ import {
 } from './types';
 import './myMessageCard.scss';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GetContextPosition } from '@utils/func/getContextPosition';
 import axios from 'axios';
 import { useApi } from 'hooks/useApi';
 import { Decrypt } from '@utils/func/decrypt';
 import { useAtomValue } from 'jotai';
 import { currentChatAtom, keyValueActionsAtom } from '@jotai/atoms';
+import { Encrypt } from '@utils/func/encrypt';
 
 export function MyMessageCard(props: Props) {
     const { cardData } = props;
 
     const [visibleContext, setVisibleContext] = useState(false);
     const [contextPosition, setContextPosition] = useState({ x: 0, y: 0 });
+    const [decrtyptMessage, setDecryptmessage] = useState<string>('???');
+    const [CryptoKey, setCryptoKey] = useState<number>(0);
     const { getCryptoKey } = useAtomValue(keyValueActionsAtom);
     const currentChatId = useAtomValue(currentChatAtom);
 
@@ -53,7 +56,7 @@ export function MyMessageCard(props: Props) {
     };
 
     const handleCopy = async () => {
-        navigator.clipboard.writeText(cardData.Content);
+        navigator.clipboard.writeText(decrtyptMessage);
         setVisibleContext(false);
     };
 
@@ -63,33 +66,39 @@ export function MyMessageCard(props: Props) {
     };
 
     const handleEditMessage = async () => {
-        const newMessage = await prompt('Update message', cardData.Content);
+        const newMessage = await prompt('Update message', decrtyptMessage);
 
-        if (cardData.Content === newMessage) return;
+        if (decrtyptMessage === newMessage) return;
 
         if (newMessage == null) {
             return;
         } else if (newMessage == '') {
             DeleteMsgExecute({ MessageId: cardData.MessageId });
         } else {
+
             UpdateMsgExecute({
                 MessageId: cardData.MessageId,
-                newContent: newMessage,
+                newContent: Encrypt(newMessage, CryptoKey),
             });
         }
 
         setVisibleContext(false);
     };
 
-    const GetMessage = () => {
+    useEffect(() => {
         const key = getCryptoKey('KeyForChat' + currentChatId);
 
-        if (!key)
-            return '!!!Cannot decrypt this message (try to add cryptoKey)!!!';
+        if (!key) {
+            setDecryptmessage(
+                '!!!Cannot decrypt this message (try to add cryptoKey)!!!',
+            );
+            return;
+        }
 
-        return Decrypt(cardData.Content, key);
-    };
+        setCryptoKey(key);
 
+        setDecryptmessage(Decrypt(cardData.Content, key));
+    }, [props.cardData]);
     return (
         <div
             className="myMessageContainer rigth"
@@ -108,7 +117,7 @@ export function MyMessageCard(props: Props) {
                                     : ''
                             }`}
             >
-                <p className="Content">{GetMessage()}</p>
+                <p className="Content">{decrtyptMessage}</p>
                 <p className="messageInfo">
                     {cardData.IsUpdate && (
                         <span className="isUpdate">Ред. </span>
