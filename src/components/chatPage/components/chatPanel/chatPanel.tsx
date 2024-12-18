@@ -91,6 +91,8 @@ export function ChatPanel() {
         });
 
         setContentText('');
+        const textarea = document.getElementById('textarea');
+        if (textarea) textarea.style.height = '45px';
     };
 
     const handleKeyDown = async (
@@ -203,7 +205,7 @@ export function ChatPanel() {
         if (switchModal != null) return;
 
         const key = getCryptoKey('KeyForChat' + currentChatId);
-        
+
         if (!key) {
             handleSwitchModal('SetChatKey');
 
@@ -214,7 +216,6 @@ export function ChatPanel() {
         );
 
         if (keyHash !== resData.KeyHash) handleSwitchModal('SetChatKey');
-
     }, [resData, switchModal]);
 
     return (
@@ -285,11 +286,12 @@ export function ChatPanel() {
                         </button>
                         <textarea
                             className="inputMessage"
+                            id="textarea"
                             placeholder="Input message"
                             onInput={handleInput}
                             onKeyDown={handleKeyDown}
                             value={contentText}
-                        ></textarea>{' '}
+                        ></textarea>
                         <button
                             className="sendButton"
                             onClick={handleSendMessage}

@@ -14,6 +14,9 @@ export function UserMessageCard(props: Props) {
 
     const [visibleContext, setVisibleContext] = useState(false);
     const [contextPosition, setContextPosition] = useState({ x: 0, y: 0 });
+    const [decrtyptMessage, setDecryptMessage] = useState<string>('???');
+    const [сryptoKey, setCryptoKey] = useState<number>(0);
+
     const { getCryptoKey } = useAtomValue(keyValueActionsAtom);
     const currentChatId = useAtomValue(currentChatAtom);
 
@@ -45,14 +48,14 @@ export function UserMessageCard(props: Props) {
         setVisibleContext(false);
 
         getTranslateObject({
-            q: cardData.Content,
+            q: decrtyptMessage,
             //langpair: `${langFrom}|${langTo}`,
             langpair: `en|ru`,
         });
     };
 
     const handleCopy = async () => {
-        navigator.clipboard.writeText(cardData.Content);
+        navigator.clipboard.writeText(decrtyptMessage);
         setVisibleContext(false);
     };
 
@@ -61,6 +64,21 @@ export function UserMessageCard(props: Props) {
             setResData(null);
         };
     }, []);
+
+    useEffect(() => {
+        const key = getCryptoKey('KeyForChat' + currentChatId);
+
+        if (!key) {
+            setDecryptMessage(
+                '!!!Cannot decrypt this message (try to add cryptoKey)!!!',
+            );
+            return;
+        }
+
+        setCryptoKey(key);
+
+        setDecryptMessage(Decrypt(cardData.Content, key));
+    }, [props.cardData]);
 
     return (
         <div className="userMessageContainer" onContextMenu={handleContextMenu}>
@@ -88,7 +106,7 @@ export function UserMessageCard(props: Props) {
                             }`}
             >
                 <p className="senderName">{cardData.SenderName}</p>
-                <p className="Content">GetMessage</p>
+                <p className="Content">{decrtyptMessage}</p>
 
                 {translating && <Loader />}
                 {translateObject && (

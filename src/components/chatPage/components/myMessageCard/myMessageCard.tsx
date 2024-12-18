@@ -21,7 +21,7 @@ export function MyMessageCard(props: Props) {
 
     const [visibleContext, setVisibleContext] = useState(false);
     const [contextPosition, setContextPosition] = useState({ x: 0, y: 0 });
-    const [decrtyptMessage, setDecryptmessage] = useState<string>('???');
+    const [decrtyptMessage, setDecryptMessage] = useState<string>('???');
     const [CryptoKey, setCryptoKey] = useState<number>(0);
     const { getCryptoKey } = useAtomValue(keyValueActionsAtom);
     const currentChatId = useAtomValue(currentChatAtom);
@@ -89,7 +89,7 @@ export function MyMessageCard(props: Props) {
         const key = getCryptoKey('KeyForChat' + currentChatId);
 
         if (!key) {
-            setDecryptmessage(
+            setDecryptMessage(
                 '!!!Cannot decrypt this message (try to add cryptoKey)!!!',
             );
             return;
@@ -97,7 +97,7 @@ export function MyMessageCard(props: Props) {
 
         setCryptoKey(key);
 
-        setDecryptmessage(Decrypt(cardData.Content, key));
+        setDecryptMessage(Decrypt(cardData.Content, key));
     }, [props.cardData]);
     return (
         <div
