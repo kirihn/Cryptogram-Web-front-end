@@ -8,17 +8,19 @@ import AddMemberIcon from '@icons/addMember.svg';
 import DeleteMemberIcon from '@icons/deleteMember.svg';
 import EditIcon from '@icons/pencil.svg';
 import EditAvatar from '@icons/uplodaFile.svg';
+import SetKey from '@icons/key.svg';
 import './chatParamsModal.scss';
 import { getMembersCountText } from '@utils/func/getMembersCountText';
 import { useEffect, useState } from 'react';
 import { RoleTranslator } from '@utils/func/roleTranslator';
-import { useAtom, useAtomValue } from 'jotai';
-import { currentChatAtom, myUserIdAtom } from '@jotai/atoms';
+import { useAtom } from 'jotai';
+import { currentChatAtom } from '@jotai/atoms';
 import { EditAvatarModal } from '../editAvatarModal/editAvatarModal';
 import { AddMemberModal } from '../addMemberModal/addMemberModal';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import { EditChatNameModal } from '../editChatName/editChatName';
+import { EditChatKeyModal } from '../editChatKeyModal/editChatKeyModal';
 export function ChatParamModal(props: Props) {
     const [switchModal, setSwitchModal] = useState<string | null>(null);
 
@@ -55,15 +57,14 @@ export function ChatParamModal(props: Props) {
     useEffect(() => {
         if (!ExcludeFromChatData) return;
         window.location.reload();
-        
     }, [ExcludeFromChatData]);
 
     useEffect(() => {
         if (!leaveFromChatData) return;
         setCurrentChatId(-1);
         window.location.reload();
-
     }, [leaveFromChatData]);
+
     return (
         <div
             className="ChatParamsContainer"
@@ -107,11 +108,21 @@ export function ChatParamModal(props: Props) {
                             >
                                 <img
                                     src={EditAvatar}
-                                    alt="Change chat name"
+                                    alt="Change chat avatar"
                                     className="chengeChatNameIcon"
                                 />
                             </button>
                         )}
+                        <button
+                            className="changeChatName"
+                            onClick={() => handleSwitchModal('editChatKeyModal')}
+                        >
+                            <img
+                                src={SetKey}
+                                alt="Change chat key"
+                                className="chengeChatNameIcon"
+                            />
+                        </button>
                     </div>
                 </div>
 
@@ -207,6 +218,11 @@ export function ChatParamModal(props: Props) {
                             handleSwitchModal={handleSwitchModal}
                             avatarType="chat"
                             chatId={currentChatId}
+                        />
+                    )}
+                    {switchModal === 'editChatKeyModal' && (
+                        <EditChatKeyModal
+                            handleSwitchModal={handleSwitchModal}
                         />
                     )}
                 </div>

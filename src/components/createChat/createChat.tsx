@@ -8,9 +8,12 @@ import { useEffect, useState } from 'react';
 import * as CryptoJS from 'crypto-js';
 
 import './createChat.scss';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { keyValueActionsAtom } from '@jotai/atoms';
 export function CreateChat() {
     const [shake, setShake] = useState(false);
 
+    const setCryptoKey = useSetAtom(keyValueActionsAtom);
     const {
         register,
         handleSubmit,
@@ -35,13 +38,21 @@ export function CreateChat() {
     });
 
     const onSubmit = async (data: CreateChatFormDto) => {
-        console.log('Данные формы:', data);
         await execute(data);
     };
 
     useEffect(() => {
-        if (resData) alert("Чат успешно создан - " + resData.ChatName);
+        if (resData) {
+            console.log('KeyForChat ' + resData.ChatId);
+            console.log('key ' + key);
 
+            setCryptoKey({
+                type: 'add',
+                key: 'KeyForChat' + resData.ChatId,
+                value: Number(key),
+            });
+            alert('Чат успешно создан - ' + resData.ChatName);
+        }
         if (errors.chatName || errors.key) {
             setShake(true);
             const timer = setTimeout(() => setShake(false), 800);

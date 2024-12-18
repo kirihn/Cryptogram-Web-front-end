@@ -17,6 +17,7 @@
         "@types/three": "^0.169.0",
         "@vitalets/google-translate-api": "^9.2.0",
         "axios": "^1.7.7",
+        "buffer": "^6.0.3",
         "crypto-js": "^4.2.0",
         "dayjs": "^1.11.13",
         "file-loader": "^6.2.0",

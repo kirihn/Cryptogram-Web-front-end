@@ -38,3 +38,42 @@ export const createSocketAtom = atom(
         });
     },
 );
+
+const safeLoad = (): Record<string, number> => {
+    try {
+        const data = localStorage.getItem('keyValueStorage');
+        return data ? JSON.parse(data) : {};
+    } catch (e) {
+        console.error('Error parsing localStorage data:', e);
+        return {};
+    }
+};
+
+export const keyValueAtom = atomWithStorage<Record<string, number>>(
+    'keyValueStorage',
+    safeLoad(),
+);
+
+export const keyValueActionsAtom = atom(
+    (get) => ({
+        getCryptoKey: (key: string): number | null =>
+            get(keyValueAtom)?.[key] ?? null,
+    }),
+    (
+        get,
+        set,
+        action: { type: 'add' | 'delete'; key: string; value?: number },
+    ) => {
+        const prevState = get(keyValueAtom) || {};
+
+        if (action.type === 'add' && typeof action.value === 'number') {
+            set(keyValueAtom, {
+                ...prevState,
+                [action.key]: action.value,
+            });
+        } else if (action.type === 'delete') {
+            const { [action.key]: _, ...newState } = prevState;
+            set(keyValueAtom, newState);
+        }
+    },
+);

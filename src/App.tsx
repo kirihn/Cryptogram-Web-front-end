@@ -8,7 +8,7 @@ import { Header } from '@components/header/header';
 import { Layout } from '@components/layout/layout';
 import { ChatPage } from '@components/chatPage/chatPage';
 import { ChatList } from '@components/chatPage/components/chatList/chatList';
-import { CreateChat } from '@components/addChat/createChat';
+import { CreateChat } from '@components/createChat/createChat';
 import { Profile } from '@components/profile/profile';
 import { ChatPanel } from '@components/chatPage/components/chatPanel/chatPanel';
 import { useEffect } from 'react';

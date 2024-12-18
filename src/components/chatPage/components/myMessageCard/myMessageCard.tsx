@@ -12,12 +12,16 @@ import { GetContextPosition } from '@utils/func/getContextPosition';
 import axios from 'axios';
 import { useApi } from 'hooks/useApi';
 import { Decrypt } from '@utils/func/decrypt';
+import { useAtomValue } from 'jotai';
+import { currentChatAtom, keyValueActionsAtom } from '@jotai/atoms';
 
 export function MyMessageCard(props: Props) {
     const { cardData } = props;
 
     const [visibleContext, setVisibleContext] = useState(false);
     const [contextPosition, setContextPosition] = useState({ x: 0, y: 0 });
+    const { getCryptoKey } = useAtomValue(keyValueActionsAtom);
+    const currentChatId = useAtomValue(currentChatAtom);
 
     const {
         resData: DeleteMsgResData,
@@ -75,7 +79,15 @@ export function MyMessageCard(props: Props) {
         }
 
         setVisibleContext(false);
-        return;
+    };
+
+    const GetMessage = () => {
+        const key = getCryptoKey('KeyForChat' + currentChatId);
+
+        if (!key)
+            return '!!!Cannot decrypt this message (try to add cryptoKey)!!!';
+
+        return Decrypt(cardData.Content, key);
     };
 
     return (
@@ -96,9 +108,7 @@ export function MyMessageCard(props: Props) {
                                     : ''
                             }`}
             >
-                <p className="Content">
-                    {Decrypt(cardData.Content, 5795362847568494)}
-                </p>
+                <p className="Content">{GetMessage()}</p>
                 <p className="messageInfo">
                     {cardData.IsUpdate && (
                         <span className="isUpdate">Ред. </span>

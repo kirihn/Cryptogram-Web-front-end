@@ -27,7 +27,6 @@ export function Header() {
         if (resData?.message === 'Logout successfully') {
             setMyUserId('');
             setCurrentChatId(-1);
-
             navigate(`/authorization`);
         }
     }, [resData]);

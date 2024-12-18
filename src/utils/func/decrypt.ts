@@ -1,13 +1,17 @@
+import { Buffer } from 'buffer';
+
 export function Decrypt(msg: string, key: number) {
     let encryptCodeMsg = [];
     let decryptCodeMsg = [];
     let decryptMsg = '';
 
+    //msg = Buffer.from(msg, 'base64').toString();
+
     const codeKey = key.toString(2);
     const codeKeylength = codeKey.length;
 
     for (let i = 0; i < msg.length; i++) {
-        encryptCodeMsg.push(msg.charCodeAt(i).toString(2).padStart(16, '0'));
+        encryptCodeMsg.push(msg.charCodeAt(i).toString(2).padStart(12, '0'));
     }
 
     let index = 0;
@@ -24,7 +28,6 @@ export function Decrypt(msg: string, key: number) {
         return decryptCodeMsgEl;
     });
 
-    console.log('decrypt - ' + JSON.stringify(decryptCodeMsg));
     for (let i = 0; i < decryptCodeMsg.length; i++) {
         decryptMsg += String.fromCharCode(parseInt(decryptCodeMsg[i], 2));
     }

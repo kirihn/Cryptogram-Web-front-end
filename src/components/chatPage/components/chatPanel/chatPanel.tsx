@@ -1,6 +1,7 @@
 import { useAtom, useAtomValue } from 'jotai';
 import {
     currentChatAtom,
+    keyValueActionsAtom,
     myUserIdAtom,
     openStickerPanelAtom,
     socketAtom,
@@ -10,7 +11,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import {
-    ChatMessage,
     GetChatInfoRequestDto,
     GetChatInfoResponseDto,
     WSNewMessage,
@@ -21,10 +21,12 @@ import {
 import { GetMessageList } from './GetMessageList';
 import { MyMessageCard } from '../myMessageCard/myMessageCard';
 import { UserMessageCard } from '../userMessageCard/userMessageCard';
-import './chatPanel.scss';
 import { ChatParamModal } from '@components/modals/chatParamsModal/chatParamsModal';
 import { getMembersCountText } from '@utils/func/getMembersCountText';
 import { Encrypt } from '@utils/func/encrypt';
+import { EditChatKeyModal } from '@components/modals/editChatKeyModal/editChatKeyModal';
+import * as CryptoJS from 'crypto-js';
+import './chatPanel.scss';
 
 export function ChatPanel() {
     const [switchModal, setSwitchModal] = useState<string | null>(null);
@@ -33,9 +35,10 @@ export function ChatPanel() {
 
     const [OpenStickerPanel, setOpenStickerPanel] =
         useAtom(openStickerPanelAtom);
-    const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
+    const currentChatId = useAtomValue(currentChatAtom);
     const socket = useAtomValue(socketAtom);
     const currentUserId = useAtomValue(myUserIdAtom);
+    const { getCryptoKey } = useAtomValue(keyValueActionsAtom);
 
     const { resData, setResData, loading, execute } = useApi<
         GetChatInfoResponseDto,
@@ -70,14 +73,23 @@ export function ChatPanel() {
     };
 
     const handleSendMessage = () => {
-        ////////
-        const encryptContent = Encrypt(contentText, 5795362847568494);
         if (contentText.trim() == '') return;
+
+        const key = getCryptoKey('KeyForChat' + currentChatId);
+
+        if (!key) {
+            alert('add key and try again');
+            return;
+        }
+
+        const encryptContent = Encrypt(contentText, key);
+
         sendMessageExecute({
             content: encryptContent,
             messageType: 'msg',
             chatId: currentChatId,
         });
+
         setContentText('');
     };
 
@@ -185,6 +197,29 @@ export function ChatPanel() {
         };
     }, [socket, currentChatId]);
 
+    useEffect(() => {
+        if (!resData) return;
+        if (!currentChatId) return;
+        if (switchModal != null) return;
+        
+        const key = getCryptoKey('KeyForChat' + currentChatId);
+        if (!key) {
+            handleSwitchModal('SetChatKey');
+
+            return;
+        }
+        const keyHash = CryptoJS.SHA256(key.toString()).toString(
+            CryptoJS.enc.Base64,
+        );
+
+        if (keyHash !== resData.KeyHash) handleSwitchModal('SetChatKey');
+        console.log('\n');
+        console.log('chatname - ' + resData.ChatName);
+        console.log('krypto key from ls - ' + key);
+        console.log('CurrentChatId Hash - ' + keyHash);
+        console.log('resData Hash - ' + resData.KeyHash);
+    }, [resData, currentChatId, switchModal]);
+
     return (
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
@@ -275,6 +310,9 @@ export function ChatPanel() {
                     ChatInfo={resData}
                     myRole={myRole}
                 />
+            )}
+            {switchModal === 'SetChatKey' && resData && (
+                <EditChatKeyModal handleSwitchModal={handleSwitchModal} />
             )}
         </div>
     );
