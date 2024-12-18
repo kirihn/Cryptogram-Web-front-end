@@ -8,13 +8,14 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSetAtom } from 'jotai';
-import { myUserIdAtom, wsTokenAtom } from '@jotai/atoms';
+import { currentChatAtom, myUserIdAtom, wsTokenAtom } from '@jotai/atoms';
 
 export function AuthorizationPage() {
     const navigate = useNavigate();
     const [shake, setShake] = useState(false);
     const setMyUserId = useSetAtom(myUserIdAtom);
     const setWsToken = useSetAtom(wsTokenAtom);
+    const setCurrentChatId = useSetAtom(currentChatAtom);
     const {
         register,
         handleSubmit,
@@ -49,6 +50,7 @@ export function AuthorizationPage() {
         if (resData?.message === 'successful' && resData.myUserId != '') {
             setMyUserId(resData.myUserId);
             setWsToken(resData.wsToken);
+            setCurrentChatId(-1);
             navigate('/chats');
         }
     }, [resData]);

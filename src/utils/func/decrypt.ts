@@ -11,7 +11,7 @@ export function Decrypt(msg: string, key: number) {
     const codeKeylength = codeKey.length;
 
     for (let i = 0; i < msg.length; i++) {
-        encryptCodeMsg.push(msg.charCodeAt(i).toString(2).padStart(12, '0'));
+        encryptCodeMsg.push(msg.charCodeAt(i).toString(2).padStart(14, '0'));
     }
 
     let index = 0;

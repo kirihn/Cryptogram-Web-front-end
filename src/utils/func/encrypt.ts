@@ -16,7 +16,7 @@ export function Encrypt(msg: string, key: number) {
     }
 
     for (let i = 0; i < msg.length; i++) {
-        codeMsg.push(msg.charCodeAt(i).toString(2).padStart(12, '0'));
+        codeMsg.push(msg.charCodeAt(i).toString(2).padStart(14, '0'));
     }
 
     let index = 0;

@@ -104,9 +104,13 @@ export function ChatPanel() {
 
     const sortedMessageList = useMemo(() => {
         if (resData == null) return;
+        console.log(JSON.stringify(resData))
+        console.log(JSON.stringify(resData))
+        console.log(JSON.stringify(resData))
 
-        resData?.ChatMembers.forEach((member) => {
+        resData.ChatMembers.forEach((member) => {
             if (member.Member.UserId == currentUserId) {
+                console.log("useMemo + myRole + " + member.Role)
                 setMyRole(member.Role);
                 return;
             }
@@ -201,7 +205,7 @@ export function ChatPanel() {
         if (!resData) return;
         if (!currentChatId) return;
         if (switchModal != null) return;
-        
+
         const key = getCryptoKey('KeyForChat' + currentChatId);
         if (!key) {
             handleSwitchModal('SetChatKey');

@@ -51,18 +51,6 @@ export function Header() {
                     <img src={chatsIcon} alt="чаты" />
                     <span>Создать чат</span>
                 </Link>
-
-                <Link to={'/createChanel'}>
-                    <img src={chatsIcon} alt="чаты" />
-                    <span>Создать канал</span>
-                </Link>
-
-                <Link to={'/people'}>
-                    <img src={chatsIcon} alt="чаты" />
-                    <button className="logoutButton" onClick={handleLogout}>
-                        Logout
-                    </button>
-                </Link>
             </nav>
             <div className="BottomContainer">
                 <button className="logoutButton" onClick={handleLogout}>
