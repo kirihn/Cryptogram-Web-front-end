@@ -13,7 +13,12 @@ import axios from 'axios';
 import { useApi } from 'hooks/useApi';
 import { Decrypt } from '@utils/func/decrypt';
 import { useAtomValue } from 'jotai';
-import { currentChatAtom, keyValueActionsAtom } from '@jotai/atoms';
+import {
+    currentChatAtom,
+    keyValueActionsAtom,
+    keyValueAtom,
+    myUserIdAtom,
+} from '@jotai/atoms';
 import { Encrypt } from '@utils/func/encrypt';
 
 export function MyMessageCard(props: Props) {
@@ -25,6 +30,8 @@ export function MyMessageCard(props: Props) {
     const [CryptoKey, setCryptoKey] = useState<number>(0);
     const { getCryptoKey } = useAtomValue(keyValueActionsAtom);
     const currentChatId = useAtomValue(currentChatAtom);
+    const currentUserId = useAtomValue(myUserIdAtom);
+    const keyStorage = useAtomValue(keyValueAtom);
 
     const {
         resData: DeleteMsgResData,
@@ -75,7 +82,6 @@ export function MyMessageCard(props: Props) {
         } else if (newMessage == '') {
             DeleteMsgExecute({ MessageId: cardData.MessageId });
         } else {
-
             UpdateMsgExecute({
                 MessageId: cardData.MessageId,
                 newContent: Encrypt(newMessage, CryptoKey),
@@ -86,8 +92,9 @@ export function MyMessageCard(props: Props) {
     };
 
     useEffect(() => {
-        const key = getCryptoKey('KeyForChat' + currentChatId);
-
+        const key = getCryptoKey(
+            'KeyForChat-' + currentChatId + '-user-' + currentUserId,
+        );
         if (!key) {
             setDecryptMessage(
                 '!!!Cannot decrypt this message (try to add cryptoKey)!!!',
@@ -98,7 +105,7 @@ export function MyMessageCard(props: Props) {
         setCryptoKey(key);
 
         setDecryptMessage(Decrypt(cardData.Content, key));
-    }, [props.cardData]);
+    }, [props.cardData, keyStorage]);
     return (
         <div
             className="myMessageContainer rigth"

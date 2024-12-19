@@ -75,8 +75,9 @@ export function ChatPanel() {
     const handleSendMessage = () => {
         if (contentText.trim() == '') return;
 
-        const key = getCryptoKey('KeyForChat' + currentChatId);
-
+        const key = getCryptoKey(
+            'KeyForChat-' + currentChatId + '-user-' + currentUserId,
+        );
         if (!key) {
             alert('add key and try again');
             return;
@@ -204,7 +205,9 @@ export function ChatPanel() {
         if (!currentChatId) return;
         if (switchModal != null) return;
 
-        const key = getCryptoKey('KeyForChat' + currentChatId);
+        const key = getCryptoKey(
+            'KeyForChat-' + currentChatId + '-user-' + currentUserId,
+        );
 
         if (!key) {
             handleSwitchModal('SetChatKey');

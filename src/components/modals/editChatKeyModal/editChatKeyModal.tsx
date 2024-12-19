@@ -7,7 +7,11 @@ import { Props } from './types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { currentChatAtom, keyValueActionsAtom } from '@jotai/atoms';
+import {
+    currentChatAtom,
+    keyValueActionsAtom,
+    myUserIdAtom,
+} from '@jotai/atoms';
 import { editChatKeySchema } from '@utils/yup/editChatKey.yup';
 import closeIcon from '@icons/clearIcon.svg';
 
@@ -16,7 +20,7 @@ export function EditChatKeyModal(props: Props) {
 
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
     const setCryptoKey = useSetAtom(keyValueActionsAtom);
-
+    const currentUserId = useAtomValue(myUserIdAtom);
     const {
         register,
         handleSubmit,
@@ -33,7 +37,7 @@ export function EditChatKeyModal(props: Props) {
     const onSubmit = async (data: any) => {
         setCryptoKey({
             type: 'add',
-            key: 'KeyForChat' + currentChatId,
+            key: 'KeyForChat-' + currentChatId + '-user-' + currentUserId,
             value: data.key,
         });
         props.handleSwitchModal(null);

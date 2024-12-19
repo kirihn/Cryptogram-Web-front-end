@@ -8,12 +8,18 @@ import { useEffect, useState } from 'react';
 import * as CryptoJS from 'crypto-js';
 
 import './createChat.scss';
-import { useSetAtom } from 'jotai';
-import { currentChatAtom, keyValueActionsAtom } from '@jotai/atoms';
+import { useAtomValue, useSetAtom } from 'jotai';
+import {
+    currentChatAtom,
+    keyValueActionsAtom,
+    myUserIdAtom,
+} from '@jotai/atoms';
 import { useNavigate } from 'react-router-dom';
 export function CreateChat() {
     const [shake, setShake] = useState(false);
     const navigate = useNavigate();
+
+    const currentUserId = useAtomValue(myUserIdAtom);
     const setCryptoKey = useSetAtom(keyValueActionsAtom);
     const setCurrentChatId = useSetAtom(currentChatAtom);
     const {
@@ -47,7 +53,7 @@ export function CreateChat() {
         if (resData) {
             setCryptoKey({
                 type: 'add',
-                key: 'KeyForChat' + resData.ChatId,
+                key: 'KeyForChat-' + resData.ChatId + '-user-' + currentUserId,
                 value: Number(key),
             });
 

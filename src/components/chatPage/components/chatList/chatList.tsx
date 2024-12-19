@@ -15,6 +15,7 @@ import {
 import axios from 'axios';
 import { useAtom, useAtomValue } from 'jotai';
 import { currentChatAtom, socketAtom } from '@jotai/atoms';
+import { RoleTranslator } from '@utils/func/roleTranslator';
 
 export function ChatList() {
     const [search, setSeatch] = useState('');
@@ -164,7 +165,7 @@ export function ChatList() {
                                 />
                             </div>
                             <div className="lastMessageContainer">
-                                <p className="lastMessage">труляля оп ля ля</p>
+                                <p className="lastMessage">role: {RoleTranslator(chatCard.Role)}</p>
                             </div>
                         </div>
                     </div>
