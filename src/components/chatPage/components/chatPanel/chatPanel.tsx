@@ -7,7 +7,7 @@ import {
     socketAtom,
 } from '@jotai/atoms';
 import sendIcon from '@icons/send.svg';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import {
@@ -27,8 +27,11 @@ import { Encrypt } from '@utils/func/encrypt';
 import { EditChatKeyModal } from '@components/modals/editChatKeyModal/editChatKeyModal';
 import * as CryptoJS from 'crypto-js';
 import './chatPanel.scss';
+import styled from 'styled-components';
 
 export function ChatPanel() {
+    const scrollRef = useRef<HTMLDivElement | null>(null);
+    const messagesBlockRef = useRef<HTMLDivElement | null>(null);
     const [switchModal, setSwitchModal] = useState<string | null>(null);
     const [myRole, setMyRole] = useState<number>(5);
     const [contentText, setContentText] = useState('');
@@ -221,6 +224,34 @@ export function ChatPanel() {
         if (keyHash !== resData.KeyHash) handleSwitchModal('SetChatKey');
     }, [resData, switchModal]);
 
+    const isUserAtBottom = () => {
+        if (messagesBlockRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } =
+                messagesBlockRef.current;
+            return scrollHeight - (scrollTop + clientHeight) <= 100;
+        }
+        return false;
+    };
+
+    const scrollToBottom = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    useEffect(() => {
+        if (isUserAtBottom()) {
+            requestAnimationFrame(scrollToBottom);
+        }
+    }, [sortedMessageList]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (scrollRef.current) {
+                scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 120);
+    }, [currentChatId]);
     return (
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
@@ -262,7 +293,7 @@ export function ChatPanel() {
                     <div className="settingPunkt punkt3"></div>
                 </button>
             </div>
-            <div className="messagesBlock">
+            <div className="messagesBlock" ref={messagesBlockRef}>
                 {currentChatId == -1 && <p className="noChatId">Choise chat</p>}
                 {sortedMessageList?.map((messageCard) => {
                     return messageCard.isItMyMessage ? (
@@ -277,6 +308,7 @@ export function ChatPanel() {
                         />
                     );
                 })}
+                <div ref={scrollRef}></div>
             </div>
             {myRole != 5 && currentChatId != -1 && (
                 <div className="inputMessageBlockContainer">
