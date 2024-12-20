@@ -16,8 +16,6 @@
             "@jotai/*": ["jotai/*"],
             "@assets/*": ["assets/*"],
             "@icons/*": ["assets/icons/*"]
-
-
         },
     },
     "include": ["src/**/*", "src/components/chatPage/.tsx"],

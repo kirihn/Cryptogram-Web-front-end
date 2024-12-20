@@ -1,5 +1,5 @@
 {
-    "name": "Cryptogram-Web-front-end",
+    "name": "cryptogram-web-front-end",
     "version": "1.0.0",
     "description": "front-end part for Cryptogram-Web",
     "main": "index.js",

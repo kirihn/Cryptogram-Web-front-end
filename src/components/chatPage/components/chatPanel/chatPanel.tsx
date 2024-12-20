@@ -58,12 +58,12 @@ export function ChatPanel() {
         return axios.post('/api/chat/sendMessage', data);
     });
 
-    const handleSwitchModal = (modal: string | null) => {
-        setSwitchModal(modal);
-    };
-
     const ShowStickers = async () => {
         setOpenStickerPanel(!OpenStickerPanel);
+    };
+
+    const handleSwitchModal = (modal: string | null) => {
+        setSwitchModal(modal);
     };
 
     const handleInput = async (
@@ -120,6 +120,22 @@ export function ChatPanel() {
 
         return GetMessageList(resData);
     }, [resData]);
+
+    const isUserAtBottom = () => {
+        if (messagesBlockRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } =
+                messagesBlockRef.current;
+            return scrollHeight - (scrollTop + clientHeight) <= 200;
+        }
+        return false;
+    };
+
+    const scrollToBottom = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
 
     useEffect(() => {
         if (currentChatId == -1) {
@@ -226,21 +242,6 @@ export function ChatPanel() {
         if (keyHash !== resData.KeyHash) handleSwitchModal('SetChatKey');
     }, [resData, switchModal]);
 
-    const isUserAtBottom = () => {
-        if (messagesBlockRef.current) {
-            const { scrollTop, scrollHeight, clientHeight } =
-                messagesBlockRef.current;
-            return scrollHeight - (scrollTop + clientHeight) <= 200;
-        }
-        return false;
-    };
-
-    const scrollToBottom = () => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
     useEffect(() => {
         if (isUserAtBottom()) {
             requestAnimationFrame(scrollToBottom);
@@ -254,6 +255,7 @@ export function ChatPanel() {
             }
         }, 180);
     }, [currentChatId]);
+
     return (
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">

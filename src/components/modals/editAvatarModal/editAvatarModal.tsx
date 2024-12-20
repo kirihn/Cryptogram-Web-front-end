@@ -22,7 +22,6 @@ export function EditAvatarModal(props: Props) {
 
     const { resData, loading, execute } = useApi<ResponseDto, FormData>(
         async (body) => {
-            console.log('useApi');
             return axios.post(`api/${props.avatarType}/uploadAvatar`, body, {
                 headers: { 'Content-Type': 'multipart/form-data' },
                 params: { chatId: props.chatId },
