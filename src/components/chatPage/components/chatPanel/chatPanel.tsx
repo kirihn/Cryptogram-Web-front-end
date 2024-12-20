@@ -138,6 +138,8 @@ export function ChatPanel() {
 
             setResData((prevResData) => {
                 if (!prevResData) return null;
+                if (message.message.SenderId == currentUserId)
+                    requestAnimationFrame(scrollToBottom);
 
                 return {
                     ...prevResData,
@@ -228,7 +230,7 @@ export function ChatPanel() {
         if (messagesBlockRef.current) {
             const { scrollTop, scrollHeight, clientHeight } =
                 messagesBlockRef.current;
-            return scrollHeight - (scrollTop + clientHeight) <= 100;
+            return scrollHeight - (scrollTop + clientHeight) <= 200;
         }
         return false;
     };
