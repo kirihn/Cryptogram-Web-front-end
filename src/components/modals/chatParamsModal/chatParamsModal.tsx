@@ -115,7 +115,9 @@ export function ChatParamModal(props: Props) {
                         )}
                         <button
                             className="changeChatName"
-                            onClick={() => handleSwitchModal('editChatKeyModal')}
+                            onClick={() =>
+                                handleSwitchModal('editChatKeyModal')
+                            }
                         >
                             <img
                                 src={SetKey}
@@ -223,6 +225,7 @@ export function ChatParamModal(props: Props) {
                     {switchModal === 'editChatKeyModal' && (
                         <EditChatKeyModal
                             handleSwitchModal={handleSwitchModal}
+                            isChangedChatId={false}
                         />
                     )}
                 </div>

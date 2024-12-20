@@ -250,7 +250,7 @@ export function ChatPanel() {
             if (scrollRef.current) {
                 scrollRef.current.scrollIntoView({ behavior: 'smooth' });
             }
-        }, 120);
+        }, 180);
     }, [currentChatId]);
     return (
         <div className="chatPanelContainer">
@@ -346,7 +346,10 @@ export function ChatPanel() {
                 />
             )}
             {switchModal === 'SetChatKey' && resData && (
-                <EditChatKeyModal handleSwitchModal={handleSwitchModal} />
+                <EditChatKeyModal
+                    handleSwitchModal={handleSwitchModal}
+                    isChangedChatId={true}
+                />
             )}
         </div>
     );

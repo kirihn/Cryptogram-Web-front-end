@@ -30,7 +30,7 @@ export function EditChatKeyModal(props: Props) {
     });
 
     const handleCloseModal = () => {
-        setCurrentChatId(-1);
+        if (props.isChangedChatId) setCurrentChatId(-1);
         props.handleSwitchModal(null);
     };
 
