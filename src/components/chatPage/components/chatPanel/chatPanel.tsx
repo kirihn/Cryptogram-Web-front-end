@@ -317,12 +317,12 @@ export function ChatPanel() {
             {myRole != 5 && currentChatId != -1 && (
                 <div className="inputMessageBlockContainer">
                     <div className="inputMessageBlock">
-                        <button
+                        {/* <button
                             className="StickerButton"
                             onClick={ShowStickers}
                         >
                             Stickers
-                        </button>
+                        </button> */}
                         <textarea
                             className="inputMessage"
                             id="textarea"

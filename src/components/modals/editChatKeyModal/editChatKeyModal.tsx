@@ -77,8 +77,8 @@ export function EditChatKeyModal(props: Props) {
                     )}
                     <input
                         type="number"
-                        min={1212112121212121}
-                        max={9006554331798799}
+                        // min={1212112121212121}
+                        // max={9006554331798799}
                         {...register('key')}
                         placeholder="Chat key"
                         className="input"

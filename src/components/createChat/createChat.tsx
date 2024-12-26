@@ -109,6 +109,8 @@ export function CreateChat() {
                         <input
                             type="number"
                             className="input"
+                            // min={1212112121212121}
+                            // max={9006554331798799}
                             {...register('key')}
                             placeholder="Chat private key"
                         />
