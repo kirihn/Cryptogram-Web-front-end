@@ -31,7 +31,7 @@ export function EditChatKeyModal(props: Props) {
 
     const handleCloseModal = () => {
         if (props.isChangedChatId) setCurrentChatId(-1);
-        props.handleSwitchModal(null);
+        props.handleCloseModal();
     };
 
     const onSubmit = async (data: any) => {
@@ -40,7 +40,7 @@ export function EditChatKeyModal(props: Props) {
             key: 'KeyForChat-' + currentChatId + '-user-' + currentUserId,
             value: data.key,
         });
-        props.handleSwitchModal(null);
+        props.handleCloseModal();
     };
 
     useEffect(() => {

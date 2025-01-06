@@ -10,13 +10,10 @@ import { EditAvatarModal } from '@components/modals/editAvatarModal/editAvatarMo
 import { useApi } from 'hooks/useApi';
 import { ResponseDto } from './types';
 import axios from 'axios';
+import { useModal } from 'hooks/useModal';
 
 export function Profile() {
-    const [switchModal, setSwitchModal] = useState<string | null>(null);
-
-    const handleSwitchModal = (modal: string | null) => {
-        setSwitchModal(modal);
-    };
+    const { switchModal, handleSwitchModal, handleCloseModal } = useModal();
 
     const { resData, loading, execute } = useApi<ResponseDto>(async () => {
         return axios.get('api/profile/getMyProfile');
@@ -127,17 +124,27 @@ export function Profile() {
             </div>
 
             {switchModal === 'editNameModal' && (
-                <EditNameModal handleSwitchModal={handleSwitchModal} />
+                <EditNameModal
+                    handleSwitchModal={handleSwitchModal}
+                    handleCloseModal={handleCloseModal}
+                />
             )}
             {switchModal === 'editUsernameModal' && (
-                <EditUserameModal handleSwitchModal={handleSwitchModal} />
+                <EditUserameModal
+                    handleSwitchModal={handleSwitchModal}
+                    handleCloseModal={handleCloseModal}
+                />
             )}
             {switchModal === 'editPasswordModal' && (
-                <EditPasswordModal handleSwitchModal={handleSwitchModal} />
+                <EditPasswordModal
+                    handleSwitchModal={handleSwitchModal}
+                    handleCloseModal={handleCloseModal}
+                />
             )}
             {switchModal === 'editAvatarModal' && (
                 <EditAvatarModal
                     handleSwitchModal={handleSwitchModal}
+                    handleCloseModal={handleCloseModal}
                     avatarType="profile"
                 />
             )}

@@ -28,11 +28,12 @@ import { EditChatKeyModal } from '@components/modals/editChatKeyModal/editChatKe
 import * as CryptoJS from 'crypto-js';
 import './chatPanel.scss';
 import styled from 'styled-components';
+import { useModal } from 'hooks/useModal';
 
 export function ChatPanel() {
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const messagesBlockRef = useRef<HTMLDivElement | null>(null);
-    const [switchModal, setSwitchModal] = useState<string | null>(null);
+    const { switchModal, handleSwitchModal, handleCloseModal } = useModal();
     const [myRole, setMyRole] = useState<number>(5);
     const [contentText, setContentText] = useState('');
 
@@ -60,10 +61,6 @@ export function ChatPanel() {
 
     const ShowStickers = async () => {
         setOpenStickerPanel(!OpenStickerPanel);
-    };
-
-    const handleSwitchModal = (modal: string | null) => {
-        setSwitchModal(modal);
     };
 
     const handleInput = async (
@@ -136,14 +133,13 @@ export function ChatPanel() {
         }
     };
 
-
     useEffect(() => {
         if (currentChatId == -1) {
             setResData(null);
             return;
         }
         execute({ chatId: currentChatId });
-        setSwitchModal(null);
+        handleCloseModal();
     }, [currentChatId]);
 
     useEffect(() => {
@@ -344,6 +340,7 @@ export function ChatPanel() {
             {switchModal === 'ChatParamModal' && resData && (
                 <ChatParamModal
                     handleSwitchModal={handleSwitchModal}
+                    handleCloseModal={handleCloseModal}
                     avatarType="chat"
                     ChatInfo={resData}
                     myRole={myRole}
@@ -352,6 +349,7 @@ export function ChatPanel() {
             {switchModal === 'SetChatKey' && resData && (
                 <EditChatKeyModal
                     handleSwitchModal={handleSwitchModal}
+                    handleCloseModal={handleCloseModal}
                     isChangedChatId={true}
                 />
             )}

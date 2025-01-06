@@ -42,7 +42,9 @@ export function useApi<T, D = undefined>(request: (data?: D) => Promise<any>) {
 
                 errorMessage =
                     serverError.message || 'Отсутствует сообщение об ошибке';
+
                 console.error('Ошибка ответа сервера:', errorMessage);
+                
                 navigate(
                     `/error?message=${encodeURIComponent(
                         errorMessage,
@@ -50,14 +52,17 @@ export function useApi<T, D = undefined>(request: (data?: D) => Promise<any>) {
                         error.response.statusText
                     }`,
                 );
+
             } else if (error.request) {
                 errorMessage =
                     'Сервер не ответил. Проверьте подключение к сети.';
-                console.error('Сервер не ответил:', error.request);
+
+                console.error(error.request);
 
                 navigate(`/error?message=${encodeURIComponent(errorMessage)}`);
             } else {
                 errorMessage = error.message || 'Ошибка запроса';
+                
                 console.error('Ошибка запроса:', errorMessage);
 
                 navigate(`/error?message=${encodeURIComponent(errorMessage)}`);

@@ -45,7 +45,7 @@ export function EditAvatarModal(props: Props) {
 
     useEffect(() => {
         if (resData) {
-            props.handleSwitchModal(null);
+            props.handleCloseModal();
             window.location.reload();
         }
     }, [resData]);
@@ -54,7 +54,7 @@ export function EditAvatarModal(props: Props) {
         <div
             className="modalContainer"
             onClick={() => {
-                props.handleSwitchModal(null);
+                props.handleCloseModal();
             }}
         >
             <div
@@ -67,7 +67,7 @@ export function EditAvatarModal(props: Props) {
                     <h3>Edit {props.avatarType} avatar</h3>
                     <button
                         className="closeModal"
-                        onClick={() => props.handleSwitchModal(null)}
+                        onClick={() => props.handleCloseModal()}
                     >
                         <img src={closeIcon} alt="Close" />
                     </button>

@@ -21,8 +21,9 @@ import { useApi } from 'hooks/useApi';
 import axios from 'axios';
 import { EditChatNameModal } from '../editChatName/editChatName';
 import { EditChatKeyModal } from '../editChatKeyModal/editChatKeyModal';
+import { useModal } from 'hooks/useModal';
 export function ChatParamModal(props: Props) {
-    const [switchModal, setSwitchModal] = useState<string | null>(null);
+    const { switchModal, handleSwitchModal, handleCloseModal } = useModal();
 
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
 
@@ -50,10 +51,6 @@ export function ChatParamModal(props: Props) {
         LeaveFromChatExecute({ chatId: currentChatId });
     };
 
-    const handleSwitchModal = (modal: string | null) => {
-        setSwitchModal(modal);
-    };
-
     useEffect(() => {
         if (!ExcludeFromChatData) return;
         window.location.reload();
@@ -69,7 +66,7 @@ export function ChatParamModal(props: Props) {
         <div
             className="ChatParamsContainer"
             onClick={() => {
-                props.handleSwitchModal(null);
+                props.handleCloseModal();
             }}
         >
             <div
@@ -206,11 +203,13 @@ export function ChatParamModal(props: Props) {
                     {switchModal === 'editChatNameModal' && (
                         <EditChatNameModal
                             handleSwitchModal={handleSwitchModal}
+                            handleCloseModal={handleCloseModal}
                         />
                     )}
                     {switchModal === 'addMemberModal' && (
                         <AddMemberModal
                             handleSwitchModal={handleSwitchModal}
+                            handleCloseModal={handleCloseModal}
                             myRole={props.myRole}
                             chatId={currentChatId}
                         />
@@ -218,6 +217,7 @@ export function ChatParamModal(props: Props) {
                     {switchModal === 'editAvatarModal' && (
                         <EditAvatarModal
                             handleSwitchModal={handleSwitchModal}
+                            handleCloseModal={handleCloseModal}
                             avatarType="chat"
                             chatId={currentChatId}
                         />
@@ -225,6 +225,7 @@ export function ChatParamModal(props: Props) {
                     {switchModal === 'editChatKeyModal' && (
                         <EditChatKeyModal
                             handleSwitchModal={handleSwitchModal}
+                            handleCloseModal={handleCloseModal}
                             isChangedChatId={false}
                         />
                     )}
