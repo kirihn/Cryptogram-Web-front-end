@@ -3,7 +3,7 @@ import { atom } from 'jotai';
 import { io, Socket } from 'socket.io-client';
 
 export const darkModeAtom = atomWithStorage<boolean>('darkMode', true);
-export const ruModeAtom = atomWithStorage<string>('langMode', 'ru');
+export const LangModeAtom = atomWithStorage<string>('langMode', 'ru');
 export const wsTokenAtom = atomWithStorage<string>('wsTokenAtom', '');
 
 export const openStickerPanelAtom = atomWithStorage<boolean>(

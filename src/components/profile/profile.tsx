@@ -11,6 +11,7 @@ import { useApi } from 'hooks/useApi';
 import { ResponseDto } from './types';
 import axios from 'axios';
 import { useModal } from 'hooks/useModal';
+import { EditLanguageModal } from '@components/modals/editLanguage/editLanguageModal';
 
 export function Profile() {
     const { switchModal, handleSwitchModal, handleCloseModal } = useModal();
@@ -113,6 +114,14 @@ export function Profile() {
                     <p className="optionName">Language</p>
                     <div className="optionblock">
                         <p className="optionValue">{resData?.Language}</p>
+                        <button
+                            className="changeParamButton"
+                            onClick={() =>
+                                handleSwitchModal('editLanguageButton')
+                            }
+                        >
+                            <img src={editIcon} alt="Edit" />
+                        </button>
                     </div>
                 </div>
                 <div className="profileOption">
@@ -146,6 +155,12 @@ export function Profile() {
                     handleSwitchModal={handleSwitchModal}
                     handleCloseModal={handleCloseModal}
                     avatarType="profile"
+                />
+            )}
+            {switchModal === 'editLanguageButton' && (
+                <EditLanguageModal
+                    handleSwitchModal={handleSwitchModal}
+                    handleCloseModal={handleCloseModal}
                 />
             )}
         </div>

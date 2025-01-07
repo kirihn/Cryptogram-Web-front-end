@@ -135,7 +135,6 @@ export function MyMessageCard(props: Props) {
                 </p>
             </div>
 
-            {/* Мини-меню */}
             {visibleContext && (
                 <div
                     className="miniMenu"
@@ -158,14 +157,13 @@ export function MyMessageCard(props: Props) {
                 </div>
             )}
 
-            {/* Обработка кликов вне мини-меню */}
             {visibleContext && (
                 <div
                     className="overlay"
                     onClick={handleClickOutside}
                     onContextMenu={(e) => {
-                        e.preventDefault(); // Отключаем стандартное контекстное меню
-                        handleClickOutside(); // Закрываем меню
+                        e.preventDefault(); 
+                        handleClickOutside();
                     }}
                 ></div>
             )}

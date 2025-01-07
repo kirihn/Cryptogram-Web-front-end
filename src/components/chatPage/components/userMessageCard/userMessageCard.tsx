@@ -12,6 +12,7 @@ import {
     currentChatAtom,
     keyValueActionsAtom,
     keyValueAtom,
+    LangModeAtom,
     myUserIdAtom,
 } from '@jotai/atoms';
 export function UserMessageCard(props: Props) {
@@ -26,7 +27,7 @@ export function UserMessageCard(props: Props) {
     const currentChatId = useAtomValue(currentChatAtom);
     const currentUserId = useAtomValue(myUserIdAtom);
     const keyStorage = useAtomValue(keyValueAtom);
-    
+    const langMode = useAtomValue(LangModeAtom);
     const {
         resData: translateObject,
         setResData,
@@ -57,7 +58,7 @@ export function UserMessageCard(props: Props) {
         getTranslateObject({
             q: decrtyptMessage,
             //langpair: `${langFrom}|${langTo}`,
-            langpair: `en|ru`,
+            langpair: `en|` + langMode,
         });
     };
 
