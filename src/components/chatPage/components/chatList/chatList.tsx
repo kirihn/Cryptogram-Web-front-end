@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import clearIcon from '@icons/clearIcon.svg';
 import fixIconOn from '@icons/CanzButtonOn.svg';
 import fixIconOff from '@icons/CanzButtonOff.svg';
-
 import './chatList.scss';
 import { useApi } from 'hooks/useApi';
 import {
@@ -19,6 +18,7 @@ import { RoleTranslator } from '@utils/func/roleTranslator';
 
 export function ChatList() {
     const [search, setSeatch] = useState('');
+
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
 
     const socket = useAtomValue(socketAtom);
@@ -47,11 +47,13 @@ export function ChatList() {
     };
 
     const changeSearch = async (value: string) => {
-        await setSeatch(value);
+        setSeatch(value);
     };
 
     const handleChangeFixChat = async (chatMemberId: number) => {
-        executeFixChat({ chatMemberId });
+        executeFixChat({
+            chatMemberId,
+        });
     };
 
     const sortedChatsList = useMemo(() => {
@@ -60,7 +62,9 @@ export function ChatList() {
                 el.ChatName.toLowerCase().includes(search.toLowerCase()),
             );
         }
+
         if (!chatsListData) return [];
+
         return [...chatsListData].sort(
             (a, b) => Number(b.IsFixed) - Number(a.IsFixed),
         );
@@ -76,7 +80,10 @@ export function ChatList() {
                 (prevChatsList) =>
                     prevChatsList?.map((el) =>
                         el.ChatMemberId === changeFixChatData.chatMemberId
-                            ? { ...el, IsFixed: changeFixChatData.status }
+                            ? {
+                                  ...el,
+                                  IsFixed: changeFixChatData.status,
+                              }
                             : el,
                     ) ?? [],
             );
@@ -91,21 +98,20 @@ export function ChatList() {
         };
 
         const handleDeletemember = (message: WSDeleteMember) => {
-            if (currentChatId == message.deletedChatId) {
+            if (currentChatId === message.deletedChatId) {
                 alert('Вас исколючили из данного чата');
                 setCurrentChatId(-1);
             }
+
             if ((message.message = 'updateChatPanel')) executeChatsList();
         };
 
         socket.on('addUserToChat', handleAddMember);
-
         socket.on('deleteUserFromChat', handleDeletemember);
+
         return () => {
             socket.off('addUserToChat');
             socket.off('deleteUserFromChat');
-
-
         };
     }, [socket, currentChatId]);
 
@@ -165,7 +171,9 @@ export function ChatList() {
                                 />
                             </div>
                             <div className="lastMessageContainer">
-                                <p className="lastMessage">role: {RoleTranslator(chatCard.Role)}</p>
+                                <p className="lastMessage">
+                                    role: {RoleTranslator(chatCard.Role)}
+                                </p>
                             </div>
                         </div>
                     </div>

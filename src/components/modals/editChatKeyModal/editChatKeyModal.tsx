@@ -1,7 +1,3 @@
-// const keyhash = CryptoJS.SHA256(key.toString()).toString(
-//             CryptoJS.enc.Base64,
-//         );
-
 import { useEffect, useState } from 'react';
 import { Props } from './types';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -21,6 +17,7 @@ export function EditChatKeyModal(props: Props) {
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
     const setCryptoKey = useSetAtom(keyValueActionsAtom);
     const currentUserId = useAtomValue(myUserIdAtom);
+
     const {
         register,
         handleSubmit,

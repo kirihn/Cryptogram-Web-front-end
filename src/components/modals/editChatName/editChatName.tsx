@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useAtomValue } from 'jotai';
 import { currentChatAtom } from '@jotai/atoms';
 import { editChatNameSchema } from '@utils/yup/editChatName.yup';
+
 export function EditChatNameModal(props: Props) {
     const [shake, setShake] = useState(false);
 

@@ -12,10 +12,13 @@ import { currentChatAtom, myUserIdAtom, wsTokenAtom } from '@jotai/atoms';
 
 export function AuthorizationPage() {
     const navigate = useNavigate();
+
     const [shake, setShake] = useState(false);
+
     const setMyUserId = useSetAtom(myUserIdAtom);
     const setWsToken = useSetAtom(wsTokenAtom);
     const setCurrentChatId = useSetAtom(currentChatAtom);
+
     const {
         register,
         handleSubmit,
@@ -32,10 +35,6 @@ export function AuthorizationPage() {
 
     const onSubmit = async (data: AuthFormDto) => {
         await execute(data);
-
-        if (resData?.message === 'successful') {
-            navigate('/chats');
-        }
     };
 
     useEffect(() => {
@@ -47,7 +46,7 @@ export function AuthorizationPage() {
     }, [errors]);
 
     useEffect(() => {
-        if (resData?.message === 'successful' && resData.myUserId != '') {
+        if (resData?.message === 'successful') {
             setMyUserId(resData.myUserId);
             setWsToken(resData.wsToken);
             setCurrentChatId(-1);

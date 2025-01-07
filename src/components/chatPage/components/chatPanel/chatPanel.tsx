@@ -29,11 +29,14 @@ import * as CryptoJS from 'crypto-js';
 import './chatPanel.scss';
 import styled from 'styled-components';
 import { useModal } from 'hooks/useModal';
+import { SearchLoader } from '@components/loader/searchLoader';
 
 export function ChatPanel() {
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const messagesBlockRef = useRef<HTMLDivElement | null>(null);
+
     const { switchModal, handleSwitchModal, handleCloseModal } = useModal();
+
     const [myRole, setMyRole] = useState<number>(5);
     const [contentText, setContentText] = useState('');
 
@@ -106,7 +109,7 @@ export function ChatPanel() {
     };
 
     const sortedMessageList = useMemo(() => {
-        if (resData == null) return;
+        if (!resData) return;
 
         resData.ChatMembers.forEach((member) => {
             if (member.Member.UserId == currentUserId) {
@@ -221,12 +224,18 @@ export function ChatPanel() {
         if (!resData) return;
         if (!currentChatId) return;
         if (switchModal != null) return;
-
+        if (resData.ChatId != currentChatId) return;
         const key = getCryptoKey(
             'KeyForChat-' + currentChatId + '-user-' + currentUserId,
         );
 
+        console.log('1111111111111111112222222222');
+        console.log(JSON.stringify(resData));
+        console.log(JSON.stringify(currentChatId));
+        console.log(JSON.stringify(key));
+
         if (!key) {
+            console.log('current key' + key);
             handleSwitchModal('SetChatKey');
 
             return;
@@ -245,12 +254,13 @@ export function ChatPanel() {
     }, [sortedMessageList]);
 
     useEffect(() => {
+        if (loading) return;
         setTimeout(() => {
             if (scrollRef.current) {
                 scrollRef.current.scrollIntoView({ behavior: 'smooth' });
             }
-        }, 180);
-    }, [currentChatId]);
+        }, 10);
+    }, [loading]);
 
     return (
         <div className="chatPanelContainer">
@@ -294,31 +304,37 @@ export function ChatPanel() {
                 </button>
             </div>
             <div className="messagesBlock" ref={messagesBlockRef}>
-                {currentChatId == -1 && <p className="noChatId">Choise chat</p>}
-                {sortedMessageList?.map((messageCard) => {
-                    return messageCard.isItMyMessage ? (
-                        <MyMessageCard
-                            cardData={messageCard}
-                            key={messageCard.MessageId}
-                        />
-                    ) : (
-                        <UserMessageCard
-                            cardData={messageCard}
-                            key={messageCard.MessageId}
-                        />
-                    );
-                })}
+                {currentChatId == -1 && <p className="noChatId">Choice chat</p>}
+                {loading && (
+                    <div className="loading">
+                        <SearchLoader />
+                    </div>
+                )}
+                {loading != true &&
+                    sortedMessageList?.map((messageCard) => {
+                        return messageCard.isItMyMessage ? (
+                            <MyMessageCard
+                                cardData={messageCard}
+                                key={messageCard.MessageId}
+                            />
+                        ) : (
+                            <UserMessageCard
+                                cardData={messageCard}
+                                key={messageCard.MessageId}
+                            />
+                        );
+                    })}
                 <div ref={scrollRef}></div>
             </div>
             {myRole != 5 && currentChatId != -1 && (
                 <div className="inputMessageBlockContainer">
                     <div className="inputMessageBlock">
-                        {/* <button
+                        <button
                             className="StickerButton"
                             onClick={ShowStickers}
                         >
                             Stickers
-                        </button> */}
+                        </button>
                         <textarea
                             className="inputMessage"
                             id="textarea"

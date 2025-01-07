@@ -37,7 +37,7 @@ export function AddMemberModal(props: Props) {
     }, [resData]);
 
     useEffect(() => {
-        if (errors.username) {
+        if (errors.username || errors.role) {
             setShake(true);
             const timer = setTimeout(() => setShake(false), 800);
             return () => clearTimeout(timer);

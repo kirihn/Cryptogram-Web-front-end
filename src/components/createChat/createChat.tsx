@@ -22,6 +22,7 @@ export function CreateChat() {
     const currentUserId = useAtomValue(myUserIdAtom);
     const setCryptoKey = useSetAtom(keyValueActionsAtom);
     const setCurrentChatId = useSetAtom(currentChatAtom);
+    
     const {
         register,
         handleSubmit,
@@ -109,8 +110,7 @@ export function CreateChat() {
                         <input
                             type="number"
                             className="input"
-                            // min={1212112121212121}
-                            // max={9006554331798799}
+
                             {...register('key')}
                             placeholder="Chat private key"
                         />

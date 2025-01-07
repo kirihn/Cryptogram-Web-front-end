@@ -26,6 +26,7 @@ export function Header() {
     useEffect(() => {
         if (resData?.message === 'Logout successfully') {
             setMyUserId('');
+            setWsTokenAtom('');
             setCurrentChatId(-1);
             navigate(`/authorization`);
         }
@@ -56,7 +57,6 @@ export function Header() {
                 <button className="logoutButton" onClick={handleLogout}>
                     Logout
                 </button>
-                {/* <img className="logoImg" src={Logo} alt="Logo" /> */}
             </div>
         </header>
     );

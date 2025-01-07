@@ -12,10 +12,13 @@ import { currentChatAtom, myUserIdAtom, wsTokenAtom } from '@jotai/atoms';
 
 export function RegistrationPage() {
     const navigate = useNavigate();
+
     const [shake, setShake] = useState(false);
+    
     const setMyUserId = useSetAtom(myUserIdAtom);
     const setWsToken = useSetAtom(wsTokenAtom)
     const setCurrentChatId = useSetAtom(currentChatAtom);
+    
     const {
         register,
         handleSubmit,
