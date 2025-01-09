@@ -6,7 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import './editLanguageModal.scss';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
-import { editLanguageSchema, Languages } from '@utils/yup/editLanguage.yup';
+import { editLanguageSchema } from '@utils/yup/editLanguage.yup';
+import { Languages } from '@utils/params/Languages';
 import { useSetAtom } from 'jotai';
 import { LangModeAtom } from '@jotai/atoms';
 
@@ -81,7 +82,7 @@ export function EditLanguageModal(props: Props) {
                     )}
                     <select {...register('language')} className="input">
                         {Languages.map((lang) => (
-                            <option value={lang}>{lang}</option>
+                            <option value={lang.iso1}>{lang.name}</option>
                         ))}
                     </select>
                     <button

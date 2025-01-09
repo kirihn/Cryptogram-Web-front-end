@@ -15,6 +15,7 @@ import {
     LangModeAtom,
     myUserIdAtom,
 } from '@jotai/atoms';
+import { GetLangCode } from '@utils/func/getLangCode';
 export function UserMessageCard(props: Props) {
     const { cardData } = props;
 
@@ -55,10 +56,18 @@ export function UserMessageCard(props: Props) {
     const handleTranslate = () => {
         setVisibleContext(false);
 
+        const langCode = GetLangCode(decrtyptMessage);
+
+        if (langCode === 'unknown') {
+            setResData({
+                responseData: { translatedText: 'cannot translate', match: 0 },
+            });
+            return;
+        }
         getTranslateObject({
             q: decrtyptMessage,
             //langpair: `${langFrom}|${langTo}`,
-            langpair: `en|` + langMode,
+            langpair: langCode + `|` + langMode,
         });
     };
 

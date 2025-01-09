@@ -1,8 +1,11 @@
 import * as Yup from 'yup';
+import { Languages } from '@utils/params/Languages';
 
-export const Languages = ['ru', 'en', 'fr', 'de'];
 export const editLanguageSchema = Yup.object().shape({
     language: Yup.string()
         .required('This field is required')
-        .oneOf(Languages, 'Invalid language selected'),
+        .oneOf(
+            Languages.map((lang) => lang.iso1),
+            'Invalid language selected',
+        ),
 });

@@ -2,7 +2,7 @@ import userAvatar from '@assets/images/default/defaultChatAvatar.jpg';
 import editIcon from '@icons/pencil.svg';
 
 import './profile.scss';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { EditNameModal } from '@components/modals/editNameModal/editNameModal';
 import { EditUserameModal } from '@components/modals/editUsernameModal/editUsernameModal';
 import { EditPasswordModal } from '@components/modals/editPasswordModal/editPasswordModal';
@@ -12,6 +12,7 @@ import { ResponseDto } from './types';
 import axios from 'axios';
 import { useModal } from 'hooks/useModal';
 import { EditLanguageModal } from '@components/modals/editLanguage/editLanguageModal';
+import { GetLangNameByIso } from '@utils/func/getLangCode';
 
 export function Profile() {
     const { switchModal, handleSwitchModal, handleCloseModal } = useModal();
@@ -113,7 +114,9 @@ export function Profile() {
                 <div className="profileOption">
                     <p className="optionName">Language</p>
                     <div className="optionblock">
-                        <p className="optionValue">{resData?.Language}</p>
+                        <p className="optionValue">
+                            {GetLangNameByIso(resData?.Language || 'unknown')}
+                        </p>
                         <button
                             className="changeParamButton"
                             onClick={() =>
