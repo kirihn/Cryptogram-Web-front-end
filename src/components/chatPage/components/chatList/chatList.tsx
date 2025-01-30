@@ -13,14 +13,15 @@ import {
 } from './types';
 import axios from 'axios';
 import { useAtom, useAtomValue } from 'jotai';
-import { currentChatAtom, socketAtom } from '@jotai/atoms';
+import { currentChatAtom, myUserIdAtom, socketAtom } from '@jotai/atoms';
 import { RoleTranslator } from '@utils/func/roleTranslator';
+import { GetMemberFields } from '@utils/func/getMemberFields';
 
 export function ChatList() {
     const [search, setSeatch] = useState('');
 
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
-
+    const currentUserId = useAtomValue(myUserIdAtom);
     const socket = useAtomValue(socketAtom);
 
     const {
@@ -29,7 +30,9 @@ export function ChatList() {
         loading,
         execute: executeChatsList,
     } = useApi<ResponseDto[]>(async () => {
-        return axios.get('/api/chat/getMyChatsList');
+        const a = await axios.get('/api/chat/getMyChatsList');
+        console.log(a);
+        return a;
     });
 
     const {
@@ -138,24 +141,46 @@ export function ChatList() {
                         className="chatCard"
                         onClick={() => setCurrentChatId(chatCard.ChatId)}
                     >
-                        {chatCard.AvatarPath ==
-                        '/static/defaults/chatAvatars/defaultChatAvatar.png' ? (
-                            <div className="chatAvatarContainer">
-                                {chatCard.ChatName[0].toUpperCase()}
-                            </div>
+                        {chatCard.IsGroup ? (
+                            chatCard.AvatarPath ==
+                            '/static/defaults/chatAvatars/defaultChatAvatar.png' ? (
+                                <div className="chatAvatarContainer">
+                                    {chatCard.ChatName[0].toUpperCase()}
+                                </div>
+                            ) : (
+                                <div className="chatAvatarContainer">
+                                    <img
+                                        className="chatAvatar"
+                                        src={chatCard.AvatarPath}
+                                        alt="Chat avatar"
+                                    />
+                                </div>
+                            )
                         ) : (
                             <div className="chatAvatarContainer">
                                 <img
                                     className="chatAvatar"
-                                    src={chatCard.AvatarPath}
+                                    src={
+                                        GetMemberFields(
+                                            currentUserId,
+                                            chatCard.ChatMembers,
+                                        )?.AvatarPath
+                                    }
                                     alt="Chat avatar"
-                                />
+                                />{' '}
                             </div>
                         )}
 
                         <div className="infoContainer">
                             <div className="nameContainer">
-                                <p className="chatName">{chatCard.ChatName}</p>
+                                <p className="chatName">
+                                    {chatCard.IsGroup
+                                        ? chatCard.ChatName
+                                        : GetMemberFields(
+                                              currentUserId,
+                                              chatCard.ChatMembers,
+                                          )?.Name}
+                                </p>
                                 <img
                                     src={
                                         chatCard.IsFixed

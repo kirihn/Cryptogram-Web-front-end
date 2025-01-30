@@ -13,8 +13,8 @@ import './chatParamsModal.scss';
 import { getMembersCountText } from '@utils/func/getMembersCountText';
 import { useEffect, useState } from 'react';
 import { RoleTranslator } from '@utils/func/roleTranslator';
-import { useAtom } from 'jotai';
-import { currentChatAtom } from '@jotai/atoms';
+import { useAtom, useAtomValue } from 'jotai';
+import { currentChatAtom, myUserIdAtom } from '@jotai/atoms';
 import { EditAvatarModal } from '../editAvatarModal/editAvatarModal';
 import { AddMemberModal } from '../addMemberModal/addMemberModal';
 import { useApi } from 'hooks/useApi';
@@ -22,11 +22,12 @@ import axios from 'axios';
 import { EditChatNameModal } from '../editChatName/editChatName';
 import { EditChatKeyModal } from '../editChatKeyModal/editChatKeyModal';
 import { useModal } from 'hooks/useModal';
+import { GetMemberFields } from '@utils/func/getMemberFields';
 export function ChatParamModal(props: Props) {
     const { switchModal, handleSwitchModal, handleCloseModal } = useModal();
 
     const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
-
+    const currentUserId = useAtomValue(myUserIdAtom);
     const {
         resData: leaveFromChatData,
         loading: LeaveFromChatExecuteLoading,
@@ -76,11 +77,28 @@ export function ChatParamModal(props: Props) {
                 }}
             >
                 <div className="chatAvatar">
-                    <img src={props.ChatInfo.AvatarPath} alt="chatAvatar" />
+                    <img
+                        src={
+                            props.ChatInfo.IsGroup
+                                ? props.ChatInfo.AvatarPath
+                                : GetMemberFields(
+                                      currentUserId,
+                                      props.ChatInfo.ChatMembers,
+                                  )?.AvatarPath
+                        }
+                        alt="chatAvatar"
+                    />
                 </div>
 
                 <div className="chatNameContainer">
-                    <h2 className="chatName">{props.ChatInfo.ChatName}</h2>
+                    <h2 className="chatName">
+                        {props.ChatInfo.IsGroup
+                            ? props.ChatInfo.ChatName
+                            : GetMemberFields(
+                                  currentUserId,
+                                  props.ChatInfo.ChatMembers,
+                              )?.Name}
+                    </h2>
                     <div>
                         {props.myRole <= 3 && (
                             <button
@@ -186,12 +204,21 @@ export function ChatParamModal(props: Props) {
                 </div>
 
                 <div className="topicContainer">
-                    <button
-                        className="leaveFromChat"
-                        onClick={handleLeaveFromChat}
-                    >
-                        Leave from chat
-                    </button>
+                    {props.ChatInfo.IsGroup ? (
+                        <button
+                            className="leaveFromChat"
+                            onClick={handleLeaveFromChat}
+                        >
+                            Leave from chat
+                        </button>
+                    ) : (
+                        <button
+                            className="leaveFromChat"
+                            onClick={handleLeaveFromChat}
+                        >
+                            Delete chat and contact
+                        </button>
+                    )}
                 </div>
             </div>
             {switchModal && (

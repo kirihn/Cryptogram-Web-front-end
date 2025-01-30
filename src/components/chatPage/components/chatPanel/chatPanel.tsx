@@ -30,6 +30,7 @@ import './chatPanel.scss';
 import styled from 'styled-components';
 import { useModal } from 'hooks/useModal';
 import { SearchLoader } from '@components/loader/searchLoader';
+import { GetMemberFields } from '@utils/func/getMemberFields';
 
 export function ChatPanel() {
     const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -225,6 +226,7 @@ export function ChatPanel() {
         if (!currentChatId) return;
         if (switchModal != null) return;
         if (resData.ChatId != currentChatId) return;
+        if (!resData.IsGroup) return;
         const key = getCryptoKey(
             'KeyForChat-' + currentChatId + '-user-' + currentUserId,
         );
@@ -266,17 +268,30 @@ export function ChatPanel() {
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
                 <div className="chatNameHeader">
-                    {resData?.AvatarPath ==
-                    '/static/defaults/chatAvatars/defaultChatAvatar.png' ? (
-                        <div className="chatAvatarHeader">
-                            {resData.ChatName[0].toUpperCase()}
-                        </div>
+                    {resData?.IsGroup ? (
+                        resData?.AvatarPath ==
+                        '/static/defaults/chatAvatars/defaultChatAvatar.png' ? (
+                            <div className="chatAvatarHeader">
+                                {resData.ChatName[0].toUpperCase()}
+                            </div>
+                        ) : (
+                            <img
+                                src={
+                                    resData
+                                        ? resData.AvatarPath
+                                        : '/static/defaults/chatAvatars/errorChatAvatar.png'
+                                }
+                                alt="chatAvatar"
+                                className="chatAvatarHeader"
+                            />
+                        )
                     ) : (
                         <img
                             src={
-                                resData
-                                    ? resData.AvatarPath
-                                    : '/static/defaults/chatAvatars/errorChatAvatar.png'
+                                GetMemberFields(
+                                    currentUserId,
+                                    resData?.ChatMembers,
+                                )?.AvatarPath
                             }
                             alt="chatAvatar"
                             className="chatAvatarHeader"
@@ -284,12 +299,21 @@ export function ChatPanel() {
                     )}
                     <div className="ChatNameContainer">
                         <p className="chatName">
-                            {resData && resData.ChatName}
+                            {resData?.IsGroup
+                                ? resData.ChatName
+                                : GetMemberFields(
+                                      currentUserId,
+                                      resData?.ChatMembers,
+                                  )?.Name}
                         </p>
-                        <p className="membersCount">
-                            {resData &&
-                                getMembersCountText(resData.ChatMembers.length)}
-                        </p>
+                        {resData?.IsGroup && (
+                            <p className="membersCount">
+                                {resData &&
+                                    getMembersCountText(
+                                        resData.ChatMembers.length,
+                                    )}
+                            </p>
+                        )}
                     </div>
                 </div>
                 <button

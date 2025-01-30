@@ -13,7 +13,7 @@ export interface GetChatInfoResponseDto {
     ChatMessages: ChatMessage[];
 }
 
-interface ChatMember {
+export interface ChatMember {
     ChatMemberId: number;
     Role: number;
     ChatId: number;
@@ -21,7 +21,7 @@ interface ChatMember {
     Member: Member;
 }
 
-interface Member {
+export interface Member {
     UserId: string;
     Name: string;
     AvatarPath: string;

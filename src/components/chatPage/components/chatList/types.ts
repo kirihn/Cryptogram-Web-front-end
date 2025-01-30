@@ -7,8 +7,22 @@ export interface ResponseDto {
     IsGroup: boolean;
     KeyHash: string;
     AvatarPath: string;
+    ChatMembers: ChatMember[];
+}
+ interface ChatMember {
+    ChatMemberId: number;
+    Role: number;
+    ChatId: number;
+    JoinedAt: string; // ISO Date string
+    Member: Member;
 }
 
+ interface Member {
+    UserId: string;
+    Name: string;
+    AvatarPath: string;
+    UserName: string;
+}
 export interface ResponseChangeFixChatDto {
     message: string;
     chatMemberId: number;
