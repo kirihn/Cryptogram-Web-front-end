@@ -268,30 +268,28 @@ export function ChatPanel() {
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
                 <div className="chatNameHeader">
-                    {resData?.IsGroup ? (
-                        resData?.AvatarPath ==
-                        '/static/defaults/chatAvatars/defaultChatAvatar.png' ? (
-                            <div className="chatAvatarHeader">
-                                {resData.ChatName[0].toUpperCase()}
-                            </div>
-                        ) : (
-                            <img
-                                src={
-                                    resData
-                                        ? resData.AvatarPath
-                                        : '/static/defaults/chatAvatars/errorChatAvatar.png'
-                                }
-                                alt="chatAvatar"
-                                className="chatAvatarHeader"
-                            />
-                        )
-                    ) : (
+                    {resData?.IsGroup === false ? (
                         <img
                             src={
                                 GetMemberFields(
                                     currentUserId,
                                     resData?.ChatMembers,
                                 )?.AvatarPath
+                            }
+                            alt="chatAvatar"
+                            className="chatAvatarHeader"
+                        />
+                    ) : resData?.AvatarPath ==
+                      '/static/defaults/chatAvatars/defaultChatAvatar.png' ? (
+                        <div className="chatAvatarHeader">
+                            {resData.ChatName[0].toUpperCase()}
+                        </div>
+                    ) : (
+                        <img
+                            src={
+                                resData
+                                    ? resData.AvatarPath
+                                    : '/static/defaults/chatAvatars/errorChatAvatar.png'
                             }
                             alt="chatAvatar"
                             className="chatAvatarHeader"

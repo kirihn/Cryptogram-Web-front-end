@@ -1,4 +1,8 @@
-export interface ResponseDto {
+export interface Props {
+    contactInfo: ContactInfo;
+}
+
+export interface ContactInfo {
     ContactId: number;
     ChatId: number;
     CreatedAt: string;

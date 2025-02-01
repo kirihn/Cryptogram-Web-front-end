@@ -1,0 +1,28 @@
+@use '../../../../styles/styleFields.scss' as *;
+
+.contactContainer{
+    display:  flex;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border-radius: $sBorderRadius; //
+    background: $input; //
+
+    .contactAvatarContainer{
+
+        img{
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    }
+
+    .contactInfoContainer{
+        
+        margin: auto 0 auto 5px;
+        .name{
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+    }
+}

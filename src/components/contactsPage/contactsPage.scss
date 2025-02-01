@@ -6,7 +6,17 @@
 }
 
 .h2{
-    padding: 20px;
+    padding: 20px 15px;
     font-size: 20px;
     border-bottom: 2px solid $borderDark;
+}
+
+.lowText{
+    color: $lowText;
+    font-size: 14px;
+
+    &:hover{
+        cursor: pointer;
+        text-decoration: underline;
+    }
 }
