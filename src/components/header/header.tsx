@@ -39,17 +39,22 @@ export function Header() {
             </div>
             <nav className="navContainer">
                 <Link to={'/profile'}>
-                    <img src={chatsIcon} alt="чаты" />
+                    <img src={chatsIcon} alt="Профиль" />
                     <span>Профиль</span>
                 </Link>
 
+                <Link to={'/contacts'}>
+                    <img src={chatsIcon} alt="Контакты" />
+                    <span>Контакты</span>
+                </Link>
+
                 <Link to={'/chats'}>
-                    <img src={chatsIcon} alt="чаты" />
+                    <img src={chatsIcon} alt="Чаты" />
                     <span>Чаты</span>
                 </Link>
 
                 <Link to={'/createChat'}>
-                    <img src={chatsIcon} alt="чаты" />
+                    <img src={chatsIcon} alt="Создать чат" />
                     <span>Создать чат</span>
                 </Link>
             </nav>

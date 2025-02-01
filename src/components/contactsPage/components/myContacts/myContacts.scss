@@ -1,0 +1,10 @@
+@use '../../../../styles/styleFields.scss' as *;
+.myContactsContainer{
+    flex-grow: 4;
+    flex-basis: 0;
+    background: $blockColor;
+    border-radius: $sBorderRadius;
+    margin: $sMargin;
+
+
+}

@@ -14,6 +14,7 @@ import { ChatPanel } from '@components/chatPage/components/chatPanel/chatPanel';
 import { useEffect } from 'react';
 import { createSocketAtom } from '@jotai/atoms';
 import { ChatParamModal } from '@components/modals/chatParamsModal/chatParamsModal';
+import { ContactsPage } from '@components/contactsPage/contactsPage';
 
 export const coutAtom = atom('ligth');
 export function App() {
@@ -26,12 +27,9 @@ export function App() {
                 <Route path="error" element={<ErrorPage />} />
                 <Route path="/" element={<Layout />}>
                     <Route path="/profile" element={<Profile />}></Route>
+                    <Route path="/contacts" element={<ContactsPage />}></Route>
                     <Route path="/chats" element={<ChatPage />}></Route>
                     <Route path="/createChat" element={<CreateChat />}></Route>
-                    <Route
-                        path="/createChanel"
-                        element={<AuthorizationPage />}
-                    ></Route>
                     <Route
                         path="/people"
                         element={<RegistrationPage />}
