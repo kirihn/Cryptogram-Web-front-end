@@ -59,9 +59,19 @@ export function ChatList() {
 
     const sortedChatsList = useMemo(() => {
         if (search) {
-            return chatsListData?.filter((el) =>
-                el.ChatName.toLowerCase().includes(search.toLowerCase()),
-            );
+            return chatsListData?.filter((el) => {
+                if (el.IsGroup)
+                    return el.ChatName.toLowerCase().includes(
+                        search.toLowerCase(),
+                    );
+
+                const memberName = GetMemberFields(
+                    currentUserId,
+                    el.ChatMembers,
+                )?.Name;
+
+                return memberName?.toLowerCase().includes(search.toLowerCase());
+            });
         }
 
         if (!chatsListData) return [];
