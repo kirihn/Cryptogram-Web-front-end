@@ -1,16 +1,49 @@
+import { useNavigate } from 'react-router-dom';
+import { Props, RequestDelContactDto, ResponseDelContactDto } from './types';
+import { useSetAtom } from 'jotai';
+import { currentChatAtom } from '@jotai/atoms';
+
+import GoToChatIcon from '@assets/icons/goToChat.svg';
+import DeleteContact from '@assets/icons/deleteMember.svg';
+
 import './contact.scss';
-import { Props } from './types';
+import { useApi } from 'hooks/useApi';
+import axios from 'axios';
 
 export function Contact(props: Props) {
     const { contactInfo } = props;
 
-    const CopyEmail = () =>{
-        navigator.clipboard.writeText(contactInfo.ContactUser.Email);
+    const navigate = useNavigate();
+    const setCurrentChatId = useSetAtom(currentChatAtom);
 
-    }
-    const CopyUserName = () =>{
+    const { resData, loading, execute } = useApi<
+        ResponseDelContactDto,
+        RequestDelContactDto
+    >(async (data) => {
+        return axios.delete('/api/contact/deleteContactAndChat', { data });
+    });
+
+    const goToChat = () => {
+        setCurrentChatId(contactInfo.ChatId);
+        navigate('/chats');
+    };
+    const deleteContact = () => {
+        const result = confirm(
+            'Вы уверены что хотите удалить ' +
+                contactInfo.ContactUser.Name +
+                ' из контактов и ваш общий чат?',
+        );
+
+        if (result) {
+            execute({ ContactId: contactInfo.ContactId });
+        }
+    };
+    const copyEmail = () => {
+        navigator.clipboard.writeText(contactInfo.ContactUser.Email);
+    };
+    const copyUserName = () => {
         navigator.clipboard.writeText(contactInfo.ContactUser.UserName);
-    }        
+    };
 
     return (
         <div className="contactContainer">
@@ -23,20 +56,22 @@ export function Contact(props: Props) {
             </div>
             <div className="contactInfoContainer">
                 <p className="name">
-                    {contactInfo.ContactUser.Name}
-                    <span className="lowText" onClick={CopyUserName}>
-                         {' '}@{contactInfo.ContactUser.UserName}
+                    {contactInfo.ContactUser.Name}{' '}
+                    <span className="lowText" onClick={copyUserName}>
+                        @{contactInfo.ContactUser.UserName}
                     </span>
                 </p>
-                <p className="email lowText" onClick={CopyEmail}>{contactInfo.ContactUser.Email}</p>
+                <p className="email lowText" onClick={copyEmail}>
+                    {contactInfo.ContactUser.Email}
+                </p>
             </div>
             <div className="buttonsContainer">
-            <button
-                            className="changeParamButton"
-                            onClick={() => {alert(1)}}
-                        >q</button>
-                            
-
+                <button className="contactButton" onClick={goToChat}>
+                    <img src={GoToChatIcon} alt="Go to chat" />
+                </button>
+                <button className="contactButton" onClick={deleteContact}>
+                    <img src={DeleteContact} alt="Delete contact" />
+                </button>
             </div>
         </div>
     );

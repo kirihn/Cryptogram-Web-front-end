@@ -25,4 +25,20 @@
             margin-bottom: 3px;
         }
     }
+
+    .buttonsContainer{
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+
+        .contactButton{
+            padding: 5px;
+            background: none;
+            border: none;
+            img{
+                width: 22px;
+                height: 22px;
+            }
+        }
+    }
 }

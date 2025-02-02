@@ -30,9 +30,7 @@ export function ChatList() {
         loading,
         execute: executeChatsList,
     } = useApi<ResponseDto[]>(async () => {
-        const a = await axios.get('/api/chat/getMyChatsList');
-        console.log(a);
-        return a;
+        return axios.get('/api/chat/getMyChatsList');
     });
 
     const {

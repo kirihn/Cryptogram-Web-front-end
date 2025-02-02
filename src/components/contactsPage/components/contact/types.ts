@@ -15,3 +15,11 @@ export interface ContactInfo {
         Email: string;
     };
 }
+
+export interface ResponseDelContactDto {
+    message: string;
+}
+
+export interface RequestDelContactDto {
+    ContactId: number;
+}

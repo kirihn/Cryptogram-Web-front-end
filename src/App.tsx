@@ -35,7 +35,7 @@ export function App() {
                         element={<RegistrationPage />}
                     ></Route>
                 </Route>
-                <Route
+                {/* <Route
                     path="testChat"
                     element={
                         <div className="heigth">
@@ -58,7 +58,7 @@ export function App() {
                             <ChatPanel />
                         </div>
                     }
-                />
+                /> */}
             </Routes>
         </BrowserRouter>
     );
