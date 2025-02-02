@@ -6,5 +6,24 @@
     border-radius: $sBorderRadius;
     margin: $sMargin;
 
+    display: flex;
+    flex-direction: column;
+    .topic{
+        background: $input;
+        padding: 15px 10px;
 
+        p{
+            font-size: 17px;
+        }
+    }
+
+    .ContactRequestsRecive{
+        flex-grow: 1;
+
+    }
+
+    .ContactRequestsSent{
+        padding: 15px 10px;
+        flex-grow: 1;
+    }
 }

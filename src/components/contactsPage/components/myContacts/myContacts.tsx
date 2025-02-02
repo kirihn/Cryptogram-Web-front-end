@@ -11,9 +11,8 @@ export function MyContacts() {
         loading,
         execute: executeContactList,
     } = useApi<ResponseDto[]>(async () => {
-        const a = await axios.get('/api/contact/getMyContacts');
-        console.log(a);
-        return a;
+        return axios.get('/api/contact/getMyContacts');
+
     });
 
     useEffect(() => {
@@ -25,15 +24,6 @@ export function MyContacts() {
             <h2 className="h2">Contacts</h2>
             <div className="contactsList">
                 {contactListData?.map((contact) => (
-                    <Contact contactInfo={contact} key={contact.ContactId} />
-                ))}
-                   {contactListData?.map((contact) => (
-                    <Contact contactInfo={contact} key={contact.ContactId} />
-                ))}
-                   {contactListData?.map((contact) => (
-                    <Contact contactInfo={contact} key={contact.ContactId} />
-                ))}
-                   {contactListData?.map((contact) => (
                     <Contact contactInfo={contact} key={contact.ContactId} />
                 ))}
                    {contactListData?.map((contact) => (
