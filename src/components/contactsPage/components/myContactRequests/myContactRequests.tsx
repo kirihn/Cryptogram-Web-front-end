@@ -72,7 +72,7 @@ export function MyContactRequests() {
                         ),
                     )
                 ) : (
-                    <p>Список запросов пока пуст</p>
+                    <p className='middle'>Список запросов пока пуст</p>
                 )}
             </div>
 
@@ -96,7 +96,7 @@ export function MyContactRequests() {
                         ),
                     )
                 ) : (
-                    <p>Список запросов пока пуст</p>
+                    <p className='middle'>Список запросов пока пуст</p>
                 )}
             </div>
         </div>

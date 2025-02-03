@@ -12,3 +12,11 @@ export interface Props {
         };
     };
 }
+
+export interface DeleteContactRequestDto {
+    ContactRequestId: number;
+}
+
+export interface ResponseDeleteContactRequestDto {
+    message: string;
+}

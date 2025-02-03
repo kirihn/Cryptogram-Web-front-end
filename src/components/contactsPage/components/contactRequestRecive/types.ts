@@ -20,4 +20,5 @@ export interface AddContactResponseDto {
 
 export interface ResponseAddContactResponseDto {
     message: string;
+    status: string;
 }

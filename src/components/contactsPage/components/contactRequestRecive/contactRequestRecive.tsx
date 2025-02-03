@@ -6,6 +6,7 @@ import {
     ResponseAddContactResponseDto,
 } from './types';
 import axios from 'axios';
+import { useEffect } from 'react';
 
 export function ContactRequestRecive(props: Props) {
     const contactRequest = props.ContactRequest;
@@ -28,6 +29,20 @@ export function ContactRequestRecive(props: Props) {
             NewContactRequestStatus: status,
         });
     };
+
+    useEffect(() => {
+        if (
+            responseToContactRequestData?.message === 'successful' &&
+            responseToContactRequestData.status === 'accepted'
+        )
+            window.location.reload();
+
+        if (
+            responseToContactRequestData?.message === 'successful' &&
+            responseToContactRequestData.status === 'blocked'
+        )
+            contactRequest.Status = responseToContactRequestData.status;
+    }, [responseToContactRequestData]);
     return (
         <div className="contactRequestContainer">
             <div className="userInfo">
@@ -38,7 +53,12 @@ export function ContactRequestRecive(props: Props) {
                     />
                 </div>
                 <div className="contactInfoContainer">
-                    <p className="name">{contactRequest.UserSender.Name} </p>
+                    <p className="name">
+                        {contactRequest.UserSender.Name}
+                        {contactRequest.Status == 'blocked' && (
+                            <span className="lowTexts">{' '}blocked</span>
+                        )}
+                    </p>
                     <p className="lowText" onClick={copyUserName}>
                         @{contactRequest.UserSender.UserName}
                     </p>

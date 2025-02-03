@@ -1,5 +1,12 @@
+import { useApi } from 'hooks/useApi';
 import './contactRequestSent.scss';
-import { Props } from './types';
+import {
+    DeleteContactRequestDto,
+    Props,
+    ResponseDeleteContactRequestDto,
+} from './types';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 export function ContactRequestSent(props: Props) {
     const contactRequest = props.ContactRequest;
@@ -8,6 +15,21 @@ export function ContactRequestSent(props: Props) {
         navigator.clipboard.writeText(contactRequest.UserRecipient.UserName);
     };
 
+    const { resData, loading, execute } = useApi<
+        ResponseDeleteContactRequestDto,
+        DeleteContactRequestDto
+    >(async (data) => {
+        return axios.put('/api/contact/deleteContactRequest', data);
+    });
+
+    const deleteContactRequest = () => {
+        alert('sent req');
+        execute({ ContactRequestId: contactRequest.ContactRequestId });
+    };
+
+    useEffect(() => {
+        if (resData?.message === 'successful') window.location.reload();
+    }, [resData]);
     return (
         <div className="contactRequestContainerSent">
             <div className="userInfo">
@@ -26,7 +48,12 @@ export function ContactRequestSent(props: Props) {
             </div>
             <div className="buttonsContainer">
                 <p className="status">status: {contactRequest.Status}</p>
-                <button className="contactButtonRevoke neonBox contactButton">revoke</button>
+                <button
+                    className="contactButtonRevoke neonBox contactButton"
+                    onClick={deleteContactRequest}
+                >
+                    revoke
+                </button>
             </div>
         </div>
     );

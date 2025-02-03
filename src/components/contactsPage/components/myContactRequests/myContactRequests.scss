@@ -27,6 +27,13 @@
 
         overflow-y: scroll;
 
+        .middle{
+
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
         &::-webkit-scrollbar {
             width: 4px;
             height: 20px;
