@@ -1,5 +1,67 @@
 @use '../../../../styles/styleFields.scss' as *;
 
-.contactRequestContainer{
-    
+.contactRequestContainerSent{
+    display: flex;
+    justify-content: space-between;
+
+    padding: 6px 10px;
+
+    .userInfo{
+        display: flex;
+        .AvatarContainer{
+            
+            img{
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+        
+        .contactInfoContainer{
+            margin: auto 0 auto 8px;
+        }
+    }
+
+    .buttonsContainer{
+
+        display: flex;
+        flex-direction: column;
+
+        .status{
+            font-size: 14px;
+            color: $lowText;
+        }
+        .contactButton{
+            border-radius: $sBorderRadius;
+            padding: 7px 14px;
+            box-sizing: content-box;
+            align-self: center;
+            font-size: 16px;                        
+            color: $text;
+            border: 2px solid $neonBorderColor;
+        }
+
+        .contactButtonRevoke{
+            background: none; 
+            margin: 8px 0 0 auto;
+            box-shadow: 
+            inset 0 0 5px $neonColor, /* Внутреннее свечение */
+            inset 0 0 10px $neonColor,
+            0 0 3px $neonColor, 
+            0 0 5px $neonColor,
+            0 0 12px $neonColor; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+
+            &:hover {
+                transform: scale(1.05);
+                box-shadow: 
+                    inset 0 0 7px $neonColor, /* Усиленное внутреннее свечение */
+                    inset 0 0 15px $neonColor,
+                    0 0 5px $neonColor, 
+                    0 0 10px $neonColor,
+                    0 0 18px $neonColor;
+            }
+        }
+    }
 }

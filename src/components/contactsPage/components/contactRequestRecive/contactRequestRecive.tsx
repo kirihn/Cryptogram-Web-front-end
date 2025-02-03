@@ -10,7 +10,7 @@ export function ContactRequestRecive(props: Props) {
 
     return (
         <div className="contactRequestContainer">
-            <div className='userInfo'>
+            <div className="userInfo">
                 <div className="AvatarContainer">
                     <img
                         src={contactRequest.UserSender.AvatarPath}
@@ -25,8 +25,12 @@ export function ContactRequestRecive(props: Props) {
                 </div>
             </div>
             <div className="buttonsContainer">
-                <button className="contactButtonAccept neonBox">Accept</button>
-                <button className="contactButtonBlock neonBox">block</button>
+                <button className="contactButtonAccept neonBox contactButton">Accept</button>
+                {contactRequest.Status === 'pending' && (
+                    <button className="contactButtonBlock neonBox contactButton">
+                        block
+                    </button>
+                )}
             </div>
         </div>
     );

@@ -9,6 +9,7 @@ import DeleteContact from '@assets/icons/deleteMember.svg';
 import './contact.scss';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
+import { useEffect } from 'react';
 
 export function Contact(props: Props) {
     const { contactInfo } = props;
@@ -44,6 +45,10 @@ export function Contact(props: Props) {
     const copyUserName = () => {
         navigator.clipboard.writeText(contactInfo.ContactUser.UserName);
     };
+
+    useEffect(()=>{
+        window.location.reload();
+    },)
 
     return (
         <div className="contactContainer">
