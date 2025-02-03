@@ -28,6 +28,7 @@ export function Contact(props: Props) {
         setCurrentChatId(contactInfo.ChatId);
         navigate('/chats');
     };
+
     const deleteContact = () => {
         const result = confirm(
             'Вы уверены что хотите удалить ' +
@@ -39,16 +40,18 @@ export function Contact(props: Props) {
             execute({ ContactId: contactInfo.ContactId });
         }
     };
+
     const copyEmail = () => {
         navigator.clipboard.writeText(contactInfo.ContactUser.Email);
     };
+    
     const copyUserName = () => {
         navigator.clipboard.writeText(contactInfo.ContactUser.UserName);
     };
 
-    useEffect(()=>{
-        window.location.reload();
-    },)
+    useEffect(() => {
+        if (resData?.message === 'successful') window.location.reload();
+    }, [resData]);
 
     return (
         <div className="contactContainer">

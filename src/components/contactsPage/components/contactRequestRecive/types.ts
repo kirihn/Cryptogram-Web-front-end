@@ -12,3 +12,12 @@ export interface Props {
         };
     };
 }
+
+export interface AddContactResponseDto {
+    ContactRequestId: number;
+    NewContactRequestStatus: string;
+}
+
+export interface ResponseAddContactResponseDto {
+    message: string;
+}

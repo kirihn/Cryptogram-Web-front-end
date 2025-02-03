@@ -50,6 +50,7 @@ export function MyContactRequests() {
     useEffect(() => {
         executeContactList();
     }, []);
+
     return (
         <div className="myContactRequestsContainer">
             <h2 className="h2">Contact requests</h2>
@@ -88,44 +89,10 @@ export function MyContactRequests() {
                 {contactRequestsListData?.SentContactRequests.length ? (
                     contactRequestsListData.SentContactRequests.map(
                         (contactRequest) => (
-                            <>
-                                <ContactRequestSent
-                                    ContactRequest={contactRequest}
-                                    key={contactRequest.ContactRequestId}
-                                />
-                                <ContactRequestSent
-                                    ContactRequest={contactRequest}
-                                    key={contactRequest.ContactRequestId}
-                                />
-                                <ContactRequestSent
-                                    ContactRequest={contactRequest}
-                                    key={contactRequest.ContactRequestId}
-                                />
-                                <ContactRequestSent
-                                    ContactRequest={contactRequest}
-                                    key={contactRequest.ContactRequestId}
-                                />
-                                <ContactRequestSent
-                                    ContactRequest={contactRequest}
-                                    key={contactRequest.ContactRequestId}
-                                />
-                                <ContactRequestSent
-                                    ContactRequest={contactRequest}
-                                    key={contactRequest.ContactRequestId}
-                                />
-                                <ContactRequestSent
-                                    ContactRequest={contactRequest}
-                                    key={contactRequest.ContactRequestId}
-                                />
-                                <ContactRequestSent
-                                    ContactRequest={contactRequest}
-                                    key={contactRequest.ContactRequestId}
-                                />
-                                <ContactRequestSent
-                                    ContactRequest={contactRequest}
-                                    key={contactRequest.ContactRequestId}
-                                />
-                            </>
+                            <ContactRequestSent
+                                ContactRequest={contactRequest}
+                                key={contactRequest.ContactRequestId}
+                            />
                         ),
                     )
                 ) : (

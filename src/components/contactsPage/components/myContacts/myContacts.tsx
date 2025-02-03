@@ -26,21 +26,6 @@ export function MyContacts() {
                 {contactListData?.map((contact) => (
                     <Contact contactInfo={contact} key={contact.ContactId} />
                 ))}
-                   {contactListData?.map((contact) => (
-                    <Contact contactInfo={contact} key={contact.ContactId} />
-                ))}
-                   {contactListData?.map((contact) => (
-                    <Contact contactInfo={contact} key={contact.ContactId} />
-                ))}
-                   {contactListData?.map((contact) => (
-                    <Contact contactInfo={contact} key={contact.ContactId} />
-                ))}
-                   {contactListData?.map((contact) => (
-                    <Contact contactInfo={contact} key={contact.ContactId} />
-                ))}
-                   {contactListData?.map((contact) => (
-                    <Contact contactInfo={contact} key={contact.ContactId} />
-                ))}
             </div>
         </div>
     );

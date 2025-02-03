@@ -1,5 +1,11 @@
+import { useApi } from 'hooks/useApi';
 import './contactRequestRecive.scss';
-import { Props } from './types';
+import {
+    AddContactResponseDto,
+    Props,
+    ResponseAddContactResponseDto,
+} from './types';
+import axios from 'axios';
 
 export function ContactRequestRecive(props: Props) {
     const contactRequest = props.ContactRequest;
@@ -8,6 +14,20 @@ export function ContactRequestRecive(props: Props) {
         navigator.clipboard.writeText(contactRequest.UserSender.UserName);
     };
 
+    const {
+        resData: responseToContactRequestData,
+        execute: executeResponseToContactRequest,
+    } = useApi<ResponseAddContactResponseDto, AddContactResponseDto>(
+        async (data) => {
+            return axios.put('/api/contact/addContactResponse', data);
+        },
+    );
+    const responseToContactRequest = (status: string) => {
+        executeResponseToContactRequest({
+            ContactRequestId: contactRequest.ContactRequestId,
+            NewContactRequestStatus: status,
+        });
+    };
     return (
         <div className="contactRequestContainer">
             <div className="userInfo">
@@ -25,9 +45,17 @@ export function ContactRequestRecive(props: Props) {
                 </div>
             </div>
             <div className="buttonsContainer">
-                <button className="contactButtonAccept neonBox contactButton">Accept</button>
+                <button
+                    className="contactButtonAccept neonBox contactButton"
+                    onClick={() => responseToContactRequest('accepted')}
+                >
+                    Accept
+                </button>
                 {contactRequest.Status === 'pending' && (
-                    <button className="contactButtonBlock neonBox contactButton">
+                    <button
+                        className="contactButtonBlock neonBox contactButton"
+                        onClick={() => responseToContactRequest('blocked')}
+                    >
                         block
                     </button>
                 )}
