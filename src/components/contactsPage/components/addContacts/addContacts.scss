@@ -6,5 +6,33 @@
     border-radius: $sBorderRadius;
     margin: $sMargin;
 
+    .content{
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        // justify-content: center;
+        // align-items: center;
+        .myQr{
+            padding: 20px;
+            border-radius: $sBorderRadius;
+            background: white;
+            margin: 10px auto 10px auto;
+        }
 
+        .buttonsContainer{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .targetButton{
+                margin-top: 10px;
+                max-width: 300px;
+
+                &:disabled {
+                    color: #fff;
+                    background-color: $neonBorderColor; /* Цвет кнопки, когда она отключена */
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
 }
