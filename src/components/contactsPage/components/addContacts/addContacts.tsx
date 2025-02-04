@@ -6,11 +6,19 @@ import QRCodeStyling from 'qr-code-styling';
 import Logo from '@assets/icons/CRG.svg';
 import { Html5Qrcode } from 'html5-qrcode';
 import { QRCodeCanvas } from 'qrcode.react';
+import { useApi } from 'hooks/useApi';
+import axios from 'axios';
+import { ResponseDto } from './types';
 export function AddContacts() {
     const [isOpenScan, setIsOpenScan] = useState(false);
     const [qrMessage, setQrMessage] = useState('');
 
     const currentUserId = useAtomValue(myUserIdAtom);
+
+    const { resData, loading, execute } = useApi<ResponseDto>(async () => {
+        const url = '/api/contact/addContactRequest/' + qrMessage;
+        return axios.post(url);
+    });
 
     useEffect(() => {
         const config = { fps: 10, qrbox: { width: 200, height: 200 } };
@@ -33,7 +41,6 @@ export function AddContacts() {
         const qrScanerSuccess = (decodedText: string) => {
             setQrMessage(decodedText);
             setIsOpenScan(false);
-            alert(decodedText);
         };
 
         if (isOpenScan) {
@@ -52,6 +59,15 @@ export function AddContacts() {
             qrScanerStop();
         };
     }, [isOpenScan]);
+
+    const sendRequest = () => {
+        alert('sendreq');
+        execute();
+    };
+
+    useEffect(() => {
+        if (resData?.message == 'successful') window.location.reload();
+    }, [resData]);
     return (
         <div className="addContactsContainer">
             <h2 className="h2">Add new contact</h2>
@@ -62,7 +78,9 @@ export function AddContacts() {
                     size={200}
                 />
 
-                <div id="qrCodeScanerContainer"></div>
+                <div className="scanContainer">
+                    <div id="qrCodeScanerContainer"></div>
+                </div>
                 <div className="buttonsContainer">
                     <button
                         className="targetButton button"
@@ -75,7 +93,7 @@ export function AddContacts() {
 
                     <button
                         className="targetButton button"
-                        onClick={() => {}}
+                        onClick={sendRequest}
                         disabled={!qrMessage} // Кнопка будет отключена, если qrMessage пустое
                     >
                         Send request to contact

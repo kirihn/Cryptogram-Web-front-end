@@ -19,6 +19,21 @@
             margin: 10px auto 10px auto;
         }
 
+        .scanContainer{
+            height: 250px;
+
+            video{
+                height: 250px;
+                object-fit: cover;
+            }
+        }
+
+
+
+        // #qr-shaded-region{
+        //     height: 250px;
+        // }
+
         .buttonsContainer{
             display: flex;
             flex-direction: column;
