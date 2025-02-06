@@ -3,7 +3,7 @@ import { Languages } from '../params/Languages';
 
 export function GetLangCode(text: string) {
     const langCodeIso3 = franc(text);
-    console.log(langCodeIso3)
+
     const detectLanguage = Languages.find((el) => el.iso3 === langCodeIso3);
 
     if(detectLanguage) return detectLanguage.iso1;

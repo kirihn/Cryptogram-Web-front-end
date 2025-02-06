@@ -1,27 +1,49 @@
-import { useEffect, useRef, useState } from 'react';
+import { EventHandler, useEffect, useRef, useState } from 'react';
 import './addContacts.scss';
 import { useAtomValue } from 'jotai';
 import { myUserIdAtom } from '@jotai/atoms';
 import QRCodeStyling from 'qr-code-styling';
-import Logo from '@assets/icons/CRG.svg';
+import cameraImg from '@assets/icons/camera.svg';
 import { Html5Qrcode } from 'html5-qrcode';
 import { QRCodeCanvas } from 'qrcode.react';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
-import { ResponseDto } from './types';
+import { RequestDto, ResponseDto } from './types';
+import { Camera } from 'three';
+import { isCuid } from 'cuid';
+
 export function AddContacts() {
     const [isOpenScan, setIsOpenScan] = useState(false);
-    const [qrMessage, setQrMessage] = useState('');
-
+    const [username, setUsername] = useState('');
     const currentUserId = useAtomValue(myUserIdAtom);
 
-    const { resData, loading, execute } = useApi<ResponseDto>(async () => {
-        const url = '/api/contact/addContactRequest/' + qrMessage;
+    const {
+        resData: resDataOnScan,
+        loading,
+        execute,
+    } = useApi<ResponseDto, string>(async (decodedText) => {
+        const url = '/api/contact/addContactRequest/' + decodedText;
         return axios.post(url);
     });
 
+    const {
+        resData: resDataOnUsername,
+        loading: loadingOnUsername,
+        execute: executeOnUsername,
+    } = useApi<ResponseDto, RequestDto>(async (data) => {
+        return axios.post('/api/contact/addContactRequestByUsername/', data);
+    });
+
+    const sendScanRequest = (decodedText: string) => {
+        execute(decodedText);
+    };
+
+    const sendUsernameRequest = () => {
+        executeOnUsername({ username });
+    };
+
     useEffect(() => {
-        const config = { fps: 10, qrbox: { width: 200, height: 200 } };
+        const config = { fps: 10, qrbox: { width: 180, height: 180 } };
         const html5QrCode = new Html5Qrcode('qrCodeScanerContainer');
 
         const qrScanerStop = () => {
@@ -39,8 +61,13 @@ export function AddContacts() {
         };
 
         const qrScanerSuccess = (decodedText: string) => {
-            setQrMessage(decodedText);
             setIsOpenScan(false);
+
+            if (isCuid(decodedText)) {
+                sendScanRequest(decodedText);
+            } else {
+                alert('Данный qr код не является пригласительным в контакты ');
+            }
         };
 
         if (isOpenScan) {
@@ -50,7 +77,6 @@ export function AddContacts() {
                 qrScanerSuccess,
                 (err) => {},
             );
-            setQrMessage('');
         } else {
             qrScanerStop();
         }
@@ -60,44 +86,57 @@ export function AddContacts() {
         };
     }, [isOpenScan]);
 
-    const sendRequest = () => {
-        alert('sendreq');
-        execute();
-    };
+    // useEffect(() => {
+    //     if (resDataOnScan?.message == 'successful') window.location.reload();
+    //     if (resDataOnUsername?.message == 'successful')
+    //         window.location.reload();
+    // }, [resDataOnScan, resDataOnUsername]);
 
-    useEffect(() => {
-        if (resData?.message == 'successful') window.location.reload();
-    }, [resData]);
+
     return (
         <div className="addContactsContainer">
             <h2 className="h2">Add new contact</h2>
-            <div className="content">
-                <QRCodeCanvas
-                    className="myQr"
-                    value={currentUserId}
-                    size={200}
-                />
+            <div className="middle">
+                <div className="content">
+                    <QRCodeCanvas
+                        className="myQr"
+                        value={currentUserId}
+                        size={200}
+                    />
 
-                <div className="scanContainer">
-                    <div id="qrCodeScanerContainer"></div>
-                </div>
-                <div className="buttonsContainer">
-                    <button
-                        className="targetButton button"
-                        onClick={() => {
-                            setIsOpenScan(!isOpenScan);
-                        }}
-                    >
-                        {isOpenScan ? 'Close scan' : 'Open scan'}
-                    </button>
-
-                    <button
-                        className="targetButton button"
-                        onClick={sendRequest}
-                        disabled={!qrMessage} // Кнопка будет отключена, если qrMessage пустое
-                    >
-                        Send request to contact
-                    </button>
+                    <div className="scanContainer">
+                        <div id="qrCodeScanerContainer">
+                            <img
+                                src={cameraImg}
+                                alt="Camera img"
+                                className="scanImg"
+                            />
+                        </div>
+                    </div>
+                    <div className="buttonsContainer">
+                        <button
+                            className="targetButton button"
+                            onClick={() => {
+                                setIsOpenScan(!isOpenScan);
+                            }}
+                        >
+                            {isOpenScan ? 'Close scan' : 'Open scan'}
+                        </button>
+                        <input
+                            type="text"
+                            className="inputForAddContactRequest"
+                            placeholder="@Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <button
+                            className="targetButton button"
+                            onClick={sendUsernameRequest}
+                            disabled={!username}
+                        >
+                            Send request to contact
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

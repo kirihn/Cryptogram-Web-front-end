@@ -231,13 +231,8 @@ export function ChatPanel() {
             'KeyForChat-' + currentChatId + '-user-' + currentUserId,
         );
 
-        console.log('1111111111111111112222222222');
-        console.log(JSON.stringify(resData));
-        console.log(JSON.stringify(currentChatId));
-        console.log(JSON.stringify(key));
-
         if (!key) {
-            console.log('current key' + key);
+
             handleSwitchModal('SetChatKey');
 
             return;

@@ -6,46 +6,72 @@
     border-radius: $sBorderRadius;
     margin: $sMargin;
 
-    .content{
-        padding: 10px;
+    display: flex;
+    flex-direction: column;
+    .middle{
+
         display: flex;
-        flex-direction: column;
-        // justify-content: center;
-        // align-items: center;
-        .myQr{
-            padding: 20px;
-            border-radius: $sBorderRadius;
-            background: white;
-            margin: 10px auto 10px auto;
-        }
-
-        .scanContainer{
-            height: 250px;
-
-            video{
-                height: 250px;
-                object-fit: cover;
-            }
-        }
-
-
-
-        // #qr-shaded-region{
-        //     height: 250px;
-        // }
-
-        .buttonsContainer{
+        flex-grow: 1;
+        align-items: center;
+        .content{
+            width: 100%;
+            padding: 10px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            .targetButton{
-                margin-top: 10px;
-                max-width: 300px;
 
-                &:disabled {
-                    color: #fff;
-                    background-color: $neonBorderColor; /* Цвет кнопки, когда она отключена */
-                    cursor: not-allowed;
+            
+            .myQr{
+                padding: 20px;
+                border-radius: $sBorderRadius;
+                background: white;
+                margin: 0px auto 10px auto;
+            }
+    
+            .scanContainer{
+                width: 90%;
+                margin: 5px auto;
+                height: 198px;
+                background: $input;
+                border-radius: $sBorderRadius;
+    
+                text-align: center;
+                .scanImg{
+                    width: 110px;
+                    height: 110px;
+                    margin-top: 45px;
+                    
+                }
+                video{
+                    height: 200px;
+                    object-fit: cover;
+                }
+            }
+    
+            .buttonsContainer{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                .targetButton{
+                    margin-top: 10px;
+                    max-width: 300px;
+    
+                    &:disabled {
+                        color: #fff;
+                        background-color: $neonBorderColor; /* Цвет кнопки, когда она отключена */
+                        cursor: not-allowed;
+                    }
+                }
+    
+                .inputForAddContactRequest{
+                    width: 100%;
+                    max-width: 300px;
+                    margin-top: 10px;
+                    background: $input;
+                    border: 2px solid $borderLigth;
+                    border-radius: $sBorderRadius;
+                    padding: 10px;
+                    font-size: 15px;
+                    color: $text;
                 }
             }
         }
