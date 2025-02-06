@@ -4,7 +4,11 @@ import './myContacts.scss';
 import { ResponseDto } from './types';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { useAtomValue } from 'jotai';
+import { socketAtom } from '@jotai/atoms';
 export function MyContacts() {
+    const socket = useAtomValue(socketAtom);
+
     const {
         resData: contactListData,
         setResData: setChatsListData,
@@ -12,8 +16,14 @@ export function MyContacts() {
         execute: executeContactList,
     } = useApi<ResponseDto[]>(async () => {
         return axios.get('/api/contact/getMyContacts');
-
     });
+
+    useEffect(() => {
+        if (!socket) return;
+
+        socket.on('addNewContact', executeContactList);
+        socket.on('deleteContact', executeContactList);
+    }, [socket]);
 
     useEffect(() => {
         executeContactList();

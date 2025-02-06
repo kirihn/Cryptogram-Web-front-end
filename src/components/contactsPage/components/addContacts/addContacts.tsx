@@ -51,12 +51,11 @@ export function AddContacts() {
                 html5QrCode
                     .stop()
                     .then(() => {
-                        //
                         console.log('scaner stop');
                     })
                     .catch(() => {
                         console.log('scaner error');
-                    }); //
+                    });
             }
         };
 

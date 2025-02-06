@@ -23,13 +23,9 @@ export function ContactRequestSent(props: Props) {
     });
 
     const deleteContactRequest = () => {
-        alert('sent req');
         execute({ ContactRequestId: contactRequest.ContactRequestId });
     };
 
-    useEffect(() => {
-        if (resData?.message === 'successful') window.location.reload();
-    }, [resData]);
     return (
         <div className="contactRequestContainerSent">
             <div className="userInfo">

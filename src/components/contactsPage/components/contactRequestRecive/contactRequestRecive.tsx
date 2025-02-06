@@ -31,11 +31,6 @@ export function ContactRequestRecive(props: Props) {
     };
 
     useEffect(() => {
-        if (
-            responseToContactRequestData?.message === 'successful' &&
-            responseToContactRequestData.status === 'accepted'
-        )
-            window.location.reload();
 
         if (
             responseToContactRequestData?.message === 'successful' &&

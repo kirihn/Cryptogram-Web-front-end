@@ -5,14 +5,18 @@ import { ResponseDto } from './types';
 import axios from 'axios';
 import { ContactRequestRecive } from '../contactRequestRecive/contactRequestRecive';
 import { ContactRequestSent } from '../contactRequestSent/contactRequestSent';
+import { useAtomValue } from 'jotai';
+import { socketAtom } from '@jotai/atoms';
 export function MyContactRequests() {
     const [receivedHeight, setReceivedHeight] = useState(400);
     const [sentHeight, setSentHeight] = useState(400);
 
+    const socket = useAtomValue(socketAtom);
+
     const {
         resData: contactRequestsListData,
         loading,
-        execute: executeContactList,
+        execute: executeContactRequestsList,
     } = useApi<ResponseDto>(async () => {
         return axios.get('/api/contact/getMyContactRequests');
     });
@@ -48,8 +52,15 @@ export function MyContactRequests() {
     };
 
     useEffect(() => {
-        executeContactList();
+        executeContactRequestsList();
     }, []);
+
+    useEffect(() => {
+        if (!socket) return;
+
+        socket.on('addNewContactRequest', executeContactRequestsList);
+        socket.on('deleteContactRequest', executeContactRequestsList);
+    }, [socket]);
 
     return (
         <div className="myContactRequestsContainer">
@@ -72,7 +83,7 @@ export function MyContactRequests() {
                         ),
                     )
                 ) : (
-                    <p className='middle'>Список запросов пока пуст</p>
+                    <p className="middle">Список запросов пока пуст</p>
                 )}
             </div>
 
@@ -96,7 +107,7 @@ export function MyContactRequests() {
                         ),
                     )
                 ) : (
-                    <p className='middle'>Список запросов пока пуст</p>
+                    <p className="middle">Список запросов пока пуст</p>
                 )}
             </div>
         </div>
