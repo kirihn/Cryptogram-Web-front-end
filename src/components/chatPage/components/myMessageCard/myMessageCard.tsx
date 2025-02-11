@@ -112,6 +112,11 @@ export function MyMessageCard(props: Props) {
             onContextMenu={handleContextMenu}
         >
             <div
+                style={
+                    cardData.MessageType === 'sticker'
+                        ? { background: 'none' }
+                        : undefined
+                }
                 className={`ContentContainer
                             ${
                                 cardData.isItFirstMessage
@@ -124,7 +129,13 @@ export function MyMessageCard(props: Props) {
                                     : ''
                             }`}
             >
-                <p className="Content">{decrtyptMessage}</p>
+                {cardData.MessageType == 'msg' ? (
+                    <p className="Content">{decrtyptMessage}</p>
+                ) : cardData.MessageType == 'sticker' ? (
+                    <img src={decrtyptMessage} className="msgTypeSticker" />
+                ) : (
+                    <p>Error</p>
+                )}
                 <p className="messageInfo">
                     {cardData.IsUpdate && (
                         <span className="isUpdate">Ред. </span>
@@ -162,7 +173,7 @@ export function MyMessageCard(props: Props) {
                     className="overlay"
                     onClick={handleClickOutside}
                     onContextMenu={(e) => {
-                        e.preventDefault(); 
+                        e.preventDefault();
                         handleClickOutside();
                     }}
                 ></div>

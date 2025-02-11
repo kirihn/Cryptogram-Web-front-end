@@ -32,6 +32,7 @@ export function MyContacts() {
     return (
         <div className="myContactsContainer">
             <h2 className="h2">Contacts</h2>
+            <img src="" alt="" />
             <div className="contactsList">
                 {contactListData?.map((contact) => (
                     <Contact contactInfo={contact} key={contact.ContactId} />

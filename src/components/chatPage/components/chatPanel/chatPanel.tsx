@@ -38,7 +38,7 @@ export function ChatPanel() {
 
     const { switchModal, handleSwitchModal, handleCloseModal } = useModal();
 
-    const [myRole, setMyRole] = useState<number>(5);
+    const [myRole, setMyRole] = useState<number>(6);
     const [contentText, setContentText] = useState('');
 
     const [OpenStickerPanel, setOpenStickerPanel] =
@@ -126,7 +126,7 @@ export function ChatPanel() {
         if (messagesBlockRef.current) {
             const { scrollTop, scrollHeight, clientHeight } =
                 messagesBlockRef.current;
-            return scrollHeight - (scrollTop + clientHeight) <= 200;
+            return scrollHeight - (scrollTop + clientHeight) <= 700;
         }
         return false;
     };
@@ -221,6 +221,9 @@ export function ChatPanel() {
         };
     }, [socket, currentChatId]);
 
+    useEffect(()=>{
+        if(myRole == 5) setOpenStickerPanel(false);
+    }, [myRole])
     useEffect(() => {
         if (!resData) return;
         if (!currentChatId) return;

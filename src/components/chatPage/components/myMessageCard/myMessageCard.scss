@@ -37,6 +37,13 @@
             text-wrap: wrap;
             font-size: 14px;
         }
+
+        .msgTypeSticker{
+            display: block;
+            width: 200px;
+            height: 180px;        
+        }
+
         .senderName{
             font-size: 15px;
             color: $neonColor;

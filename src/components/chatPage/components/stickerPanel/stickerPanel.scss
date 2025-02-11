@@ -2,10 +2,70 @@
 
 .stickerPanelContainer{
     background: $blockColor;
-    padding: $sPadding;
     margin: $sMargin;
     border-radius: $sBorderRadius;
-
+    
     flex: 2 1 500px;
     max-width: 500px;
+    
+    .HeaderStickerPanel{
+        padding: 26px $sPadding;
+        border-bottom: 2px solid $borderDark;
+    }
+
+    .stickerPacksBar{
+        display: flex;
+        background: $input;
+
+        .StickrePackEl{
+            padding: 3px;
+            margin: 3px;
+            border-radius: 3px;
+            
+            &:hover{
+                background: $blockColor;
+            }
+            .stickerPackImg{
+                width: 40px;
+            }
+        }
+    }
+    .stickerPacksContainer{
+
+        flex-direction: column;
+        overflow-y: scroll;
+        max-height: calc(100% - 138px);
+
+        &::-webkit-scrollbar {
+            width: 4px;
+            height: 20px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background-color: $borderDark;
+            border-radius: 10px;
+        }
+        
+        &::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        .StickerPack{
+            .stickerPackName{
+                background: $input;
+                padding: 10px;
+            }
+            .stickersContainer{
+                overflow: hidden;
+                .stickerImg{
+                    padding: 5px;
+                    width: 25%;
+
+                    &:hover{
+                        scale: 1.25;
+                    }
+                }
+            }
+        }
+    }
 }

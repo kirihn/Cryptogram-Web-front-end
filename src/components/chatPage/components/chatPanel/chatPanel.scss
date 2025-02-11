@@ -20,12 +20,14 @@
         .chatNameHeader{
             display: flex;
             align-items: center;
-            height: 60px;
+            // height: 60px;
 
             .chatAvatarHeader{
-                width: 60px;
-                height: 60px;
-                border-radius: 30px;
+                margin-top: 3px;
+                margin-bottom: 3px;
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
                 object-fit: cover; 
 
                 background: $neonBgColor;

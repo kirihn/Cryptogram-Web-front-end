@@ -111,6 +111,11 @@ export function UserMessageCard(props: Props) {
             )}
 
             <div
+                style={
+                    cardData.MessageType === 'sticker'
+                        ? { background: 'none' }
+                        : undefined
+                }
                 className={`ContentContainer 
                             ${
                                 cardData.isItFirstMessage
@@ -123,8 +128,16 @@ export function UserMessageCard(props: Props) {
                                     : ''
                             }`}
             >
-                <p className="senderName">{cardData.SenderName}</p>
-                <p className="Content">{decrtyptMessage}</p>
+                {cardData.MessageType == 'msg' ? (
+                    <>
+                        <p className="senderName">{cardData.SenderName}</p>
+                        <p className="Content">{decrtyptMessage}</p>
+                    </>
+                ) : cardData.MessageType == 'sticker' ? (
+                    <img src={decrtyptMessage} className="msgTypeSticker" />
+                ) : (
+                    <p>Error</p>
+                )}
 
                 {translating && <Loader />}
                 {translateObject && (
