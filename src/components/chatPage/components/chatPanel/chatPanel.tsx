@@ -40,6 +40,8 @@ export function ChatPanel() {
 
     const [myRole, setMyRole] = useState<number>(6);
     const [contentText, setContentText] = useState('');
+    const [isDrag, setIsDrag] = useState(false);
+    const [droppedFiles, setDroppedFiles] = useState<File[]>([]);
 
     const [OpenStickerPanel, setOpenStickerPanel] =
         useAtom(openStickerPanelAtom);
@@ -62,6 +64,30 @@ export function ChatPanel() {
     } = useApi<any, SendMessageRequesDto>(async (data) => {
         return axios.post('/api/chat/sendMessage', data);
     });
+
+    const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDrag(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+
+        setIsDrag(false);
+    };
+
+    const handleDragDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        const files = Array.from(e.dataTransfer.files);
+
+        setDroppedFiles(files);
+    };
+
+    const sendFiles = async () => {
+        const formData = new FormData();
+
+        
+    };
 
     const ShowStickers = async () => {
         setOpenStickerPanel(!OpenStickerPanel);
@@ -221,9 +247,10 @@ export function ChatPanel() {
         };
     }, [socket, currentChatId]);
 
-    useEffect(()=>{
-        if(myRole == 5) setOpenStickerPanel(false);
-    }, [myRole])
+    useEffect(() => {
+        if (myRole == 5) setOpenStickerPanel(false);
+    }, [myRole]);
+
     useEffect(() => {
         if (!resData) return;
         if (!currentChatId) return;
@@ -235,7 +262,6 @@ export function ChatPanel() {
         );
 
         if (!key) {
-
             handleSwitchModal('SetChatKey');
 
             return;
@@ -323,29 +349,51 @@ export function ChatPanel() {
                     <div className="settingPunkt punkt3"></div>
                 </button>
             </div>
-            <div className="messagesBlock" ref={messagesBlockRef}>
-                {currentChatId == -1 && <p className="noChatId">Choice chat</p>}
-                {loading && (
-                    <div className="loading">
-                        <SearchLoader />
-                    </div>
-                )}
-                {loading != true &&
-                    sortedMessageList?.map((messageCard) => {
-                        return messageCard.isItMyMessage ? (
-                            <MyMessageCard
-                                cardData={messageCard}
-                                key={messageCard.MessageId}
-                            />
-                        ) : (
-                            <UserMessageCard
-                                cardData={messageCard}
-                                key={messageCard.MessageId}
-                            />
-                        );
-                    })}
-                <div ref={scrollRef}></div>
-            </div>
+
+            {isDrag ? (
+                <div
+                    className="dragZone"
+                    onDragStart={(e) => handleDragStart(e)}
+                    onDragLeave={(e) => handleDragLeave(e)}
+                    onDragOver={(e) => handleDragStart(e)}
+                    onDrop={(e) => handleDragDrop(e)}
+                >
+                    Перетащите файлы для их отправки
+                </div>
+            ) : (
+                <div
+                    className="messagesBlock"
+                    onDragStart={(e) => handleDragStart(e)}
+                    onDragLeave={(e) => handleDragLeave(e)}
+                    onDragOver={(e) => handleDragStart(e)}
+                    ref={messagesBlockRef}
+                >
+                    {currentChatId == -1 && (
+                        <p className="noChatId">Choice chat</p>
+                    )}
+                    {loading && (
+                        <div className="loading">
+                            <SearchLoader />
+                        </div>
+                    )}
+                    {loading != true &&
+                        sortedMessageList?.map((messageCard) => {
+                            return messageCard.isItMyMessage ? (
+                                <MyMessageCard
+                                    cardData={messageCard}
+                                    key={messageCard.MessageId}
+                                />
+                            ) : (
+                                <UserMessageCard
+                                    cardData={messageCard}
+                                    key={messageCard.MessageId}
+                                />
+                            );
+                        })}
+                    <div ref={scrollRef}></div>
+                </div>
+            )}
+
             {myRole != 5 && currentChatId != -1 && (
                 <div className="inputMessageBlockContainer">
                     <div className="inputMessageBlock">

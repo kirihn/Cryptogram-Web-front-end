@@ -39,9 +39,6 @@
 
             }
 
-            .ChatNameContainer{
-               // margin-bottom: -17px;
-            }
             .chatName{
                 margin-left: 10px;
                 font-size: 20px;
@@ -83,6 +80,17 @@
                 }
             }
         }
+    }
+
+    .dragZone{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+
+        background: $input;
+        border: $neonBorderColor dashed 5px;
+
     }
 
     .messagesBlock{

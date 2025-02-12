@@ -74,6 +74,7 @@ export function StickerPanel() {
             <div className="stickerPacksBar">
                 {resData?.map((stickerPack) => (
                     <div
+                        key={stickerPack.StickerGroupId}
                         className="StickrePackEl"
                         onClick={() => {
                             setChoisedStickerPack(stickerPack.StickerGroupId);
@@ -96,6 +97,7 @@ export function StickerPanel() {
                         <div className="stickersContainer">
                             {currentStickerPack.Stickers.map((sticker) => (
                                 <img
+                                    key={sticker.StickerId}
                                     src={sticker.StickerPath}
                                     alt="sticker"
                                     className="stickerImg"
