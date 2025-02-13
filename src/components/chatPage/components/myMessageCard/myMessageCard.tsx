@@ -20,6 +20,7 @@ import {
     myUserIdAtom,
 } from '@jotai/atoms';
 import { Encrypt } from '@utils/func/encrypt';
+import downloadIcon from '@assets/icons/downloadFileDark.svg';
 
 export function MyMessageCard(props: Props) {
     const { cardData } = props;
@@ -91,6 +92,49 @@ export function MyMessageCard(props: Props) {
         setVisibleContext(false);
     };
 
+    const renderMessageContent = () => {
+        switch (cardData.MessageType) {
+            case 'msg':
+                return <p className="Content">{decrtyptMessage}</p>;
+            case 'sticker':
+                return <img src={decrtyptMessage} className="msgTypeSticker" />;
+            case 'image':
+                return <img src={cardData.Content} className="msgTypeImage" />;
+            case 'audio':
+                return (
+                    <audio controls>
+                        <source src={cardData.Content} />
+                        Ваш браузер не поддерживает аудио.
+                    </audio>
+                );
+            case 'video':
+                return (
+                    <video className="msgTypeVideo" controls>
+                        <source src={cardData.Content} />
+                    </video>
+                );
+            case 'file':
+                return (
+                    <a href={cardData.Content} download>
+                        <div className="msgTypeDownloadFile">
+                            <div className="imgContainer">
+                                <img
+                                    src={downloadIcon}
+                                    alt="downloadIcon"
+                                    className="downloadIcon"
+                                />
+                            </div>
+                            <p className="downloadName">
+                                {cardData.Content.split('EndTime')[1]}
+                            </p>
+                        </div>
+                    </a>
+                );
+            default:
+                return <p>Error</p>;
+        }
+    };
+
     useEffect(() => {
         const key = getCryptoKey(
             'KeyForChat-' + currentChatId + '-user-' + currentUserId,
@@ -129,13 +173,14 @@ export function MyMessageCard(props: Props) {
                                     : ''
                             }`}
             >
-                {cardData.MessageType == 'msg' ? (
+                {/* {cardData.MessageType == 'msg' ? (
                     <p className="Content">{decrtyptMessage}</p>
                 ) : cardData.MessageType == 'sticker' ? (
                     <img src={decrtyptMessage} className="msgTypeSticker" />
                 ) : (
                     <p>Error</p>
-                )}
+                )} */}
+                {renderMessageContent()}
                 <p className="messageInfo">
                     {cardData.IsUpdate && (
                         <span className="isUpdate">Ред. </span>
@@ -162,8 +207,14 @@ export function MyMessageCard(props: Props) {
                     >
                         назад
                     </button>
-                    <button onClick={handleCopy}>копировать</button>
-                    <button onClick={handleEditMessage}>Редактировать</button>
+                    {cardData.MessageType == 'msg' && (
+                        <button onClick={handleCopy}>копировать</button>
+                    )}
+                    {cardData.MessageType == 'msg' && (
+                        <button onClick={handleEditMessage}>
+                            Редактировать
+                        </button>
+                    )}
                     <button onClick={handleDelete}>Удалить везде</button>
                 </div>
             )}

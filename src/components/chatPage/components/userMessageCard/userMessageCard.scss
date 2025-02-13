@@ -37,6 +37,42 @@
             height: 180px;
 
         }
+
+        .msgTypeImage{
+            width: 100%;
+            max-height: 400px;
+        }
+
+        .msgTypeAudio{
+            width: 250px;
+
+        }
+
+        .msgTypeVideo{
+            width: 100%;
+            max-height: 400px;
+        }
+
+        .msgTypeDownloadFile{
+            display: flex;
+            align-items: center;
+
+            padding: 5px;
+            border: 2px solid $borderLigth;
+            border-radius: $sBorderRadius;
+
+            .imgContainer{
+                padding: 8px;
+                background: #333333;
+                border-radius: $sBorderRadius;
+                margin-right: 10px;
+                .downloadIcon{
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+        }
+
         .translateContainer{
             hr{
                 margin: 8px 0;

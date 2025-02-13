@@ -11,7 +11,7 @@ module.exports = merge(common, {
         historyApiFallback: true,
         proxy: [
             {
-                context: ['/api', '/static', '/defaults'],
+                context: ['/api', '/static', '/defaults', '/userUploads'],
                 target: 'http://localhost:10000',
             },
         ],

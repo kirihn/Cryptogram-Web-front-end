@@ -16,6 +16,7 @@ import {
     myUserIdAtom,
 } from '@jotai/atoms';
 import { GetLangCode } from '@utils/func/getLangCode';
+import downloadIcon from '@assets/icons/downloadFile.svg';
 export function UserMessageCard(props: Props) {
     const { cardData } = props;
 
@@ -43,8 +44,8 @@ export function UserMessageCard(props: Props) {
     const handleContextMenu = async (
         event: React.MouseEvent<HTMLDivElement>,
     ) => {
+        if (props.cardData.MessageType != 'msg') return;
         event.preventDefault();
-
         setContextPosition(GetContextPosition(125, 175, event));
         setVisibleContext(true);
     };
@@ -74,6 +75,54 @@ export function UserMessageCard(props: Props) {
     const handleCopy = async () => {
         navigator.clipboard.writeText(decrtyptMessage);
         setVisibleContext(false);
+    };
+
+    const renderMessageContent = () => {
+        switch (cardData.MessageType) {
+            case 'msg':
+                return (
+                    <>
+                        <p className="senderName">{cardData.SenderName}</p>
+                        <p className="Content">{decrtyptMessage}</p>
+                    </>
+                );
+            case 'sticker':
+                return <img src={decrtyptMessage} className="msgTypeSticker" />;
+            case 'image':
+                return <img src={cardData.Content} className="msgTypeImage" />;
+            case 'audio':
+                return (
+                    <audio controls>
+                        <source src={cardData.Content} />
+                        Ваш браузер не поддерживает аудио.
+                    </audio>
+                );
+            case 'video':
+                return (
+                    <video className="msgTypeVideo" controls>
+                        <source src={cardData.Content} />
+                    </video>
+                );
+            case 'file':
+                return (
+                    <a href={cardData.Content} download>
+                        <div className="msgTypeDownloadFile">
+                            <div className="imgContainer">
+                                <img
+                                    src={downloadIcon}
+                                    alt="downloadIcon"
+                                    className="downloadIcon"
+                                />
+                            </div>
+                            <p className="downloadName">
+                                {cardData.Content.split('EndTime')[1]}
+                            </p>
+                        </div>
+                    </a>
+                );
+            default:
+                return <p>Error</p>;
+        }
     };
 
     useEffect(() => {
@@ -128,16 +177,7 @@ export function UserMessageCard(props: Props) {
                                     : ''
                             }`}
             >
-                {cardData.MessageType == 'msg' ? (
-                    <>
-                        <p className="senderName">{cardData.SenderName}</p>
-                        <p className="Content">{decrtyptMessage}</p>
-                    </>
-                ) : cardData.MessageType == 'sticker' ? (
-                    <img src={decrtyptMessage} className="msgTypeSticker" />
-                ) : (
-                    <p>Error</p>
-                )}
+                {renderMessageContent()}
 
                 {translating && <Loader />}
                 {translateObject && (

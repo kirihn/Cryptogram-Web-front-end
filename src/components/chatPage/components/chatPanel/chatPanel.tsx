@@ -65,6 +65,17 @@ export function ChatPanel() {
         return axios.post('/api/chat/sendMessage', data);
     });
 
+    const {
+        resData: sendFileResData,
+        loading: loadingFile,
+        execute: executeSendFile,
+    } = useApi<any, FormData>(async (data) => {
+        return axios.post('api/chat/uploadChatFile', data, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            params: { chatId: currentChatId },
+        });
+    });
+
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         setIsDrag(true);
@@ -79,14 +90,22 @@ export function ChatPanel() {
     const handleDragDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         const files = Array.from(e.dataTransfer.files);
-
+        console.log(files)
         setDroppedFiles(files);
+        setIsDrag(false);
     };
 
     const sendFiles = async () => {
-        const formData = new FormData();
-
         
+        if (droppedFiles.length > 0) {
+            let formData = new FormData();
+            const fileToSend = droppedFiles[0];
+            formData.append('file', fileToSend);
+
+            await executeSendFile(formData);
+
+            setDroppedFiles((prevState) => prevState.slice(1));
+        }
     };
 
     const ShowStickers = async () => {
@@ -288,6 +307,14 @@ export function ChatPanel() {
         }, 10);
     }, [loading]);
 
+    const stableDroppedFiles = useMemo(() => droppedFiles, [droppedFiles]);
+
+    useEffect(() => {
+        if (droppedFiles.length < 1) return;
+        console.log('sendFile')
+        sendFiles();
+    }, [droppedFiles]);
+    
     return (
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
