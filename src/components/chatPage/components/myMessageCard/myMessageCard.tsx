@@ -99,7 +99,11 @@ export function MyMessageCard(props: Props) {
             case 'sticker':
                 return <img src={decrtyptMessage} className="msgTypeSticker" />;
             case 'image':
-                return <img src={cardData.Content} className="msgTypeImage" />;
+                return (
+                    <a href={cardData.Content} download>
+                        <img src={cardData.Content} className="msgTypeImage" />
+                    </a>
+                );
             case 'audio':
                 return (
                     <audio controls>
