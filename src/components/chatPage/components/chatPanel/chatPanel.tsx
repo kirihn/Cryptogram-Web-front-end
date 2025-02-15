@@ -76,27 +76,33 @@ export function ChatPanel() {
         });
     });
 
-    const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setIsDrag(true);
+        if (e.dataTransfer.types.includes('Files')) {
+            setIsDrag(true);
+        }
     };
 
     const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
 
-        setIsDrag(false);
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+            setIsDrag(false);
+        }
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
     };
 
     const handleDragDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         const files = Array.from(e.dataTransfer.files);
-        console.log(files)
         setDroppedFiles(files);
         setIsDrag(false);
     };
 
     const sendFiles = async () => {
-        
         if (droppedFiles.length > 0) {
             let formData = new FormData();
             const fileToSend = droppedFiles[0];
@@ -311,10 +317,10 @@ export function ChatPanel() {
 
     useEffect(() => {
         if (droppedFiles.length < 1) return;
-        console.log('sendFile')
+        console.log('sendFile');
         sendFiles();
     }, [droppedFiles]);
-    
+
     return (
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
@@ -380,19 +386,19 @@ export function ChatPanel() {
             {isDrag ? (
                 <div
                     className="dragZone"
-                    onDragStart={(e) => handleDragStart(e)}
-                    onDragLeave={(e) => handleDragLeave(e)}
-                    onDragOver={(e) => handleDragStart(e)}
-                    onDrop={(e) => handleDragDrop(e)}
+                    onDragEnter={handleDragEnter}
+                    onDragLeave={handleDragLeave}
+                    onDragOver={handleDragOver}
+                    onDrop={handleDragDrop}
                 >
                     Перетащите файлы для их отправки
                 </div>
             ) : (
                 <div
                     className="messagesBlock"
-                    onDragStart={(e) => handleDragStart(e)}
-                    onDragLeave={(e) => handleDragLeave(e)}
-                    onDragOver={(e) => handleDragStart(e)}
+                    onDragEnter={handleDragEnter}
+                    onDragLeave={handleDragLeave}
+                    onDragOver={handleDragOver}
                     ref={messagesBlockRef}
                 >
                     {currentChatId == -1 && (
