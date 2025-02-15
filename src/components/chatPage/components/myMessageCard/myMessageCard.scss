@@ -102,34 +102,40 @@
         margin-bottom: 3px;
     }
 
-    .miniMenu{
+    .miniMenu {
         z-index: 1000;
         display: flex;
         flex-direction: column;
-
-        button{
+    
+        & > * {
             height: 35px;
             padding: 0 15px;
-            vertical-align: middle;
             text-align: left;
             border: none;
             font-size: 14px;
             background: $input;
             color: $text;
-            &:hover{
-                background: $borderDark
-
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-decoration: none; // Убираем подчеркивание у ссылок
+    
+            &:hover {
+                background: $borderDark;
             }
         }
-        :first-child{
+    
+        & > *:first-child {
             border-top-left-radius: $sBorderRadius;
             border-top-right-radius: $sBorderRadius;
         }
-        :last-child{
+    
+        & > *:last-child {
             border-bottom-left-radius: $sBorderRadius;
             border-bottom-right-radius: $sBorderRadius;
         }
     }
+    
     .overlay{
         position: absolute;
         top: 0;

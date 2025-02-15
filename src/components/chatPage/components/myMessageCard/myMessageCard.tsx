@@ -219,6 +219,13 @@ export function MyMessageCard(props: Props) {
                             Редактировать
                         </button>
                     )}
+                    {['file', 'video', 'audio', 'image'].includes(
+                        cardData.MessageType,
+                    ) && (
+                        <a href={cardData.Content} download={cardData.Content}>
+                            скачать
+                        </a>
+                    )}
                     <button onClick={handleDelete}>Удалить везде</button>
                 </div>
             )}

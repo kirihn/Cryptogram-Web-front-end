@@ -44,7 +44,7 @@ export function UserMessageCard(props: Props) {
     const handleContextMenu = async (
         event: React.MouseEvent<HTMLDivElement>,
     ) => {
-        if (props.cardData.MessageType != 'msg') return;
+        if (props.cardData.MessageType == 'sticker') return;
         event.preventDefault();
         setContextPosition(GetContextPosition(125, 175, event));
         setVisibleContext(true);
@@ -90,9 +90,9 @@ export function UserMessageCard(props: Props) {
                 return <img src={decrtyptMessage} className="msgTypeSticker" />;
             case 'image':
                 return (
-                    <a href={cardData.Content} download>
-                        <img src={cardData.Content} className="msgTypeImage" />
-                    </a>
+                    // <a href={cardData.Content} download>
+                    <img src={cardData.Content} className="msgTypeImage" />
+                    // </a>
                 );
             case 'audio':
                 return (
@@ -219,8 +219,19 @@ export function UserMessageCard(props: Props) {
                     >
                         назад
                     </button>
-                    <button onClick={handleCopy}>копировать</button>
-                    <button onClick={handleTranslate}>перевести</button>
+                    {cardData.MessageType == 'msg' && (
+                        <button onClick={handleCopy}>копировать</button>
+                    )}
+                    {cardData.MessageType == 'msg' && (
+                        <button onClick={handleTranslate}>перевести</button>
+                    )}
+                    {['file', 'video', 'audio', 'image'].includes(
+                        cardData.MessageType,
+                    ) && (
+                        <a href={cardData.Content} download={cardData.Content}>
+                            скачать
+                        </a>
+                    )}
                 </div>
             )}
 
