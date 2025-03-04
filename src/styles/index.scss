@@ -122,7 +122,11 @@ a{
   }
   
 
-@media screen and (min-width: 1440px) {
+@media (max-width: 780px) {
    
-
+  body{
+    #root{
+      height: 100dvh;
+  }
+  }
 }

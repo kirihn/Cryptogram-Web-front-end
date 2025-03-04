@@ -31,6 +31,8 @@ import styled from 'styled-components';
 import { useModal } from 'hooks/useModal';
 import { SearchLoader } from '@components/loader/searchLoader';
 import { GetMemberFields } from '@utils/func/getMemberFields';
+import backIcon from '@icons/backIcon.svg';
+import { useResize } from 'hooks/useResize';
 
 export function ChatPanel() {
     const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -45,10 +47,13 @@ export function ChatPanel() {
 
     const [OpenStickerPanel, setOpenStickerPanel] =
         useAtom(openStickerPanelAtom);
-    const currentChatId = useAtomValue(currentChatAtom);
+    const [currentChatId, setCurrentChatId] = useAtom(currentChatAtom);
     const socket = useAtomValue(socketAtom);
     const currentUserId = useAtomValue(myUserIdAtom);
     const { getCryptoKey } = useAtomValue(keyValueActionsAtom);
+
+    const { screenSize, isSMScreen, isMDScreen, isLGScreen, isXLScreen } =
+        useResize();
 
     const { resData, setResData, loading, execute } = useApi<
         GetChatInfoResponseDto,
@@ -325,6 +330,14 @@ export function ChatPanel() {
         <div className="chatPanelContainer">
             <div className="chatPanelHeader">
                 <div className="chatNameHeader">
+                    {isSMScreen && (
+                        <button
+                            className="changeParamButton"
+                            onClick={() => setCurrentChatId(-1)}
+                        >
+                            <img src={backIcon} alt="Edit" />
+                        </button>
+                    )}
                     {resData?.IsGroup === false ? (
                         <img
                             src={

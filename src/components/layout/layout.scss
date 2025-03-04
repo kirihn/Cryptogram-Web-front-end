@@ -8,14 +8,48 @@
     max-width: 1600px;
     .headerContainer{
         width: 250px;
-        //background: rgb(196, 70, 70);
         height: 100%;
         padding: $mPadding;
+        @media (max-width: 1200px){
+            width: auto;
+            padding-right: 0;
+        }
     }
     .mainContainer{
         width: 100%;
         height: 100%;
         padding: $mPadding;
+    }
+}
 
+@media (max-width: 1060px){
+    .layoutContainer{
+        flex-direction: column-reverse;
+
+        margin: auto;
+        height: 100dvh;
+        .headerContainer{
+            width: 100%;
+            height: 60px;
+            padding: $mPadding;
+            padding-top: 0;
+            @media (min-width: 1060) and (max-width: 1200px){
+                padding-right: 0;
+            }
+        }
+        .mainContainer{
+            width: 100%;
+            height: calc(100% - 60px);
+
+            flex-grow: 1;
+            padding: $mPadding;
+            @media (max-width: 1060px){
+                padding-bottom: 0;
+                
+            }
+            @media (max-width: 780px) {
+                padding: 0;
+            }
+        }
     }
 }

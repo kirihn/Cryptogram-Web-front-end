@@ -34,9 +34,16 @@ export function MyContacts() {
             <h2 className="h2">Contacts</h2>
             <img src="" alt="" />
             <div className="contactsList">
-                {contactListData?.map((contact) => (
-                    <Contact contactInfo={contact} key={contact.ContactId} />
-                ))}
+                {contactListData?.length ? (
+                    contactListData.map((contact) => (
+                        <Contact
+                            contactInfo={contact}
+                            key={contact.ContactId}
+                        />
+                    ))
+                ) : (
+                    <p className="middle">Список контактов пуст</p>
+                )}
             </div>
         </div>
     );

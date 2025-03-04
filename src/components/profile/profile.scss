@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 60px;
+    padding-top: 70px;
     .profileContainer{
         width: 100%;
         max-width: 550px;
@@ -14,7 +14,9 @@
         border: 2px solid $borderDark;
         padding-bottom: 30px;
         border-radius: $mBorderRadius;
-
+        @media (max-width: 780px) {
+            padding-bottom: 5px;
+        }
         .avatarBorder{
             padding: $sPadding;
             border-radius: 60px;
@@ -33,6 +35,10 @@
             inset 0 0 20px $neonColor;  
             transition:  box-shadow 0.2s ease;
 
+            @media (max-width: 780px) {
+                width: 140px;
+                height: 140px;   
+            }
             .userAvatar{
                 border-radius: 50%;
                 width: 100%;
@@ -52,6 +58,10 @@
                 font-size: 14px;
                 color: $lowText;
             }
+            
+            @media (max-width: 780px) {
+                padding: 8px 20px;
+            }
         }
 
         .profileOption{
@@ -61,6 +71,9 @@
             padding: 10px 30px;
             border-radius: $sBorderRadius;
 
+            @media (max-width: 780px) {
+                padding: 8px 20px;
+            }
             .optionblock{
                 display: flex;
 

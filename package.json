@@ -26,11 +26,13 @@
         "html5-qrcode": "^2.3.8",
         "jotai": "^2.10.1",
         "js-cookie": "^3.0.5",
+        "leaflet": "^1.9.4",
         "qr-code-styling": "^1.9.1",
         "qrcode.react": "^4.2.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "react-hook-form": "^7.53.1",
+        "react-leaflet": "3",
         "react-router-dom": "^6.28.0",
         "sass": "^1.80.5",
         "socket.io-client": "^4.8.1",
@@ -40,6 +42,7 @@
         "yup": "^1.4.0"
     },
     "devDependencies": {
+        "@types/leaflet": "^1.9.16",
         "@types/react": "^18.3.12",
         "@types/react-dom": "^18.3.1",
         "clean-webpack-plugin": "^4.0.0",

@@ -3,6 +3,26 @@
     display:  flex;
     width: 100%;
     height: 100%;
+
+    @media (max-width: 1060px) {
+        display: flex;
+        flex-direction: column;
+        overflow: scroll;
+
+        &::-webkit-scrollbar {
+            width: 4px;
+            height: 20px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background-color: $borderDark;
+            border-radius: 10px;
+        }
+        
+        &::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+    }
 }
 
 .h2{

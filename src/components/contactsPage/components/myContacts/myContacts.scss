@@ -10,7 +10,13 @@
         // padding: 10px;
         overflow-y: scroll;
         height: calc(100% - 65px);
+        .middle{
 
+            display: flex;
+            padding: 10px 30px 30px 30px;
+            align-items: center;
+            justify-content: center;
+        }
         &::-webkit-scrollbar {
             width: 4px;
             height: 20px;

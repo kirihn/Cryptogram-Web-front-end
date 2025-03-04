@@ -8,6 +8,7 @@ import { ResponseDto } from './types';
 import { useEffect } from 'react';
 import { currentChatAtom, myUserIdAtom, wsTokenAtom } from '@jotai/atoms';
 import { useSetAtom } from 'jotai';
+import { useResize } from 'hooks/useResize';
 
 export function Header() {
     const navigate = useNavigate();
@@ -40,29 +41,29 @@ export function Header() {
             <nav className="navContainer">
                 <Link to={'/profile'}>
                     <img src={chatsIcon} alt="Профиль" />
-                    <span>Профиль</span>
+                    {<span className="menuItemName">Профиль</span>}
                 </Link>
 
                 <Link to={'/contacts'}>
                     <img src={chatsIcon} alt="Контакты" />
-                    <span>Контакты</span>
+                    <span className="menuItemName">Контакты</span>
                 </Link>
 
                 <Link to={'/chats'}>
                     <img src={chatsIcon} alt="Чаты" />
-                    <span>Чаты</span>
+                    <span className="menuItemName">Чаты</span>
                 </Link>
 
                 <Link to={'/createChat'}>
                     <img src={chatsIcon} alt="Создать чат" />
-                    <span>Создать чат</span>
+                    <span className="menuItemName">Создать чат</span>
                 </Link>
             </nav>
-            <div className="BottomContainer">
+            {/* <div className="BottomContainer">
                 <button className="logoutButton" onClick={handleLogout}>
                     Logout
                 </button>
-            </div>
+            </div> */}
         </header>
     );
 }

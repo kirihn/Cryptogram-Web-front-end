@@ -6,7 +6,6 @@ import { useSetAtom } from 'jotai';
 import { createSocketAtom } from '@jotai/atoms';
 import { useTestAuth } from 'hooks/useTestAuth';
 export function Layout() {
-
     useTestAuth();
 
     const initializeSocket = useSetAtom(createSocketAtom);
@@ -14,6 +13,7 @@ export function Layout() {
     useEffect(() => {
         initializeSocket();
     }, [initializeSocket]);
+
 
     return (
         <div className="layoutContainer">

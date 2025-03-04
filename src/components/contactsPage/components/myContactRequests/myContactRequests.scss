@@ -8,6 +8,10 @@
 
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 1060px) {
+        height: 100%;
+    }
     .topic{
         background: $input;
         padding: 15px 10px;

@@ -30,6 +30,9 @@
         overflow-wrap: break-word; /* переносит слова, не умещающиеся в строку */
         text-wrap: wrap;
         background: $neonMsgColor;
+        @media (max-width: 780px) {
+            padding: 8px 10px;
+        }
 
         .Content{
             text-align: right;

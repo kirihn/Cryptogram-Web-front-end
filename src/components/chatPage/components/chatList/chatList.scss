@@ -7,10 +7,18 @@
     border-radius: $sBorderRadius;
 
     flex: 1 2 350px;
-    max-width: 350px;
-    min-width: 250PX;
-
+    // max-width: 350px;
+    min-width: 250px;
     max-height: 100%;
+
+    @media (max-width: 1060px) {
+        min-width: 300px;
+
+    }
+    @media (max-width: 780px) {
+        min-width: 250px;
+
+    }
     .searchContainer{
         padding: 0 $sPadding;
 
@@ -35,6 +43,7 @@
 
         .clearSearch{
             min-width: 40px;
+            max-width: 40px;
             height: 40px;
             
             background: $input;
@@ -71,7 +80,7 @@
         flex-grow: 1;
         flex-direction: column;
         overflow-y: scroll;
-        max-height: calc(100% - 100px);
+        max-height: calc(100% - 87px);
 
         &::-webkit-scrollbar {
             width: 4px;

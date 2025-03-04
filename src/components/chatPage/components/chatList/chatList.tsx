@@ -132,7 +132,7 @@ export function ChatList() {
                 <input
                     className="searchInput"
                     type="text"
-                    placeholder="Search message"
+                    placeholder="Search chat"
                     onChange={(event) => changeSearch(event.target.value)}
                     value={search}
                 />

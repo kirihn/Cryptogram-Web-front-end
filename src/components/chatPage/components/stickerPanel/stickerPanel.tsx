@@ -3,13 +3,16 @@ import './stickerPanel.scss';
 import { SendMessageRequestDto, StickerPack } from './types';
 import { useApi } from 'hooks/useApi';
 import axios from 'axios';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
     currentChatAtom,
     keyValueActionsAtom,
     myUserIdAtom,
+    openStickerPanelAtom,
 } from '@jotai/atoms';
 import { Encrypt } from '@utils/func/encrypt';
+import backIcon from '@icons/backIcon.svg';
+import { useResize } from 'hooks/useResize';
 
 export function StickerPanel() {
     const [choisedStickerPackId, setChoisedStickerPack] = useState(0);
@@ -20,6 +23,10 @@ export function StickerPanel() {
     const currentChatId = useAtomValue(currentChatAtom);
     const currentUserId = useAtomValue(myUserIdAtom);
     const { getCryptoKey } = useAtomValue(keyValueActionsAtom);
+    const setOpenStickerPanel = useSetAtom(openStickerPanelAtom);
+
+    const { screenSize, isSMScreen, isMDScreen, isLGScreen, isXLScreen } =
+        useResize();
 
     const { resData, execute } = useApi<StickerPack[]>(async () => {
         return axios.get('api/chat/getAllStickers');
@@ -70,7 +77,17 @@ export function StickerPanel() {
 
     return (
         <div className="stickerPanelContainer">
-            <h2 className="HeaderStickerPanel">stickerPanel</h2>
+            <div className="stickerHeader">
+                <h2 className="HeaderStickerPanel">stickerPanel</h2>
+                {isSMScreen && (
+                    <button
+                        className="changeParamButton"
+                        onClick={() => setOpenStickerPanel(false)}
+                    >
+                        <img src={backIcon} alt="Edit" />
+                    </button>
+                )}
+            </div>
             <div className="stickerPacksBar">
                 {resData?.map((stickerPack) => (
                     <div

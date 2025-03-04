@@ -16,6 +16,9 @@
         background: $blockColor;
         border: 2px solid $borderDark;
         border-radius: $mBorderRadius;
+        @media (max-width: 780px) {
+            padding: 25px;
+        }
 
         h2{
             text-align: center;
