@@ -83,6 +83,7 @@ export function EditChatNameModal(props: Props) {
                         {...register('chatName')}
                         placeholder="Chat name"
                         className="input"
+                        maxLength={20}
                     />
                     <button
                         className={`button neonBox ${

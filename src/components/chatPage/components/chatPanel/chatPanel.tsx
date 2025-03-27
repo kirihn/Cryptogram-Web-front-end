@@ -456,6 +456,7 @@ export function ChatPanel() {
                             onInput={handleInput}
                             onKeyDown={handleKeyDown}
                             value={contentText}
+                            maxLength={499}
                         ></textarea>
                         <button
                             className="sendButton"

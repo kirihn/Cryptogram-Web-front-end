@@ -60,6 +60,8 @@ export function MyContactRequests() {
 
         socket.on('addNewContactRequest', executeContactRequestsList);
         socket.on('deleteContactRequest', executeContactRequestsList);
+        socket.on('changeStatusContactRequest', executeContactRequestsList);
+
     }, [socket]);
 
     return (

@@ -78,6 +78,7 @@ export function EditNameModal(props: Props) {
                         {...register('name')}
                         placeholder="Name"
                         className="input"
+                        maxLength={25}
                     />
                     <button
                         className={`button neonBox ${
