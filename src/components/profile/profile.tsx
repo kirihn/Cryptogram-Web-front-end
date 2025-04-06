@@ -13,13 +13,43 @@ import axios from 'axios';
 import { useModal } from 'hooks/useModal';
 import { EditLanguageModal } from '@components/modals/editLanguage/editLanguageModal';
 import { GetLangNameByIso } from '@utils/func/getLangCode';
+import { useSetAtom } from 'jotai';
+import { useNavigate } from 'react-router-dom';
+import { currentChatAtom, myUserIdAtom, wsTokenAtom } from '@jotai/atoms';
+
+export interface ResponseDtoLogout {
+    message: string;
+}
 
 export function Profile() {
     const { switchModal, handleSwitchModal, handleCloseModal } = useModal();
 
+    const navigate = useNavigate();
+    const setMyUserId = useSetAtom(myUserIdAtom);
+    const setCurrentChatId = useSetAtom(currentChatAtom);
+    const setWsTokenAtom = useSetAtom(wsTokenAtom);
+
     const { resData, loading, execute } = useApi<ResponseDto>(async () => {
         return axios.get('api/profile/getMyProfile');
     });
+
+    const { resData: logoutResdata, execute: logout } =
+        useApi<ResponseDtoLogout>(async () => {
+            return await axios.post('/api/auth/logout');
+        });
+
+    const handleLogout = async () => {
+        await logout();
+    };
+
+    useEffect(() => {
+        if (logoutResdata?.message === 'Logout successfully') {
+            setMyUserId('');
+            setWsTokenAtom('');
+            setCurrentChatId(-1);
+            navigate(`/authorization`);
+        }
+    }, [logoutResdata]);
 
     useEffect(() => {
         execute();
@@ -130,7 +160,9 @@ export function Profile() {
                 <div className="profileOption">
                     <p className="optionName">Theme</p>
                     <div className="optionblock">
-                        <p className="optionValue">Dark</p>
+                        <button className="logoutButton" onClick={handleLogout}>
+                            Logout
+                        </button>
                     </div>
                 </div>
             </div>
