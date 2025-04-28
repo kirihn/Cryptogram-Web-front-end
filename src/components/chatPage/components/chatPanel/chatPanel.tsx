@@ -32,7 +32,9 @@ import { useModal } from 'hooks/useModal';
 import { SearchLoader } from '@components/loader/searchLoader';
 import { GetMemberFields } from '@utils/func/getMemberFields';
 import backIcon from '@icons/backIcon.svg';
+import CallIcon from '@icons/Call.png';
 import { useResize } from 'hooks/useResize';
+import { VideoCall } from '@components/modals/videoCall/videoCall';
 
 export function ChatPanel() {
     const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -384,16 +386,26 @@ export function ChatPanel() {
                         )}
                     </div>
                 </div>
-                <button
-                    className="chatSettingsButton"
-                    onClick={() => {
-                        handleSwitchModal('ChatParamModal');
-                    }}
-                >
-                    <div className="settingPunkt punkt1"></div>
-                    <div className="settingPunkt punkt2"></div>
-                    <div className="settingPunkt punkt3"></div>
-                </button>
+                <div className='buttonsConainer'>
+                    <button
+                        className="CallButton"
+                        onClick={() => {
+                            handleSwitchModal('OpenCall');
+                        }}
+                    >
+                        <img src={CallIcon} alt="Call" />
+                    </button>
+                    <button
+                        className="chatSettingsButton"
+                        onClick={() => {
+                            handleSwitchModal('ChatParamModal');
+                        }}
+                    >
+                        <div className="settingPunkt punkt1"></div>
+                        <div className="settingPunkt punkt2"></div>
+                        <div className="settingPunkt punkt3"></div>
+                    </button>
+                </div>
             </div>
 
             {isDrag ? (
@@ -482,6 +494,13 @@ export function ChatPanel() {
                     handleSwitchModal={handleSwitchModal}
                     handleCloseModal={handleCloseModal}
                     isChangedChatId={true}
+                />
+            )}
+            {switchModal === 'OpenCall' && resData && (
+                <VideoCall
+                    handleSwitchModal={handleSwitchModal}
+                    handleCloseModal={handleCloseModal}
+                    chatData={resData}
                 />
             )}
         </div>

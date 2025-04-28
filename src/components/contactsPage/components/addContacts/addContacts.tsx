@@ -43,7 +43,7 @@ export function AddContacts() {
     };
 
     useEffect(() => {
-        const config = { fps: 10, qrbox: { width: 180, height: 180 } };
+        const config = { fps: 10 };
         const html5QrCode = new Html5Qrcode('qrCodeScanerContainer');
 
         const qrScanerStop = () => {

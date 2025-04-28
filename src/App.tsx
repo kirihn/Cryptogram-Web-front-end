@@ -15,10 +15,10 @@ import { useEffect } from 'react';
 import { createSocketAtom } from '@jotai/atoms';
 import { ChatParamModal } from '@components/modals/chatParamsModal/chatParamsModal';
 import { ContactsPage } from '@components/contactsPage/contactsPage';
+import { Test } from '@components/test/test';
 
 export const coutAtom = atom('ligth');
 export function App() {
-
     return (
         <BrowserRouter>
             <Routes>
@@ -34,6 +34,7 @@ export function App() {
                         path="/people"
                         element={<RegistrationPage />}
                     ></Route>
+                    <Route path="/test" element={<Test />}></Route>
                 </Route>
                 {/* <Route
                     path="testChat"

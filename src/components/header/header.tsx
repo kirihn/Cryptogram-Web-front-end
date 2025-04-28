@@ -58,6 +58,11 @@ export function Header() {
                     <img src={chatsIcon} alt="Создать чат" />
                     <span className="menuItemName">Создать чат</span>
                 </Link>
+
+                <Link to={'/test'}>
+                    <img src={chatsIcon} alt="Создать чат" />
+                    <span className="menuItemName">Test</span>
+                </Link>
             </nav>
             {/* <div className="BottomContainer">
                 <button className="logoutButton" onClick={handleLogout}>
