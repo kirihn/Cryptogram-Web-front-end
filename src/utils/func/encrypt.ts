@@ -36,3 +36,4 @@ export function Encrypt(msg: string, key: number) {
 function XoR(el1: string, el2: string): string {
     return el1 === el2 ? '0' : '1';
 }
+  

@@ -461,6 +461,25 @@ export function ChatPanel() {
                         >
                             Stickers
                         </button>
+                        <button
+                            className="ChiseFileButton StickerButton"
+                            onClick={() => {
+                                document.getElementById('fileInput')?.click();
+                            }}
+                        >
+                            File
+                            <input
+                                type="file"
+                                id="fileInput"
+                                style={{ display: 'none' }}
+                                onChange={(e) => {
+                                    const files = e.target.files;
+                                    if (files) {
+                                        setDroppedFiles(Array.from(files));
+                                    }
+                                }}
+                            ></input>
+                        </button>
                         <textarea
                             className="inputMessage"
                             id="textarea"
