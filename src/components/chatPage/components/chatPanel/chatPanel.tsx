@@ -27,18 +27,22 @@ import { Encrypt } from '@utils/func/encrypt';
 import { EditChatKeyModal } from '@components/modals/editChatKeyModal/editChatKeyModal';
 import * as CryptoJS from 'crypto-js';
 import './chatPanel.scss';
-import styled from 'styled-components';
 import { useModal } from 'hooks/useModal';
 import { SearchLoader } from '@components/loader/searchLoader';
 import { GetMemberFields } from '@utils/func/getMemberFields';
 import backIcon from '@icons/backIcon.svg';
 import CallIcon from '@icons/Call.png';
+import startVoiceIcon from '@icons/microphone.png';
+import ItsNo from '@icons/ItsNo.png';
+import ItsOK from '@icons/ItsOK.png';
+import fileIcon from '@icons/file.png';
 import { useResize } from 'hooks/useResize';
 import { VideoCall } from '@components/modals/videoCall/videoCall';
 
 export function ChatPanel() {
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const messagesBlockRef = useRef<HTMLDivElement | null>(null);
+    const wasCancelledRef = useRef(false);
 
     const { switchModal, handleSwitchModal, handleCloseModal } = useModal();
 
@@ -46,6 +50,12 @@ export function ChatPanel() {
     const [contentText, setContentText] = useState('');
     const [isDrag, setIsDrag] = useState(false);
     const [droppedFiles, setDroppedFiles] = useState<File[]>([]);
+    const [recording, setRecording] = useState<boolean>(false);
+    const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+    const [canceled, setCanceled] = useState(false);
+
+    const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+    const audioChunksRef = useRef<Blob[]>([]);
 
     const [OpenStickerPanel, setOpenStickerPanel] =
         useAtom(openStickerPanelAtom);
@@ -121,6 +131,54 @@ export function ChatPanel() {
         }
     };
 
+    const startRecording = async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+        });
+        const mediaRecorder = new MediaRecorder(stream);
+        audioChunksRef.current = [];
+        setCanceled(false);
+
+        mediaRecorder.ondataavailable = (event) => {
+            if (!wasCancelledRef.current && event.data.size > 0) {
+                audioChunksRef.current.push(event.data);
+            }
+        };
+
+        mediaRecorder.onstop = () => {
+            if (!wasCancelledRef.current) {
+                const blob = new Blob(audioChunksRef.current, {
+                    type: 'audio/webm',
+                });
+                setAudioBlob(blob);
+            }
+            wasCancelledRef.current = false;
+            audioChunksRef.current = [];
+        };
+
+        mediaRecorderRef.current = mediaRecorder;
+        mediaRecorder.start();
+        setRecording(true);
+    };
+
+    const stopRecording = () => {
+        mediaRecorderRef.current?.stop();
+        mediaRecorderRef.current?.stream
+            .getTracks()
+            .forEach((track) => track.stop());
+        setRecording(false);
+    };
+
+    const cancelRecording = () => {
+        wasCancelledRef.current = true;
+        audioChunksRef.current = [];
+        mediaRecorderRef.current?.stop();
+        mediaRecorderRef.current?.stream
+            .getTracks()
+            .forEach((track) => track.stop());
+        setRecording(false);
+    };
+
     const ShowStickers = async () => {
         setOpenStickerPanel(!OpenStickerPanel);
     };
@@ -135,6 +193,15 @@ export function ChatPanel() {
     };
 
     const handleSendMessage = () => {
+        if (audioBlob) {
+            const file = new File([audioBlob], 'voice-message.webm', {
+                type: 'audio/webm',
+            });
+            setDroppedFiles([file]);
+            setAudioBlob(null);
+            return;
+        }
+
         if (contentText.trim() == '') return;
 
         const key = getCryptoKey(
@@ -386,7 +453,7 @@ export function ChatPanel() {
                         )}
                     </div>
                 </div>
-                <div className='buttonsConainer'>
+                <div className="buttonsConainer">
                     <button
                         className="CallButton"
                         onClick={() => {
@@ -496,6 +563,40 @@ export function ChatPanel() {
                         >
                             <img src={sendIcon} alt="send message" />
                         </button>
+
+                        <div className="voice-recorder">
+                            <button
+                                className="sendButton startVoiceButton"
+                                onClick={
+                                    recording ? stopRecording : startRecording
+                                }
+                                disabled={currentChatId === -1}
+                            >
+                                {recording ? (
+                                    <img
+                                        src={ItsOK}
+                                        alt={
+                                            recording
+                                                ? 'Recording'
+                                                : 'Start Recording'
+                                        }
+                                    />
+                                ) : audioBlob ? (
+                                    <img src={fileIcon} alt="Send" />
+                                ) : (
+                                    <img src={startVoiceIcon} alt="Send" />
+                                )}
+                            </button>
+
+                            {recording && (
+                                <button
+                                    className="cancel-voice-button"
+                                    onClick={cancelRecording}
+                                >
+                                    <img src={ItsNo} alt="Cancel" />
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
