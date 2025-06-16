@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 export const createChatSchema = Yup.object().shape({
-    chatName: Yup.string().required('This field is required'),
+    chatName: Yup.string().required('This field is required').max(20, 'max length 20 characters'),
     isGroup: Yup.boolean().required('This field is required'),
     keyHash: Yup.string().required('This field is required'),
     key: Yup.number()

@@ -158,7 +158,7 @@ export function Profile() {
                     </div>
                 </div>
                 <div className="profileOption">
-                    <p className="optionName">Theme</p>
+                    <p className="optionName">Account</p>
                     <div className="optionblock">
                         <button className="logoutButton" onClick={handleLogout}>
                             Logout

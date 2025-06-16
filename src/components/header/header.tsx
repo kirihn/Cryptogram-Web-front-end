@@ -1,5 +1,9 @@
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import chatsIcon from '@icons/messages.svg';
+import chatsIcon from '@icons/chat.png';
+import profileIcon from '@icons/profile.png';
+import addChat from '@icons/addChat.png';
+import contacts from '@icons/contacts.png';
+
 import Logo from '@icons/Logo.svg';
 import './header.scss';
 import { useApi } from 'hooks/useApi';
@@ -40,12 +44,12 @@ export function Header() {
             </div>
             <nav className="navContainer">
                 <Link to={'/profile'}>
-                    <img src={chatsIcon} alt="Профиль" />
+                    <img src={profileIcon} alt="Профиль" />
                     {<span className="menuItemName">Профиль</span>}
                 </Link>
 
                 <Link to={'/contacts'}>
-                    <img src={chatsIcon} alt="Контакты" />
+                    <img src={contacts} alt="Контакты" />
                     <span className="menuItemName">Контакты</span>
                 </Link>
 
@@ -55,14 +59,14 @@ export function Header() {
                 </Link>
 
                 <Link to={'/createChat'}>
-                    <img src={chatsIcon} alt="Создать чат" />
+                    <img src={addChat} alt="Создать чат" />
                     <span className="menuItemName">Создать чат</span>
                 </Link>
-
+{/* 
                 <Link to={'/test'}>
                     <img src={chatsIcon} alt="Создать чат" />
                     <span className="menuItemName">Test</span>
-                </Link>
+                </Link> */}
             </nav>
             {/* <div className="BottomContainer">
                 <button className="logoutButton" onClick={handleLogout}>
