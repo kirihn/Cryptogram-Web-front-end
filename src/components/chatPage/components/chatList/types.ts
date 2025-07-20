@@ -9,8 +9,8 @@ export interface ResponseDto {
   AvatarPath: string;
   ChatMembers: ChatMember[];
   ChatMessages: {
-    Content: string;
-    MessageType: string;
+    Content?: string;
+    MessageType?: string;
   }[];
 }
 interface ChatMember {

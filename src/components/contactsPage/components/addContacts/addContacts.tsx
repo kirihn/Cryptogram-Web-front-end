@@ -94,7 +94,7 @@ export function AddContacts() {
 
     return (
         <div className="addContactsContainer">
-            <h2 className="h2">Add new contact</h2>
+            <h2 className="h2">Добавить новый контакт</h2>
             <div className="middle">
                 <div className="content">
                     <QRCodeCanvas
@@ -133,7 +133,7 @@ export function AddContacts() {
                             onClick={sendUsernameRequest}
                             disabled={!username}
                         >
-                            Send request to contact
+                            Отправить запрос
                         </button>
                     </div>
                 </div>

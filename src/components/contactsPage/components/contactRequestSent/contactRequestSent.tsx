@@ -48,7 +48,7 @@ export function ContactRequestSent(props: Props) {
                     className="contactButtonRevoke neonBox contactButton"
                     onClick={deleteContactRequest}
                 >
-                    revoke
+                    Отменить
                 </button>
             </div>
         </div>

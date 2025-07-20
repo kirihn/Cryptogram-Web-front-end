@@ -94,13 +94,18 @@ export function ChatList() {
   };
 
   const GetLatestMessage = (chatCard: ResponseDto) => {
+    if(!chatCard.ChatMessages?.[0]) return '';
+    if (!chatCard.ChatMessages[0].Content) return '';
+    if (!chatCard.ChatMessages[0].MessageType) return '';
+
     let key = GetKeyFromChat(chatCard.ChatId);
+    if (key == 0) return '';
+
     const keyHash = CryptoJS.SHA256(key.toString()).toString(
       CryptoJS.enc.Base64,
     );
 
     if (keyHash !== chatCard.KeyHash && chatCard.IsGroup) return '';
-    if (key == 0) return '';
     if (
       ['image', 'video', 'audio', 'file', 'Sticker', 'sticker'].includes(
         chatCard.ChatMessages[0].MessageType,
@@ -116,6 +121,7 @@ export function ChatList() {
       return Content;
     }
   };
+
   useEffect(() => {
     executeChatsList();
   }, []);
@@ -140,7 +146,7 @@ export function ChatList() {
     if (!socket) return;
 
     const handleAddMember = (message: WSAddMember) => {
-      if ((message.message = 'updateChatPanel')) executeChatsList();
+      if ((message.message === 'updateChatPanel')) executeChatsList();
     };
 
     const handleDeletemember = (message: WSDeleteMember) => {
@@ -178,7 +184,7 @@ export function ChatList() {
     return () => {
       socket.off('addUserToChat');
       socket.off('deleteUserFromChat');
-      socket.off('NewMessage');
+      socket.off('NewMessageForChatList');
     };
   }, [socket, currentChatId]);
 
@@ -196,7 +202,7 @@ export function ChatList() {
           <img src={clearIcon} alt="clearSearch" />
         </button>
       </div>
-      <h2 className="h2">Chats</h2>
+      <h2 className="h2">Чаты</h2>
 
       <div className="chatsScrolPanel">
         {sortedChatsList?.map((chatCard) => (

@@ -78,7 +78,7 @@ export function StickerPanel() {
     return (
         <div className="stickerPanelContainer">
             <div className="stickerHeader">
-                <h2 className="HeaderStickerPanel">stickerPanel</h2>
+                <h2 className="HeaderStickerPanel">Стикеры</h2>
                 {isSMScreen && (
                     <button
                         className="changeParamButton"

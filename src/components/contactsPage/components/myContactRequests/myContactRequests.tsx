@@ -66,10 +66,10 @@ export function MyContactRequests() {
 
     return (
         <div className="myContactRequestsContainer">
-            <h2 className="h2">Contact requests</h2>
+            <h2 className="h2">Запросы в контакты</h2>
 
             <div className="topic">
-                <p>requests received</p>
+                <p>Полученные запросы</p>
             </div>
             <div
                 className="ContactRequestsRecive contactRequestBlock"
@@ -93,7 +93,7 @@ export function MyContactRequests() {
                 className="topic moveTopic"
                 onMouseDown={(e) => handleMouseDown(e)}
             >
-                <p>requests sent</p>
+                <p>Отправленные запросы</p>
             </div>
             <div
                 className="ContactRequestsSent contactRequestBlock"

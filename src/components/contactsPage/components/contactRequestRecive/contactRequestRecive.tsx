@@ -64,7 +64,7 @@ export function ContactRequestRecive(props: Props) {
                     className="contactButtonAccept neonBox contactButton"
                     onClick={() => responseToContactRequest('accepted')}
                 >
-                    Accept
+                    Принять
                 </button>
                 {contactRequest.Status === 'pending' && (
                     <button

@@ -50,7 +50,7 @@ export function RegistrationPage() {
             setMyUserId(resData.myUserId);
             setWsToken(resData.wsToken);
             setCurrentChatId(-1);
-            navigate('/chats');
+            navigate('/profile');
         }
     }, [resData]);
 
